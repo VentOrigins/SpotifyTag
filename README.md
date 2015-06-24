@@ -1,3 +1,2 @@
-VentOrigins
-
-Made by Adrian Mandee and Randy Truong
+Copyright © Vent Origins 
+By Adrian Mandee and Randy Truong
