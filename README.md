@@ -1,5 +1,3 @@
-
-
 Copyright © Vent Origins 
 
 

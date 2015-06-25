@@ -23,7 +23,7 @@ function search() {
     url: "https://api.spotify.com/v1/search?q=" + query + "&type=track",
     dataType: 'json',
     success: function(json) {parseJSON(json);},
-    error: function (xhr, ajaxOptions, thrownError) {errorOut("Error at function: search()");}
+    error: function(xhr, ajaxOptions, thrownError) {errorOut("Error at function: search()");}
   });
 } 
 
@@ -63,10 +63,6 @@ function printTracks(tracks) {
   }  
   displayTracks(tracks);
 }
-
-
-
-
 
 //Prints error
 function errorOut(printStatement) {
