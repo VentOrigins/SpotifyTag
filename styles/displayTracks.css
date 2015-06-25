@@ -1,0 +1,32 @@
+/*  =============================================================================
+    
+    Copyright © Vent Origins 
+    By Adrian Mandee and Randy Truong
+    ========================================================================== */
+
+/*Splash Screen for track*/
+#splash-track-list{
+	width: 100vw;
+	height: 100vh;
+	background-color: white;
+	position: relative;
+	z-index: 1;
+	text-align: center;
+}
+
+/*Track list div*/
+#track-list {
+  display: none;
+  background-color: #FFFFFF;
+  z-index: 1;
+  display: inline-block;
+}
+
+/*Table for tracks*/
+#track-list table{
+	width: 1000px;
+	color: black;
+	text-align: left;
+	font-size: 20px;
+	border: 1px solid black;
+}

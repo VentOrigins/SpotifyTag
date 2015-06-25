@@ -28,7 +28,9 @@ function search() {
 } 
 
 //Parsing JSON
-function parseJSON(json) {      
+function parseJSON(json) {
+  arrayArtist = [];
+  tracks = [];      
   for (var i = 0; i < json.tracks.items.length; ++i) {
     for (var j = 0; j < json.tracks.items[i].artists.length; ++j) {
       arrayArtist.push(json.tracks.items[i].artists[j].name);
@@ -59,7 +61,12 @@ function printTracks(tracks) {
     console.log("\nTracks " + i + ": "+ tracks[i].getTrackName());
     console.log("\tArtists " + i + ": "+ tracks[i].getTrackArtist());
   }  
+  displayTracks(tracks);
 }
+
+
+
+
 
 //Prints error
 function errorOut(printStatement) {

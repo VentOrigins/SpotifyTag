@@ -39,3 +39,14 @@ Track.prototype.getTrackName = function() {
 Track.prototype.getTrackArtist = function() {
   return this.trackArtist;
 }
+
+/*  =============================================================================
+    returns string of both trackName and trackArtist
+
+    @param    none
+    @return   array
+    ========================================================================== */
+
+Track.prototype.getAll = function() {
+  return this.trackName + "\t\t\t\t\t" + this.trackArtist
+}

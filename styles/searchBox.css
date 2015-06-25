@@ -19,7 +19,7 @@
   color: white;
   font-size: 150px;
   font-weight: 1000;
-  text-shadow: 0px 0px 1px #71B500, 0px 0px 1px #71B500, 0px 0px 10px black, 15px 15px 15px black;
+  text-shadow: 0px 0px 3px #71B500, 0px 0px 3px #71B500, 0px 0px 10px black, 15px 15px 15px black;
   opacity: .95;
 }
 
@@ -40,7 +40,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -70%);
-  position: fixed;
+  position: relative;
 }
 
 /*SEARCH BOX*/
