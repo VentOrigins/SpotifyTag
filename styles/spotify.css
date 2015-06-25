@@ -3,3 +3,35 @@
     Copyright © Vent Origins 
     By Adrian Mandee and Randy Truong
     ========================================================================== */
+
+h1 {
+  /* Empty */
+}
+
+h2 {
+  /* Empty */
+}
+
+h3 {
+  /* Empty */
+}
+
+h4 {
+  /* Empty */
+}
+
+h5 {
+  /* Empty */
+}
+
+h6 {
+  /* Empty */
+}
+
+body {
+  background-color: black;
+  margin: 0px;
+  padding: 0px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0px;
+}

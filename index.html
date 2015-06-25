@@ -13,6 +13,11 @@
 
   <!-- References -->
   <link rel="stylesheet" type="text/css" href="styles/spotify.css">
+  <link rel="stylesheet" type="text/css" href="styles/splashScreen.css">
+  <link rel="stylesheet" type="text/css" href="styles/searchBox.css">
+
+  <!-- FONTS -->
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 
   <!-- JQUERY -->
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
@@ -20,14 +25,36 @@
 </head>
 
 <body>
-  <div="search-box">
-  	<form id="query-box" action="javascript:search();">
-  		Query: <br>
-  		<input type="text" id="input-query-box">
-      <input type="submit" id="button-query-box" value="Submit">	
-    </form>
+
+  <!-- 
+    Nav Bar
+    -->
+  <div id="nav-bar">
+
   </div>
 
+  <!-- 
+    SplashScreen
+    --> 
+  <div id="splash-screen">
+    
+    <!-- 
+      SearchBox
+      -->
+    <div id="search-box">
+      <form id="query-box" action="javascript:search();">
+        <h1>
+          Spotify <span class="hash-tag">#</span>
+        </h1> 
+        
+        <input type="text" id="input-query-box">
+        <br>
+        <input type="submit" id="button-query-box" value="Submit">  
+      </form>
+    </div>  
+
+  </div>
+  
   <!-- Scripts -->
   <script type="text/javascript" src="scripts/spotify.js"></script>
   <script type="text/javascript" src="scripts/search.js"></script>
