@@ -44,4 +44,16 @@
   display: inline-block;
 }
 
+.class-ht-button {
+	background-color: white;
+	color: black;
+	border: 0px;
+	border-top-right-radius: 50px 50px;
+  border-top-left-radius: 50px 50px;
+  border-bottom-right-radius: 50px 50px;
+  border-bottom-left-radius: 50px 50px;
+}
 
+.class-ht-button:hover {
+	 background-color: #71B500;
+}
