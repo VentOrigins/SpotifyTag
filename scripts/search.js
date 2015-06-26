@@ -23,7 +23,7 @@ function search() {
     url: "https://api.spotify.com/v1/search?q=" + query + "&type=track",
     dataType: 'json',
     success: function(json) {parseJSON(json);},
-    error: function (xhr, ajaxOptions, thrownError) {errorOut("Error at function: search()");}
+    error: function(xhr, ajaxOptions, thrownError) {errorOut("Error at function: search()");}
   });
 } 
 
@@ -56,17 +56,13 @@ function sort(tracks) {
 }
 
 //Prints all tracks
-function printTracks(tracks) {
+function printTracks(tracks) {  
   for (var i = 0; i < tracks.length; ++i) {
     console.log("\nTracks " + i + ": "+ tracks[i].getTrackName());
     console.log("\tArtists " + i + ": "+ tracks[i].getTrackArtist());
   }  
   displayTracks(tracks);
 }
-
-
-
-
 
 //Prints error
 function errorOut(printStatement) {
