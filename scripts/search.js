@@ -10,7 +10,8 @@
 //A track Object has a trackName and a list of trackArtists.
 var arrayArtist = [];
 var tracks = [];
-
+var totalTracks = 0;
+var firstJSON = "";
 //Search
 function search() {
   //Takes input from the form submit box
@@ -27,10 +28,26 @@ function search() {
   });
 } 
 
+// Search function when a user changes the page number
+function search_page(page){
+  
+  //AJAX Search Tracks of query
+  $.ajax({
+    type: 'GET',
+    url: page,
+    dataType: 'json',
+    success: function(json) {parseJSON(json);},
+    error: function(xhr, ajaxOptions, thrownError) {errorOut("Error at function: search()");}
+  });
+
+}
+
 //Parsing JSON
 function parseJSON(json) {
+  firstJSON = json;
   arrayArtist = [];
-  tracks = [];      
+  tracks = [];
+  totalTracks = json.tracks.total;      
   for (var i = 0; i < json.tracks.items.length; ++i) {
     for (var j = 0; j < json.tracks.items[i].artists.length; ++j) {
       arrayArtist.push(json.tracks.items[i].artists[j].name);
