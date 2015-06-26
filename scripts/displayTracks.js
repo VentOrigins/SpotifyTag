@@ -67,15 +67,11 @@ function displayTracks(tracks) {
 	//Empty page
 	$("#pages").empty();
 	//Set current page
-	currentPage = 0;
-	//Page Number 1 through 5 with onclick function changePage
-	for(var x =0; x<5; x++) {
-		var pageNum = x + 1;
-		$("#pages").append("<input type='button' id='page-id" + x + "'class='page-button" + x + "' onclick='changePage(this.value)' value=" + pageNum + ">");
-	}
+	currentPage = 1;
+	$("#pages").append("<input type='button' class='last-page-button' onclick='previousPage()' value='<' >");
+	$("#pages").append("<input type='button' class='page-number-button' value='" + currentPage + "'disabled>");
 	$("#pages").append("<input type='button' class='next-page-button' onclick='nextPage()' value='>' >");
-	$("#pages").append("<input type='button' class='last-page-button' value='>>' >");
-	disablePageClicked();
+	
 	//Scroll up
 	scrollToTracks();
 }
