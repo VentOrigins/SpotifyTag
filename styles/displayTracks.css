@@ -10,7 +10,7 @@
 	height: 100vh;
   color: white;
   text-align: center;
-	background-color: white;
+	background-color: black;
 	position: relative;
 	z-index: 1;
   display: none;
@@ -20,27 +20,35 @@
 #track-list {
   height: 100vh;
   display: none;
-  background-color: white;
+  background-color: black;
   z-index: 1;
   display: inline-block;
 }
 
 /*Table for tracks*/
 #track-list table {
-	width: 1000px;
+	width: 100vw;
 	text-align: left;
   background-color: #0F1010;
-	border: solid 1px white;
+  border-bottom: solid 2px #222226;
 }
 
 /*Used for first row of track list*/
 #track-list th { 
-  color: white; 
+  padding: 10px;
+  color: #757679; 
   font-size: 12px;
+  border-top: solid 2px #222226;
 }
 
-#track-list tr {
+#track-list td {
+  margin: 0px;
+  padding: 10px;
   color: white;
   font-size: 12px;
+  border-top: solid 2px #222226;
+  /*border-top: solid 1px #1A1A1D;
+  border-bottom: solid 1px #1A1A1D;*/
 }
+
 
