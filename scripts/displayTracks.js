@@ -12,19 +12,26 @@ function displayTracks(tracks) {
 
 	//Variables used to append the table
 	var list = "";
+
+	var buttonID = "";
+	var slideID = "";
 	var rowTrackName = "";
 	var rowTrackArtists = "";
 	var rowTrackHashTag = "";
 
+
 	//Append the header of table
-	$("#list-of-tracks").append("<tr> <th>TRACK</th> <th>ARTIST</th> <th>#</th> </tr>");
+	$("#list-of-tracks").append("<tr> <th>ADD</th> <th>TRACK</th> <th>ARTIST</th> <th>#</th> </tr>");
 	
 	//Append each tracks and their artists
 	for(i=0; i<tracks.length; i++){	
+
+		buttonID = "<td> <form id=\"ht-form\"> <button onclick=\"addHT(this)\" id=\"add-button" + i + "\"> + </button>";
+		slideID = "<div class=\"class-input\" id=\"slide-input" + i + "\"> <input type='text' /> <input type='submit' /> </div> </form> </td>";
 		rowTrackName = "<td>" + tracks[i].getTrackName() + "</td>";
 		rowTrackArtists = "<td>" + tracks[i].getTrackArtist() + "</td>";
 		rowTrackHashTag = "<td>" + " # " + "</td>";
-		list += "<tr>" + rowTrackName + rowTrackArtists + rowTrackHashTag + "</tr>";
+		list += "<tr>" + buttonID + slideID + rowTrackName + rowTrackArtists + rowTrackHashTag + "</tr>";
   }
 	$("#list-of-tracks").append(list);
 

@@ -1,0 +1,16 @@
+#ht-form {
+    position:relative;
+}
+.class-input{
+    position:absolute;
+    top:0;
+    left:-100%;
+    width:100%;
+    overflow:hidden;
+    display:none;
+    transition:all 1s ease-in;
+}
+.active {
+    left:0;
+    display:inline-block;
+}
