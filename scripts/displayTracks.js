@@ -11,13 +11,12 @@ function displayTracks(tracks) {
 
 	//Check if track list is made, if made, just update the values of trackName and artists and HT instead of replacing everything
 	if(!$.trim($('#list-of-tracks').html()).length == 0 ) {
-		console.log(Object.keys(mapKeyTracks).length);
+		//Update track list
 		changeTrackList(tracks);
+		//Scroll up to beginning of track
 		scrollToTracks();
 		return;
 	}
-	//Empty the track list to clear list
-	// $("#list-of-tracks").empty();
 
 	//Variables used to append the table
 	var list = "";
@@ -64,11 +63,9 @@ function displayTracks(tracks) {
   }
 	$("#list-of-tracks").append(list);
 	
-	//Empty page
-	$("#pages").empty();
-	//Set current page
+	//Set left and right arrow
 	currentPage = 1;
-	$("#pages").append("<input type='button' class='last-page-button' onclick='previousPage()' value='<' >");
+	$("#pages").append("<input type='button' class='previous-page-button' onclick='previousPage()' value='<' >");
 	$("#pages").append("<input type='button' class='page-number-button' value='" + currentPage + "'disabled>");
 	$("#pages").append("<input type='button' class='next-page-button' onclick='nextPage()' value='>' >");
 	
@@ -97,7 +94,6 @@ function changeTrackList(tracks) {
 	
 		// Check #
 		if(tracks[i].getTrackName() in mapKeyTracks) {
-
 			// Get each hash tag and append a button to the td
 			for(var j =0; j<mapKeyTracks[tracks[i].getTrackName()].length; j++) {
 				var button = "<button class='class-ht-button' id='ht-button'" + j + ">" + mapKeyTracks[tracks[i].getTrackName()][j] + "</button>";

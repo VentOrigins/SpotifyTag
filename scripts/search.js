@@ -17,7 +17,8 @@ function search() {
   //Takes input from the form submit box
   var query = document.getElementById("input-query-box").value;
   console.log("The query input is: " + query);
-
+  $("#list-of-tracks").empty();
+  $("#pages").empty();
   //AJAX Search Tracks of query
   $.ajax({
     type: 'GET',
@@ -28,7 +29,7 @@ function search() {
   });
 } 
 
-// Search function when a user changes the page number
+// Search function when a user changes the page number]
 function search_page(page){
   
   //AJAX Search Tracks of query

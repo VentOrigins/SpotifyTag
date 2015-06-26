@@ -12,21 +12,21 @@ function changePage(pagesValue){
 	offsetNum = (pagesValue-1) * 20;
 	secondPartURL = firstJSON.tracks.next.substring(firstJSON.tracks.next.indexOf("&limit="), firstJSON.tracks.next.length);
 	clickedPageURL = firstPartURL + offsetNum + secondPartURL;
+	//Update the page number
 	$(".page-number-button").val(currentPage);
-	console.log(currentPage + " Current Page");
 	//Query the new json
 	search_page(clickedPageURL);
 }
 
-
+//Change to next page
 function nextPage() {
-	//Current page is 1 less than pageValue so need to add 2 to change page by 1
 	currentPage = currentPage + 1;
 	changePage(currentPage);
 }
 
-
+//Change to previous page
 function previousPage() {
+	//If page is #1 then don't change
 	if(currentPage == 1) {
 		return;
 	}
