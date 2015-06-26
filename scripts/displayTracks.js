@@ -3,7 +3,9 @@
     Copyright © Vent Origins 
     By Adrian Mandee and Randy Truong
     ========================================================================== */
-
+var mapKeyTracks = {};
+var mapKeyHT = {};
+var testHT = ["#chill", "#dope", "#edm"]; 
 //Displays the Tracks And Artists in the html table
 function displayTracks(tracks) {
 
@@ -26,11 +28,26 @@ function displayTracks(tracks) {
 	//Append each tracks and their artists
 	for(i=0; i<tracks.length; i++){	
 
+
+		if(i === 2) {
+			mapKeyTracks[tracks[i].getTrackName()] = testHT;	
+		}
 		buttonID = "<td> <form id=\"ht-form\"> <button onclick=\"addHT(this)\" id=\"add-button" + i + "\"> + </button>";
 		slideID = "<div class=\"class-input\" id=\"slide-input" + i + "\"> <input type='text' /> <input type='submit' /> </div> </form> </td>";
 		rowTrackName = "<td>" + tracks[i].getTrackName() + "</td>";
 		rowTrackArtists = "<td>" + tracks[i].getTrackArtist() + "</td>";
-		rowTrackHashTag = "<td>" + " # " + "</td>";
+		if(tracks[i].getTrackName() in mapKeyTracks) {
+			rowTrackHashTag = "<td>";
+			for(var j =0; j<mapKeyTracks[tracks[i].getTrackName()].length; j++) {
+				rowTrackHashTag += "<button class='class-ht-button' id='ht-button'" + j + ">" + mapKeyTracks[tracks[i].getTrackName()][j] + "</button> ";
+			} 
+			rowTrackHashTag += "</td>";
+			
+		}
+		else {
+			rowTrackHashTag = "<td> </td>";	
+		}
+
 		list += "<tr>" + buttonID + slideID + rowTrackName + rowTrackArtists + rowTrackHashTag + "</tr>";
   }
 	$("#list-of-tracks").append(list);

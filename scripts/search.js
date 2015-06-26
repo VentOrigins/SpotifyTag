@@ -56,7 +56,7 @@ function sort(tracks) {
 }
 
 //Prints all tracks
-function printTracks(tracks) {
+function printTracks(tracks) {  
   for (var i = 0; i < tracks.length; ++i) {
     console.log("\nTracks " + i + ": "+ tracks[i].getTrackName());
     console.log("\tArtists " + i + ": "+ tracks[i].getTrackArtist());
