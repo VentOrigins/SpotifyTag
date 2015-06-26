@@ -19,14 +19,13 @@ function displayTracks(tracks) {
 	var rowTrackArtists = "";
 	var rowTrackHashTag = "";
 
-
 	//Append the header of table
 	$("#list-of-tracks").append("<tr> <th>ADD</th> <th>TRACK</th> <th>ARTIST</th> <th>#</th> </tr>");
 	
 	//Append each tracks and their artists
 	for(i=0; i<tracks.length; i++){	
 
-		buttonID = "<td> <form id=\"ht-form\"> <button onclick=\"addHT(this)\" id=\"add-button" + i + "\"> + </button>";
+		buttonID = "<td> <form id=\"ht-form\"> <button class=\"class-button\" onclick=\"addHT(this)\" id=\"add-button" + i + "\"> <h1>+</h1> </button>";
 		slideID = "<div class=\"class-input\" id=\"slide-input" + i + "\"> <input type='text' /> <input type='submit' /> </div> </form> </td>";
 		rowTrackName = "<td>" + tracks[i].getTrackName() + "</td>";
 		rowTrackArtists = "<td>" + tracks[i].getTrackArtist() + "</td>";
@@ -45,3 +44,6 @@ function scrollToTracks() {
   //Scrolls page to the track list
 	$('html, body').animate({scrollTop:$('#splash-track-list').position().top}, 'slow');
 }
+
+
+

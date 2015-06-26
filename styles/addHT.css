@@ -1,16 +1,47 @@
+/*  =============================================================================
+    For searching through queries
+
+    Copyright © Vent Origins 
+    By Adrian Mandee and Randy Truong
+    ========================================================================== */
+
 #ht-form {
-    position:relative;
+  padding: 0px;
+  margin: 0px;
+  position: relative;
+  background-color: black;
 }
+
+#ht-form h1 {
+  padding: 0px;
+  margin: 0px;
+  font-size: 22px;
+  font-weight: 200;
+  color: #757679;
+}
+
+.class-button {    
+  margin: 0px;
+  padding: 0px;
+  background-color: black;
+  border: 0px solid white;
+}
+
 .class-input{
-    position:absolute;
-    top:0;
-    left:-100%;
-    width:100%;
-    overflow:hidden;
-    display:none;
-    transition:all 1s ease-in;
+  margin: 0px;
+  padding: 0px;
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  overflow: hidden;
+  display: none;
+  transition: all 1s ease-in;
 }
+
 .active {
-    left:0;
-    display:inline-block;
+  left: 0;
+  display: inline-block;
 }
+
+
