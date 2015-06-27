@@ -55,7 +55,7 @@ function displayTracks(tracks) {
 
 		//
 		buttonID = "<div> <td id='add-col' class-buttons ='active'> <form id='ht-form'> <button class='class-button' onclick='addHT(this)' id='add-button" + i + "'> <h1>+</h1> </button>";
-		slideID = "<div id='slide-input" + i + "' class='class-input'> <input class='input-add-HT' type='text'/> <input class='button-add-HT' type='submit' value='#'/> </div> </form> </td> </div>";
+		slideID = "<div id='slide-input" + i + "' class='class-input'> <input class='input-add-HT' id='input-ht" + i + "' type='text'/> <input class='button-add-HT' id='submit-ht" + i + "' type='submit' onclick='submitHT(this)' value='#'/> </div> </form> </td> </div>";
 		rowTrackName = "<td id='trackName" + i + "''> <a href='" + tracks[i].getTrackNameURI() + "''>" + tracks[i].getTrackName() + "</a></td>";
 		rowTrackArtists = "<td id=trackArtist" + i + ">";
 		for(z=0; z<tracks[i].getTrackArtist().length;z++){
@@ -70,7 +70,7 @@ function displayTracks(tracks) {
 
 			//
 			for(var j =0; j<mapKeyTracks[tracks[i].getTrackName()].length; j++) {
-				rowTrackHashTag += "<button class='class-ht-button' id='ht-button'" + j + ">" + mapKeyTracks[tracks[i].getTrackName()][j] + "</button> ";
+				rowTrackHashTag += "<button class='class-ht-button' id='ht-button" + j + "''>" + mapKeyTracks[tracks[i].getTrackName()][j] + "</button> ";
 			} 
 			rowTrackHashTag += "</td>";
 		
@@ -129,7 +129,7 @@ function changeTrackList(tracks) {
 		if(tracks[i].getTrackName() in mapKeyTracks) {
 			// Get each hash tag and append a button to the td
 			for(var j =0; j<mapKeyTracks[tracks[i].getTrackName()].length; j++) {
-				var button = "<button class='class-ht-button' id='ht-button'" + j + ">" + mapKeyTracks[tracks[i].getTrackName()][j] + "</button>";
+				var button = "<button class='class-ht-button' id='ht-button" + j + "''>" + mapKeyTracks[tracks[i].getTrackName()][j] + "</button>";
 				$("#hash-tag-id"+i).append(button);
 			}
 		}

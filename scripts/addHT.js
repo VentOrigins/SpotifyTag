@@ -30,3 +30,22 @@ function addHT(buttonID) {
   //Sets the row in line 
   document.getElementById("slide-input" + num).style.display = "inline-block";
 };
+
+function submitHT(submitID) {
+  event.preventDefault();
+  var num = submitID.id.substring(9,submitID.id.length);
+  var lengthOfMapHT = 0;
+  //Check if #'s already exists
+  if(mapKeyTracks[tracks[num].getTrackName()]) {
+    lengthOfMapHT = mapKeyTracks[tracks[num].getTrackName()].length;
+  }
+  else {
+    lengthOfMapHT = 0;
+  }
+  //console.log(lengthOfMapHT);
+  mapKeyTracks[tracks[num].getTrackName()] = ["#" + $("#input-ht"+num).val()];
+  console.log("Length" + mapKeyTracks[tracks[num].getTrackName()]);
+  $("#hash-tag-id"+num).append("<button class='class-ht-button' id='ht-button" + lengthOfMapHT + "''>" + "#" + $("#input-ht"+num).val() + "</button>");
+
+
+}
