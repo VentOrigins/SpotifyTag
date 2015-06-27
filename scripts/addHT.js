@@ -44,8 +44,8 @@ function submitHT(submitID) {
   }
   //console.log(lengthOfMapHT);
   mapKeyTracks[tracks[num].getTrackName()] = ["#" + $("#input-ht"+num).val()];
-  console.log("Length" + mapKeyTracks[tracks[num].getTrackName()]);
   $("#hash-tag-id"+num).append("<button class='class-ht-button' id='ht-button" + lengthOfMapHT + "''>" + "#" + $("#input-ht"+num).val() + "</button>");
 
-
 }
+
+
