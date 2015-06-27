@@ -28,6 +28,15 @@ h6 {
   /* Empty */
 }
 
+a {
+  color: white;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
 body {
   background-color: black;
   margin: 0px;

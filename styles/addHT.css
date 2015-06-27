@@ -6,9 +6,10 @@
 
 #ht-form {
   width: 180px;
-  height: 20px;
+  height: 26px;
   padding: 0px;
   margin: 0px;
+  font: 1px;
   position: relative;
   background-color: #0F1010;
 }
@@ -17,8 +18,9 @@
 #ht-form h1 {
   padding: 0px;
   margin: 0px;
-  font-size: 22px;
+  font-size: 18px;
   font-weight: normal;
+  vertical-align: middle;
   color: #757679;
 }
 
@@ -30,21 +32,27 @@
 /*Column width for the Add hashtag*/
 #add-col {
   width: 180px;
+  border-color: 1px solid blue;
 }
 
 /*Button to open */
 .class-button {  
-  height: 22px;  
-  width: 22px;
-  padding-top: 0px;
-  font-size: 20px;
+  height: 24px;  
+  width: 24px;
+  margin: 0px;
+  padding: 0px;
+  margin-top: auto;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: auto;
+  vertical-align: middle;
   background-color: #0F1010;
-  border: 1px solid white;
+  border: 0px solid white;
 }
 
 .class-input {
   padding: 0px;
-  border: 1px solid white;
+  vertical-align: middle;
 }
 
 /*Input Bar for hash tags*/
