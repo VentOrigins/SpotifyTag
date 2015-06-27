@@ -1,49 +1,105 @@
 /*  =============================================================================
-    For searching through queries
 
     Copyright © Vent Origins 
     By Adrian Mandee and Randy Truong
     ========================================================================== */
 
 #ht-form {
+  width: 180px;
+  height: 26px;
   padding: 0px;
   margin: 0px;
+  font: 1px;
   position: relative;
-  background-color: black;
+  background-color: #0F1010;
 }
 
+/*Font of ht-form*/
 #ht-form h1 {
   padding: 0px;
   margin: 0px;
-  font-size: 22px;
-  font-weight: 200;
+  font-size: 18px;
+  font-weight: normal;
+  vertical-align: middle;
   color: #757679;
 }
 
-.class-button {    
+/*******************************************************
+  ADD COLUMN
+
+  ********************************************************/
+
+/*Column width for the Add hashtag*/
+#add-col {
+  width: 180px;
+  border-color: 1px solid blue;
+}
+
+/*Button to open */
+.class-button {  
+  height: 24px;  
+  width: 24px;
   margin: 0px;
   padding: 0px;
-  background-color: black;
+  margin-top: auto;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: auto;
+  vertical-align: middle;
+  background-color: #0F1010;
   border: 0px solid white;
 }
 
-.class-input{
-  margin: 0px;
+.class-input {
   padding: 0px;
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  overflow: hidden;
+  vertical-align: middle;
+}
+
+/*Input Bar for hash tags*/
+.input-add-HT {
+  width: 80px;
+  height: 20px;
+  padding-left: 10px;
+  color: white;
+  font-size: 15px;
+  background-color: black;
+  border: 1px solid #757679;
+  border-top-right-radius: 50px 50px;
+  border-top-left-radius: 50px 50px;
+  border-bottom-right-radius: 50px 50px;
+  border-bottom-left-radius: 50px 50px;
   display: none;
-  transition: all 1s ease-in;
+  opacity: 0.9;
 }
 
-.active {
-  left: 0;
-  display: inline-block;
+/*Button to add a hashtag*/
+.button-add-HT {
+  width: 22px;
+  height: 22px;
+  padding: 0px;
+  color: #FFFFFF;
+  font-size: 15px;
+  font-weight: normal;
+  background-color: #3F3F41;
+  border: 0px solid white;
+  border-top-right-radius: 50px 50px;
+  border-top-left-radius: 50px 50px;
+  border-bottom-right-radius: 50px 50px;
+  border-bottom-left-radius: 50px 50px;
+  display: none;
+  opacity: 1.0;
 }
 
+.button-add-HT:hover {
+  border: 1px solid white;
+}
+
+/*******************************************************
+  # COLUMN
+
+  ********************************************************/
+
+/*The actual hashtags*/
 .class-ht-button {
 	background-color: white;
 	color: black;
@@ -54,6 +110,8 @@
   border-bottom-left-radius: 50px 50px;
 }
 
+/*When mouse hovers over the hashtags*/
 .class-ht-button:hover {
 	 background-color: #71B500;
 }
+
