@@ -42,6 +42,7 @@
   border-top: solid 2px #222226;
 }
 
+/*Every column in the track list*/
 #track-list td {
   margin: 0px;
   padding: 8px;
@@ -49,6 +50,10 @@
   color: white;
   font-size: 12px;
   border-top: solid 2px #222226;
+}
+
+#track-list .not-header-row:hover {
+  background-color: #202024;
 }
 
 

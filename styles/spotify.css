@@ -35,3 +35,11 @@ body {
   font-family: 'Open Sans', sans-serif;
   font-size: 0px
 }
+
+body button {
+  outline: none;
+}
+
+body input {
+  outline: none;
+}

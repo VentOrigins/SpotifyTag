@@ -51,10 +51,19 @@ function parseJSON(json) {
   arrayArtistURI = [];
   tracks = [];
   totalTracks = json.tracks.total;      
+  
   for (var i = 0; i < json.tracks.items.length; ++i) {
     for (var j = 0; j < json.tracks.items[i].artists.length; ++j) {
-      console.log("WTF");
-      arrayArtist.push(json.tracks.items[i].artists[j].name);
+      //Adds a space for multiple artists
+      if (j > 0) {
+        arrayArtist.push(" " + json.tracks.items[i].artists[j].name);
+      }
+      //If first artist, don't add space
+      else {
+        arrayArtist.push(json.tracks.items[i].artists[j].name);
+      }
+
+      //Artist's URI
       arrayArtistURI.push(json.tracks.items[i].artists[j].uri);
     }
     var newTrack = new Track(json.tracks.items[i].name, arrayArtist,json.tracks.items[i].uri,arrayArtistURI );
