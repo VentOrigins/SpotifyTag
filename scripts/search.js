@@ -33,7 +33,13 @@ function parseJSON(json) {
   tracks = [];      
   for (var i = 0; i < json.tracks.items.length; ++i) {
     for (var j = 0; j < json.tracks.items[i].artists.length; ++j) {
-      arrayArtist.push(json.tracks.items[i].artists[j].name);
+      //Adds a space for multiple artists
+      if (j > 0) {
+        arrayArtist.push(" " + json.tracks.items[i].artists[j].name);
+      }
+      else {
+        arrayArtist.push(json.tracks.items[i].artists[j].name);
+      }
     }
     var newTrack = new Track(json.tracks.items[i].name, arrayArtist);
     tracks.push(newTrack);
