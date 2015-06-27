@@ -12,12 +12,16 @@
 
     @param    string    Track's name
     @param    array     List of artists for the specific track
+    @param    string    Track's name URI
+    @param    array     List of artists for the specific track's uri
     @return   none
     ========================================================================== */
-var Track = function (trackName, trackArtist) {
+var Track = function (trackName, trackArtist, trackNameURI, trackArtistURI) {
   console.log("Track created");
   this.trackName = trackName;
   this.trackArtist = trackArtist;
+  this.trackNameURI = trackNameURI;
+  this.trackArtistURI = trackArtistURI;
 }
 
 /*  =============================================================================
@@ -31,6 +35,16 @@ Track.prototype.getTrackName = function() {
 }
 
 /*  =============================================================================
+    returns a track's name URI
+
+    @param    none
+    @return   string
+    ========================================================================== */
+Track.prototype.getTrackNameURI = function() {
+  return this.trackNameURI;
+}
+
+/*  =============================================================================
     returns list of the track's artist(s)
 
     @param    none
@@ -38,6 +52,16 @@ Track.prototype.getTrackName = function() {
     ========================================================================== */
 Track.prototype.getTrackArtist = function() {
   return this.trackArtist;
+}
+
+/*  =============================================================================
+    returns list of the track's artist(s) URI
+
+    @param    none
+    @return   array
+    ========================================================================== */
+Track.prototype.getTrackArtistURI = function() {
+  return this.trackArtistURI;
 }
 
 /*  =============================================================================

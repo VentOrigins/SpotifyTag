@@ -9,6 +9,7 @@
 //A track contains a Track Object
 //A track Object has a trackName and a list of trackArtists.
 var arrayArtist = [];
+var arrayArtistURI = [];
 var tracks = [];
 var totalTracks = 0;
 var firstJSON = "";
@@ -22,7 +23,7 @@ function search() {
   //AJAX Search Tracks of query
   $.ajax({
     type: 'GET',
-    url: "https://api.spotify.com/v1/search?q=" + query + "&type=track",
+    url: "https://api.spotify.com/v1/search?q=" + query + "&type=track&market=US",
     dataType: 'json',
     success: function(json) {parseJSON(json);},
     error: function(xhr, ajaxOptions, thrownError) {errorOut("Error at function: search()");}
@@ -47,15 +48,19 @@ function search_page(page){
 function parseJSON(json) {
   firstJSON = json;
   arrayArtist = [];
+  arrayArtistURI = [];
   tracks = [];
   totalTracks = json.tracks.total;      
   for (var i = 0; i < json.tracks.items.length; ++i) {
     for (var j = 0; j < json.tracks.items[i].artists.length; ++j) {
+      console.log("WTF");
       arrayArtist.push(json.tracks.items[i].artists[j].name);
+      arrayArtistURI.push(json.tracks.items[i].artists[j].uri);
     }
-    var newTrack = new Track(json.tracks.items[i].name, arrayArtist);
+    var newTrack = new Track(json.tracks.items[i].name, arrayArtist,json.tracks.items[i].uri,arrayArtistURI );
     tracks.push(newTrack);
     arrayArtist = [];
+    arrayArtistURI = [];
   }
   console.log("\n\nFINISHED PARSING");
   sort(tracks);

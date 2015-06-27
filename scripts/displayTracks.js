@@ -5,7 +5,7 @@
     ========================================================================== */
 var mapKeyTracks = {};
 var mapKeyHT = {};
-var testHT = ["#chill", "#dope", "#edm"]; 
+var testHT = ["#chill", "#dope", "#edm", "#kygo", "#lool", "#poop", "#qwerty"]; 
 //Displays the Tracks And Artists in the html table
 function displayTracks(tracks) {
 
@@ -39,8 +39,12 @@ function displayTracks(tracks) {
 		//
 		buttonID = "<td> <form id=\"ht-form\"> <button class=\"class-button\" onclick=\"addHT(this)\" id=\"add-button" + i + "\"> <h1>+</h1> </button>";
 		slideID = "<div class=\"class-input\" id=\"slide-input" + i + "\"> <input type='text' /> <input type='submit' /> </div> </form> </td>";
-		rowTrackName = "<td id='trackName" + i + "''>" + tracks[i].getTrackName() + "</td>";
-		rowTrackArtists = "<td id='trackArtist" + i +  "'>" + tracks[i].getTrackArtist() + "</td>";
+		rowTrackName = "<td id='trackName" + i + "''> <a href='" + tracks[i].getTrackNameURI() + "''>" + tracks[i].getTrackName() + "</a></td>";
+		rowTrackArtists = "<td id=trackArtist" + i + ">";
+		for(z=0; z<tracks[i].getTrackArtist().length;z++){
+			rowTrackArtists += "<a href='" + tracks[i].getTrackArtistURI()[z] + "'>" + tracks[i].getTrackArtist()[z] + "</a>";
+		}
+		rowTrackArtists += "</td>";
 
 		//
 		if(tracks[i].getTrackName() in mapKeyTracks) {
@@ -89,8 +93,13 @@ function changeTrackList(tracks) {
 	for(i=0; i<tracks.length; i++) {
 
 		//Add TrackName and Artist
-		$('#trackName'+i).text(tracks[i].getTrackName());
-		$('#trackArtist'+i).text(tracks[i].getTrackArtist());
+		$('#trackName'+i).empty();
+		$('#trackArtist'+i).empty();
+		$('#trackName'+i).append("<a href='" + tracks[i].getTrackNameURI() + "''>" + tracks[i].getTrackName() + "</a>");
+		for(z=0; z<tracks[i].getTrackArtist().length;z++){
+			$('#trackArtist'+i).append("<a href='" + tracks[i].getTrackArtistURI()[z] + "'>" + tracks[i].getTrackArtist()[z] + "</a>");
+		}
+
 	
 		// Check #
 		if(tracks[i].getTrackName() in mapKeyTracks) {
