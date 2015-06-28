@@ -8,9 +8,9 @@ var currentPage = "";
 function changePage(pagesValue){
 
 	//Get the URL of the api
-	firstPartURL = firstJSON.tracks.next.substring(0, (firstJSON.tracks.next.indexOf("&offset") + 8));
+	firstPartURL = currJSON.tracks.next.substring(0, (currJSON.tracks.next.indexOf("&offset") + 8));
 	offsetNum = (pagesValue-1) * 20;
-	secondPartURL = firstJSON.tracks.next.substring(firstJSON.tracks.next.indexOf("&limit="), firstJSON.tracks.next.length);
+	secondPartURL = currJSON.tracks.next.substring(currJSON.tracks.next.indexOf("&limit="), currJSON.tracks.next.length);
 	clickedPageURL = firstPartURL + offsetNum + secondPartURL;
 	//Update the page number
 	$(".page-number-button").val(currentPage);

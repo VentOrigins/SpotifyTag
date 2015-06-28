@@ -59,7 +59,7 @@ function displayTracks(tracks) {
 		rowTrackName = "<td id='trackName" + i + "''> <a href='" + tracks[i].getTrackNameURI() + "''>" + tracks[i].getTrackName() + "</a></td>";
 		rowTrackArtists = "<td id=trackArtist" + i + ">";
 		for(z=0; z<tracks[i].getTrackArtist().length;z++){
-			rowTrackArtists += "<a href='" + tracks[i].getTrackArtistURI()[z] + "'>" + tracks[i].getTrackArtist()[z] + "</a>";
+			rowTrackArtists += "<a href='" + tracks[i].getTrackArtistURI()[z] + "'>" + tracks[i].getTrackArtist()[z] + "</a>" + ", ";
 		}
 		rowTrackArtists += "</td>";
 
