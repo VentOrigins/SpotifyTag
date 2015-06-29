@@ -1,5 +1,7 @@
 /*  =============================================================================
-    
+    CSS for displaying the track objects in the table, formatted each row having
+    a track object.
+
     Copyright © Vent Origins 
     By Adrian Mandee and Randy Truong
     ========================================================================== */
@@ -52,8 +54,22 @@
   border-top: solid 2px #222226;
 }
 
+/*When hovering over a row, the background color changes*/
 #track-list .not-header-row:hover {
   background-color: #202024;
 }
 
+/*When hovering over a row, the color of the Add HT button changes with the row*/
+#track-list .not-header-row:hover button {
+  background-color: #202024;
+}
 
+/*When mouse hovers over the row, hashtags are white*/
+#track-list .not-header-row:hover .class-ht-button {
+  background-color: #FFFFFF;
+}
+
+/*When mouse hovers over the hashtags, hashtags are spotify green*/
+#track-list .not-header-row:hover .class-ht-button:hover {
+  background-color: #71B500;
+}

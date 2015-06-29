@@ -32,7 +32,6 @@ function addHT(buttonID) {
   document.getElementById("slide-input" + num).style.display = "inline-block";
 };
 
-
 /*  =============================================================================
     When submitting a hashtag, adds it to the hashmap and append
 
@@ -59,5 +58,4 @@ function submitHT(submitID) {
   $("#hash-tag-id"+num).append("<button class='class-ht-button' id='ht-button" + lengthOfMapHT + "''>" + "#" + $("#input-ht"+num).val() + "</button>");
 
 }
-
 
