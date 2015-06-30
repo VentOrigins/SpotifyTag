@@ -1,3 +1,10 @@
+/*  =============================================================================
+    When clicking hashtags
+
+    Copyright © Vent Origins 
+    By Adrian Mandee and Randy Truong
+    ========================================================================== */
+
 function showTracks(hashTag) {
 	//Get value and remove hashtag to look up in db
 	var num = hashTag.id.substring(9,hashTag.id.length);
