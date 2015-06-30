@@ -6,7 +6,7 @@ var hashTagDB = "";
 //Test
 $(document).ready(function() {
 	// Our key for parse
-	Parse.initialize("jAKFs2F7wTrMKzSXja7eotc6d2JMC069Nb6z7Qum", "uXJFd72E1JnM88TqJlsLG5Hcx55gdcKQQE7MPRqy");
+	Parse.initialize("Hidden", "Hidden");
 	var Tracks = Parse.Object.extend("Tracks");
 	var HashTag = Parse.Object.extend("Hashtags");
 	var query = new Parse.Query(Tracks);
