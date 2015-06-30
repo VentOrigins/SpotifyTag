@@ -55,10 +55,9 @@ function addHTtoTrack(trackName, htValue) {
 // Checks track's hashtags
 function checkTrackHT(trackName,htValue) {
 
-	
-	//Get rid of all space in trackname and hash tag
-	trackName = trackName.replace(/ +/g, "");
-	htValue = htValue.replace(/ +/g, "");
+	//Keep only alphanumeriacl in trackname and value
+	trackName = trackName.replace(/[\W_]+/g, "");
+	htValue = htValue.replace(/[\W_]+/g, "");
 	//Get the tracks object from parse
 	var htExists = tracksDB.get(trackName);
   //If no tracks then create a new array and add the hashtag to the track
@@ -80,7 +79,7 @@ function checkTrackHT(trackName,htValue) {
 
 //Return all hash tags of track
 function returnTrackHT(trackName) {
-	trackName = trackName.replace(/ +/g, "");
+	trackName = trackName.replace(/[\W_]+/g, "");
 	var hashtags = tracksDB.get(trackName);
 	console.log(hashtags);
 	return hashtags;
