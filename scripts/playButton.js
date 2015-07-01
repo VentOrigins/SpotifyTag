@@ -5,6 +5,12 @@
     By Adrian Mandee and Randy Truong
     ========================================================================== */
 
+/*  =============================================================================
+    Adjusts the play buttong accordingly to the song clicked
+
+    @param      object    Takes the link's object and get's the ID
+    @return     none
+    ========================================================================== */
 function playButton(linkID) {
   //Show the play button
   document.getElementById("play-button").style.display = "inline-block";
