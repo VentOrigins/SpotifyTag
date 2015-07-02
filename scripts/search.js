@@ -138,7 +138,7 @@ function printTracks(tracks) {
     console.log("\nTracks " + i + ": "+ tracks[i].getTrackName());
     console.log("\tArtists " + i + ": "+ tracks[i].getTrackArtist());
   }  
-  displayTracks(tracks);
+  displayTracks();
 }
 
 /*  =============================================================================
