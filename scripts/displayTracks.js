@@ -11,21 +11,19 @@
 		mapKeyTracks  		-HashMap<Key, Value> with Key = Tracks, Value = HashTag 
 		mapKeyHT					-HashMap<Key, Value> with Key = HashTag, Value = Tracks
 
-		list 							-	
-		buttonID 					-
-		slideID 					-
-		rowTrackName 			-
-		rowTrackArtists 	-	
-		rowTrackHashTag 	-	
+		buttonID 					-Used to append the + buttons
+		slideID 					-Used to append the sliding input and submit button
+		rowTrackName 			-Used to append the track name with its URI to the track
+		rowTrackArtists 	-Used to append the track artists with its URIs to the artists
+		rowTrackHashTag 	-Used to append the hash tags onto the row
 
-		tracksHTML 				-
+		tracksHTML 				-Keeps track the total rows checked so far when going through the HTML
 		========================================================================== */
 //HashMaps
 var mapKeyTracks = {};
 var mapKeyHT = {};
 
 //Variables used to append the table
-var list;
 var buttonID;
 var slideID;
 var rowTrackName;
@@ -34,6 +32,11 @@ var rowTrackHashTag;
 
 //Array to store all of the .find
 var tracksHTML = [];
+
+var tracksHashTagArray = [];
+
+//Keeps track of how many rows checked so far when going through the HTML
+var rowCount;
 
 /*  =============================================================================
 	  Displays the Tracks And Artists in the html table with their corresponding
@@ -46,19 +49,24 @@ function displayTracks() {
 	//Check if track list is made, if made, just update the values of trackName and artists and HT instead of replacing everything
 	if(!$.trim($('#list-of-tracks').html()).length == 0 ) {
 		//Update track list
-		changeTrackList(tracks);
+		changeTrackList();
 		//Scroll up to beginning of track
 		scrollToTracks();
 		return;
 	}
 
-	//Empties out the variables
-	list = "";
+	//Fills the tracksHTML array to have same length as the tracks array, but emptied
+	for (var i = 0; i < tracks.length; ++i) {
+		tracksHTML.push("");
+	}
+
+	//Resets and empties out the variables
 	buttonID = "";
 	slideID = "";
 	rowTrackName = "";
 	rowTrackArtists = "";
 	rowTrackHashTag = "";
+	rowCount = 1;
 
 	//Append the header of table
 	$("#list-of-tracks").append("<tr> <th>ADD</th> <th>TRACK</th> <th>ARTIST</th> <th>#</th> </tr>");
@@ -70,17 +78,19 @@ function displayTracks() {
 }
 
 /*  =============================================================================
-	  Displays the rows of the tracks and artists
+	  Actually stores the rows of the tracks and artists HTML into tracksHTML.
+	  Use this tracksHTML to display the entire table
 
 		@param  		i 			The row #
 		@return			none
 		========================================================================== */
-function displayRow(i) {
+function storeRow(i) {
 	console.log("INCREMENT: displayRow: " + i);
+
 	//Forms the html of the inner table to append
 	buttonID = "<div> <td id='add-col' class-buttons ='active'>  <form id='ht-form'><button class='class-button' onclick='addHT(this)' id='add-button" + i + "'> <h1>+</h1> </button>";
 	slideID = "<div id='slide-input" + i + "' class='class-input'> </form> <form id='ht-form2' > <input class='input-add-HT' id='input-ht" + i + "' type='text'/> <input class='button-add-HT' id='submit-ht" + i + "' type='submit' onclick='submitHT(this)' value='#'/> </div> </form> </td> </div>";
-	rowTrackName = "<td id='trackName" + i + "''> <a href='" + tracks[i].getTrackNameURI() + "''>" + tracks[i].getTrackName() + "</a></td>";
+	rowTrackName = "<td id='trackName" + i + "''> <a href='" + tracks[i].getTrackNameURI() + "'>" + tracks[i].getTrackName() + "</a></td>";
 	rowTrackArtists = "<td id=trackArtist" + i + ">";
 
 	//Appends the links of every Artist's URI for each row
@@ -89,23 +99,41 @@ function displayRow(i) {
 	}
 	rowTrackArtists += "</td>";
 
-	list += "<tr class='not-header-row'>" + buttonID + slideID + rowTrackName + rowTrackArtists + rowTrackHashTag + "</tr>";
-	if (tracksHTML.length == tracks.length) {
-		console.log("REACHED THE ENDING, should append everything \n\n\n");
-		//The entire list to append all of the html
-		$("#list-of-tracks").append(list);
-		console.log(list);
+	//Stores the HTML of the entire row accordingly to the index of that row's number
+	tracksHTML[i] = "<tr class='not-header-row'>" + buttonID + slideID + rowTrackName + rowTrackArtists + rowTrackHashTag + "</tr>";
 
-		//Set left and right arrow
-		//Navigates through the different pages
-		currentPage = 1;
-		$("#pages").append("<input type='button' class='previous-page-button' onclick='previousPage()' value='<' >");
-		$("#pages").append("<input type='button' class='page-number-button' value='" + currentPage + "'disabled>");
-		$("#pages").append("<input type='button' class='next-page-button' onclick='nextPage()' value='>' >");
-		
-		//Scroll to beginning of tracks
-		scrollToTracks();
+	//Once all tracks HTML are stored into the array, display the table
+	if (rowCount == tracks.length) {
+		displayTable();
 	}
+
+	//Increments rowCount
+	++rowCount;
+}
+
+/*  =============================================================================
+	  Displays the entire table with all of the rows in the correct order
+
+		@param  		none
+		@return			none
+		========================================================================== */
+function displayTable() {
+	console.log("REACHED THE ENDING, should append everything \n\n\n");
+	
+	//The entire list to append all of the html
+	for (var j = 0; j < tracksHTML.length; ++j) {
+		$("#list-of-tracks").append(tracksHTML[j]);
+	}
+
+	//Set left and right arrow
+	//Navigates through the different pages
+	currentPage = 1;
+	$("#pages").append("<input type='button' class='previous-page-button' onclick='previousPage()' value='<' >");
+	$("#pages").append("<input type='button' class='page-number-button' value='" + currentPage + "'disabled>");
+	$("#pages").append("<input type='button' class='next-page-button' onclick='nextPage()' value='>' >");
+	
+	//Scroll to beginning of tracks
+	scrollToTracks();
 }
 
 /*  =============================================================================
@@ -124,31 +152,52 @@ function scrollToTracks() {
 /*  =============================================================================
 		Changes the track list accordingly to the new page changes
 
-		@param  		array 	Array of track objects
+		@param  		none
 		@return			none
 		========================================================================== */
-function changeTrackList(tracks) {
-	//Clear ht table
-	$('.hash-tag-table').empty();
+function changeTrackList() {
+	rowCount = 1;
+	rowTrackHashTag = "";
 
-	//For every track object
-	for(i = 0; i < tracks.length; ++i) {
-		//Add TrackName and Artist
-		$('#trackName'+i).empty();
-		$('#trackArtist'+i).empty();
-		$('#trackName'+i).append("<a href='" + tracks[i].getTrackNameURI() + "''>" + tracks[i].getTrackName() + "</a>");
-		for(z = 0; z < tracks[i].getTrackArtist().length; ++z){
-			$('#trackArtist'+i).append("<a href='" + tracks[i].getTrackArtistURI()[z] + "'>" + tracks[i].getTrackArtist()[z] + "</a>");
-		}
+	//Fills the tracksHTML array to have same length as the tracks array, but emptied
+	for (var i = 0; i < tracks.length; ++i) {
+		tracksHashTagArray.push("");
+	}
 
-		// Check #
-		var hashtags = returnTrackHT(tracks[i].getTrackName());
-		if(hashtags != undefined) {
-			// Get each hash tag and append a button to the td
-			for(var j = 0; j < hashtags.length; ++j) {
-				var button = "<button class='class-ht-button' id='ht-button" + i + j + "' onclick='showTracks(this)'>#" + hashtags[j]+ "</button> ";
-				$("#hash-tag-id"+i).append(button);
+	//Find Track 
+	for (var i = 0; i < tracks.length; ++i) {
+		findChangePageTrackHT(tracks[i].getTrackName(), i);
+	}
+}
+
+/*  =============================================================================
+		Changes the DisplayTable without deleting the entire table
+
+		@param  		none
+		@return			none
+		========================================================================== */
+function changeDisplayTable() {
+	console.log("rowCount in changeTrackList: " + rowCount);
+
+	if (rowCount >= tracks.length) {
+		console.log("REACHED THE ENDING, should append EVERYTHING \n\n");
+		//Clear ht table
+		$('.hash-tag-table').empty();
+		
+		//For every track object
+		for(i = 0; i < tracks.length; ++i) {
+			$('#trackName'+i).empty();
+			$('#trackArtist'+i).empty();
+
+			//Add TrackName and Artist
+			$('#trackName'+i).append("<a href='" + tracks[i].getTrackNameURI() + "''>" + tracks[i].getTrackName() + "</a>");
+			for(z = 0; z < tracks[i].getTrackArtist().length; ++z) {
+				$('#trackArtist'+i).append("<a href='" + tracks[i].getTrackArtistURI()[z] + "'>" + tracks[i].getTrackArtist()[z] + "</a>");
 			}
+
+			//appends the hashtag column
+			$("#hash-tag-id"+i).append(tracksHashTagArray[i]);
 		}
 	}
+	++rowCount;
 }

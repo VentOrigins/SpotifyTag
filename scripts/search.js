@@ -43,6 +43,10 @@ function search() {
   var query = document.getElementById("input-query-box").value;
   console.log("The query input is: " + query);
 
+  //Resets the current page to 1 when querying
+  currentPage = 1;
+  $(".page-number-button").val(currentPage);
+
   //AJAX Search Tracks of query
   $.ajax({
     type: 'GET',
