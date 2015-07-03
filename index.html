@@ -11,8 +11,14 @@
 <head>
   <title>Vent Spotify</title>
 
+  <!-- JQUERY -->
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+  <!-- Parse -->
+  <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.4.2.min.js"></script>
   
-
+  <!-- Login to Spotify -->
+  <script type="text/javascript" src="scripts/spotify.js"></script>
+  
   <!-- References -->
   <link rel="stylesheet" type="text/css" href="styles/spotify.css">
   <link rel="stylesheet" type="text/css" href="styles/splashScreen.css">
@@ -20,13 +26,11 @@
   <link rel="stylesheet" type="text/css" href="styles/displayTracks.css">
   <link rel="stylesheet" type="text/css" href="styles/addHT.css">
   <link rel="stylesheet" type="text/css" href="styles/changePage.css">
+  <link rel="stylesheet" type="text/css" href="styles/nav.css">
   <!-- FONTS -->
   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 
-  <!-- JQUERY -->
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
-  <!-- Parse -->
-  <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.4.2.min.js"></script>
+
   
 
 </head>
@@ -36,9 +40,16 @@
   <!-- 
     Nav Bar
     -->
-  <div id="nav-bar">
+  <div id="nav">
+      <div id="nav-list">
+        <ul id="nav-button">
+        </ul>
+        <ul id="nav-playlist">
+        </ul>
+      </div>
 
   </div>
+
 
   <!-- 
     SplashScreen
@@ -91,13 +102,14 @@
 
   
   <!-- Scripts -->
-  <script type="text/javascript" src="scripts/spotify.js"></script>
   <script type="text/javascript" src="scripts/search.js"></script>
   <script type="text/javascript" src="scripts/displayTracks.js"></script>
   <script type="text/javascript" src="scripts/addHT.js"></script>
   <script type="text/javascript" src="scripts/changePage.js"></script>
   <script type="text/javascript" src="scripts/parse.js"></script>
   <script type="text/javascript" src="scripts/hashtag.js"></script>
+  <script type="text/javascript" src="scripts/playlist.js"></script>
+  <script type="text/javascript" src="scripts/nav.js"></script>
   <!-- Classes -->
   <script type="text/javascript" src="classes/tracks.js"></script>
 
