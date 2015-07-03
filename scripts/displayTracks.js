@@ -51,12 +51,20 @@ function displayTracks(tracks) {
 		//Forms the html of the inner table to append
 		buttonID = "<div> <td id='add-col' class-buttons ='active'>  <form id='ht-form'><button class='class-button' onclick='addHT(this)' id='add-button" + i + "'> <h1>+</h1> </button>";
 		slideID = "<div id='slide-input" + i + "' class='class-input'> </form> <form id='ht-form2' > <input class='input-add-HT' id='input-ht" + i + "' type='text'/> <input class='button-add-HT' id='submit-ht" + i + "' type='submit' onclick='submitHT(this)' value='#'/> </div> </form> </td> </div>";
-		rowTrackName = "<td id='trackName" + i + "''> <a href='" + tracks[i].getTrackNameURI() + "''>" + tracks[i].getTrackName() + "</a></td>";
+		rowTrackName = "<td id='trackName" + i + "'> <a href='" + tracks[i].getTrackNameURI() + "' " + "id='link" + i + "' onclick='playButton(this)'>" + tracks[i].getTrackName() + "</a></td>";
 		rowTrackArtists = "<td id=trackArtist" + i + ">";
 
 		//Appends the links of every Artist's URI for each row
-		for(z = 0; z<tracks[i].getTrackArtist().length; ++z){
-			rowTrackArtists += "<a href='" + tracks[i].getTrackArtistURI()[z] + "'>" + tracks[i].getTrackArtist()[z] + "</a>" + ", ";
+		for(z = 0; z < tracks[i].getTrackArtist().length; ++z){
+			//If there is only 1 Artist for the track, do not show comma after artist
+			if (z == tracks[i].getTrackArtist().length-1) {
+				rowTrackArtists += "<a href='" + tracks[i].getTrackArtistURI()[z] + "'>" + tracks[i].getTrackArtist()[z] + "</a>";	
+			}
+			//If there are more than 1 artist for the track, shows commas after every artist
+			else {
+				rowTrackArtists += "<a href='" + tracks[i].getTrackArtistURI()[z] + "'>" + tracks[i].getTrackArtist()[z] + "</a>" + ", ";	
+			}
+
 		}
 		rowTrackArtists += "</td>";
 
@@ -90,7 +98,7 @@ function displayTracks(tracks) {
 	$("#pages").append("<input type='button' class='previous-page-button' onclick='previousPage()' value='<' >");
 	$("#pages").append("<input type='button' class='page-number-button' value='" + currentPage + "'disabled>");
 	$("#pages").append("<input type='button' class='next-page-button' onclick='nextPage()' value='>' >");
-	
+
 	//Scroll to beginning of tracks
 	scrollToTracks();
 }
@@ -123,9 +131,20 @@ function changeTrackList(tracks) {
 		//Add TrackName and Artist
 		$('#trackName'+i).empty();
 		$('#trackArtist'+i).empty();
-		$('#trackName'+i).append("<a href='" + tracks[i].getTrackNameURI() + "''>" + tracks[i].getTrackName() + "</a>");
+		
+		//When song's link is clicked, the play button adjusts itself to the song that was clicked
+		$('#trackName'+i).append("<a href='" + tracks[i].getTrackNameURI() + "'" + " id='link" + i + "' onclick='playButton(this)'>" + tracks[i].getTrackName() + "</a>");
+		
+		//For all the track Artists
 		for(z = 0; z < tracks[i].getTrackArtist().length; ++z){
-			$('#trackArtist'+i).append("<a href='" + tracks[i].getTrackArtistURI()[z] + "'>" + tracks[i].getTrackArtist()[z] + "</a>");
+			//If there is only 1 Artist for the track, do not show comma after artist
+			if (z == tracks[i].getTrackArtist().length-1) {
+				$('#trackArtist'+i).append("<a href='" + tracks[i].getTrackArtistURI()[z] + "'>" + tracks[i].getTrackArtist()[z] + "</a>");	
+			}
+			//If there are more than 1 artist for the track, shows commas after every artist
+			else {
+				$('#trackArtist'+i).append("<a href='" + tracks[i].getTrackArtistURI()[z] + "'>" + tracks[i].getTrackArtist()[z] + "</a>" + ", ");
+			}
 		}
 
 		// Check #
