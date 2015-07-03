@@ -44,18 +44,14 @@ function submitHT(submitID) {
   var lengthOfMapHT = 0;
   event.preventDefault();
 
-  //Check if #'s already exists
-  if(mapKeyTracks[tracks[num].getTrackName()]) {
-    lengthOfMapHT = mapKeyTracks[tracks[num].getTrackName()].length;
+  //Check if there are #'s in this track 
+  lengthOfMapHT = checkTrackHT(tracks[num].getTrackName(), $("#input-ht"+num).val());
+  //The # that wants to be added already exists
+  if(lengthOfMapHT == -1) {
+    return;
   }
-  else {
-    lengthOfMapHT = 0;
-  }
-  
-  //Sets the hashtag to the input
-  mapKeyTracks[tracks[num].getTrackName()] = ["#" + $("#input-ht"+num).val()];
   //Appends it
-  $("#hash-tag-id"+num).append("<button class='class-ht-button' id='ht-button" + lengthOfMapHT + "''>" + "#" + $("#input-ht"+num).val() + "</button>");
+  $("#hash-tag-id"+num).append("<button class='class-ht-button' id='ht-button" + num + lengthOfMapHT + "' onclick='showTracks(this)'>" + "#" + $("#input-ht"+num).val() + "</button>");
 
 }
 

@@ -61,13 +61,15 @@ function displayTracks(tracks) {
 		rowTrackArtists += "</td>";
 
 		//If the track name is already in the hashmap
-		if(tracks[i].getTrackName() in mapKeyTracks) {
+
+		var hashtags = returnTrackHT(tracks[i].getTrackName());
+		if(hashtags != undefined) {
 			//Creates the column of hashtags
 			rowTrackHashTag = "<td class=hash-tag-table id=hash-tag-id" + i + ">";
 
 			//Adds the hashtags onto the html with each having their own ID's
-			for(var j = 0; j < mapKeyTracks[tracks[i].getTrackName()].length; ++j) {
-				rowTrackHashTag += "<button class='class-ht-button' id='ht-button" + j + "''>" + mapKeyTracks[tracks[i].getTrackName()][j] + "</button> ";
+			for(var j = 0; j < hashtags.length; ++j) {
+				rowTrackHashTag += "<button class='class-ht-button' id='ht-button" + i+j + "' onclick='showTracks(this)'>#" + hashtags[j]+ "</button> ";
 			} 
 			
 		}
@@ -127,10 +129,11 @@ function changeTrackList(tracks) {
 		}
 
 		// Check #
-		if(tracks[i].getTrackName() in mapKeyTracks) {
+		var hashtags = returnTrackHT(tracks[i].getTrackName());
+		if(hashtags != undefined) {
 			// Get each hash tag and append a button to the td
-			for(var j = 0; j < mapKeyTracks[tracks[i].getTrackName()].length; ++j) {
-				var button = "<button class='class-ht-button' id='ht-button" + j + "''>" + mapKeyTracks[tracks[i].getTrackName()][j] + "</button>";
+			for(var j = 0; j < hashtags.length; ++j) {
+				var button = "<button class='class-ht-button' id='ht-button" + i + j + "' onclick='showTracks(this)'>#" + hashtags[j]+ "</button> ";
 				$("#hash-tag-id"+i).append(button);
 			}
 		}
