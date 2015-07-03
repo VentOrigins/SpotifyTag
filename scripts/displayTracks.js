@@ -131,7 +131,7 @@ function displayTable() {
 	$("#pages").append("<input type='button' class='previous-page-button' onclick='previousPage()' value='<' >");
 	$("#pages").append("<input type='button' class='page-number-button' value='" + currentPage + "'disabled>");
 	$("#pages").append("<input type='button' class='next-page-button' onclick='nextPage()' value='>' >");
-	
+
 	//Scroll to beginning of tracks
 	scrollToTracks();
 }
