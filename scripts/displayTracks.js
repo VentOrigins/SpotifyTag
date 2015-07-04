@@ -90,7 +90,7 @@ function storeRow(i) {
 	//Forms the html of the inner table to append
 	buttonID = "<div> <td id='add-col' class-buttons ='active'>  <form id='ht-form'><button class='class-button' onclick='addHT(this)' id='add-button" + i + "'> <h1>+</h1> </button>";
 	slideID = "<div id='slide-input" + i + "' class='class-input'> </form> <form id='ht-form2' > <input class='input-add-HT' id='input-ht" + i + "' type='text'/> <input class='button-add-HT' id='submit-ht" + i + "' type='submit' onclick='submitHT(this)' value='#'/> </div> </form> </td> </div>";
-	rowTrackName = "<td id='trackName" + i + "''> <a href='" + tracks[i].getTrackNameURI() + "'>" + tracks[i].getTrackName() + "</a></td>";
+	rowTrackName = "<td id='trackName" + i + "''> <a href='" + tracks[i].getTrackNameURI() + "' " + "id='link" + i + "' onclick='playButton(this)'>" + tracks[i].getTrackName() + "</a></td>";
 	rowTrackArtists = "<td id=trackArtist" + i + ">";
 
 	//Appends the links of every Artist's URI for each row
