@@ -1,3 +1,10 @@
+/*  =============================================================================
+    Handles the Parse database
+
+    Copyright © Vent Origins 
+    By Adrian Mandee and Randy Truong
+    ========================================================================== */
+
 var hashTagArray = [];
 var tracksArray = [];
 var trackDB = "";
@@ -51,6 +58,7 @@ function checkTrackHT(trackName,htValue) {
 	  	//Check if there is only one of that track
 	  	if(results.length > 1) {
 	    	console.log("Error more than one hashtag object of that hashtag");
+	    	return -1;
 	    }
 	  	//No exisiting track
 	  	else if(results.length == 0) {
@@ -78,6 +86,7 @@ function checkTrackHT(trackName,htValue) {
 	    //Check if there is only one of that track
 	  	if(results.length > 1) {
 	    	console.log("Error more than one track object of that track");
+	    	return -1;
 	    }
 	    //Check if track exists
 	  	else if(results.length == 0) {
@@ -102,23 +111,51 @@ function checkTrackHT(trackName,htValue) {
 
 }
 
-//Return all hash tags of track
-function returnTrackHT(trackName) {
+
+/*  =============================================================================
+	  Finds the hashtags in the tracks and appends them to the variable rowTrackHashTag.
+
+		@param  		none
+		@return			none
+		========================================================================== */
+function findHashTagsInTracks(trackName, num) {
+  //Removes nonalphanumerical from ht
 	trackName = trackName.replace(/[\W_]+/g, "");
+	//Finds the query given the constraints
 	trackDB.equalTo("tracks", trackName);
+	console.log("findHashTagsInTracks " + num + ": " + trackName);
+
 	trackDB.find({
 	  success: function(results) {
-	    //Check if there is only one of that track
 	    if(results[0] == undefined) {
-	    	return undefined;
+				//If it is empty, have an empty HashTag list
+				rowTrackHashTag = "<td class='hash-tag-table' id='hash-tag-id" + num + "'>";	
+				rowTrackHashTag += "</td>";
+
+				//Store the row with the hashtag
+	    	storeRow(num);
+	    	return;
 	    }
+
+	    //Should never get to this if statement
 	    if(results.length > 1) {
 	    	alert("Error more than one track object of that track");
 	    }
-	    //Return the hashtag list
+	    //And if all is well so far, this else statement will execute
 	    else {
-	    	console.log(results[0].get("hashtags"));
-	    	return results[0].get("hashtags");
+	    	var hashtags = results[0].get("hashtags");
+
+	    	//Creates the column of hashtags
+				rowTrackHashTag = "<td class='hash-tag-table' id='hash-tag-id" + num + "'>";
+
+				//Adds the hashtags onto the html with each having their own ID's
+				for(var j = 0; j < hashtags.length; ++j) {
+					rowTrackHashTag += "<button class='class-ht-button' id='ht-button" + num + j + "' onclick='showTracks(this)'>#" + hashtags[j]+ "</button> ";
+				} 
+				rowTrackHashTag += "</td>";
+
+				//Stores the row with the hashtag
+	    	storeRow(num);
 	    }
 	  },
 		error: function(error) {
@@ -127,6 +164,58 @@ function returnTrackHT(trackName) {
 	});
 }
 
+/*  =============================================================================
+	  Finds the hashtags in the tracks when the pages are changed
+
+		@param  		none
+		@return			none
+		========================================================================== */
+function findChangePageTrackHT(trackName, num) {
+  //Removes nonalphanumerical from ht
+	trackName = trackName.replace(/[\W_]+/g, "");
+	//Finds the query given the constraints
+	trackDB.equalTo("tracks", trackName);
+	console.log("findTrackHT " + num + ": " + trackName);
+
+	trackDB.find({
+	  success: function(results) {
+	    if(results[0] == undefined) {
+	    	//If it is empty, have an empty HashTag list
+				rowTrackHashTag = "<td class='hash-tag-table' id='hash-tag-id" + num + "'>";	
+				rowTrackHashTag += "</td>";
+
+				tracksHashTagArray[num] = rowTrackHashTag;
+				changeDisplayTable();
+				return;
+	    }
+	    //Should never get to this if statement
+	    if(results.length > 1) {
+	    	alert("Error more than one track object of that track");
+	    }
+	    //And if all is well so far, this else statement will execute
+	    else {
+	    	var hashtags = results[0].get("hashtags");
+	    	console.log("The Hashtags " + num + ": " + hashtags);
+
+	    	//Creates the column of hashtags
+				rowTrackHashTag = "<td class='hash-tag-table' id='hash-tag-id" + num + "'>";
+
+				//Adds the hashtags onto the html with each having their own ID's
+				for(var j = 0; j < hashtags.length; ++j) {
+					rowTrackHashTag += "<button class='class-ht-button' id='ht-button" + num + j + "' onclick='showTracks(this)'>#" + hashtags[j]+ "</button> ";
+				} 
+				rowTrackHashTag += "</td>";
+				console.log(rowTrackHashTag + "\n\n");
+				tracksHashTagArray[num] = rowTrackHashTag;
+				console.log("rowCount: " + rowCount);
+				changeDisplayTable();
+	    }
+	  },
+		error: function(error) {
+			console.log("Error in return trackHT");
+		}
+	});
+}
 
 //Add trackname to hashtag db
 function addHTtoDB(trackName,htObject) {
