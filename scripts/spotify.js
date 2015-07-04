@@ -6,7 +6,7 @@
 
 //When the Web App begins
 
-// var scopes = 'playlist-read-private playlist-modify-public playlist-modify-private user-read-private';
+// var scopes = 'playlist-read-private playlist-modify-public playlist-modify-private user-read-private playlist-read-collaborative';
 // var my_client_id = 'f516a166c50d43dfae1800141104d748'
 // var redirect_uri = 'http://randytruong.com'
 // var uri = 'https://accounts.spotify.com/authorize' + 
@@ -16,10 +16,10 @@
 //   '&redirect_uri=' + encodeURIComponent(redirect_uri)
 //   + '&response_type=token&state=344'
 // window.location = uri;
-var accessToken = "";
-var state = "";
-var bear = "";
-var userID = "";
+// var accessToken = "";
+// var state = "";
+// var bear = "";
+// var userID = "";
 
 
 $(document).ready(function() {
