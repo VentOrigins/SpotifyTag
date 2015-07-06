@@ -123,6 +123,7 @@ function findHashTagsInTracks(trackName, num) {
 	trackName = trackName.replace(/[\W_]+/g, "");
 	//Finds the query given the constraints
 	trackDB.equalTo("tracks", trackName);
+	console.log(trackDB);
 	console.log("findHashTagsInTracks " + num + ": " + trackName);
 
 	trackDB.find({
@@ -159,7 +160,8 @@ function findHashTagsInTracks(trackName, num) {
 	    }
 	  },
 		error: function(error) {
-			console.log("Error in return trackHT");
+			console.log(error);
+			console.log(error + " Error in return trackHT find hashHT");
 		}
 	});
 }
@@ -212,7 +214,8 @@ function findChangePageTrackHT(trackName, num) {
 	    }
 	  },
 		error: function(error) {
-			console.log("Error in return trackHT");
+
+			console.log(error + "  Error in return trackHT find changePage");
 		}
 	});
 }

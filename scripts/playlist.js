@@ -1,6 +1,7 @@
 var playlistMap = {};
 
 function displayPlaylist(json) {
+	//Displays users playlist on the navigation bar
 	$('#nav-button').append("<li> <button type='button' id='nav-button' onclick='togglePlaylist()'> </button> </li>");
 	$('#nav-playlist').append("<li id='nav-playlist-head'> <h1>Your Playlist</h1></li>")
 	for(var i=0; i<json.items.length; i++) {
@@ -13,20 +14,25 @@ function displayPlaylist(json) {
 
 function searchPlaylistTracks(playlist) {
 
+	//Get id num
 	var num = playlist.id.substring(8,playlist.length);
 	console.log();
-	var trackName = $('#playlist' + num).html();
-	// console.log(playlist.val());
-	trackID = playlistMap[trackName];
-	console.log(userID);
-	console.log(accessToken);
+	//Get the playlist name
+	var playlistName = $('#playlist' + num).html();
+	//Get the playlist track id
+	trackID = playlistMap[playlistName];
+	//Store playlist name
+	localStorage.playlistName = playlistName;
+	//Ajax call to get json and then change htmlpage
 	$.ajax({
 		url: 'https://api.spotify.com/v1/users/' + userID + '/playlists/' + trackID,
 		headers: {
 		  'Authorization': 'Bearer ' + accessToken
 		},
+		dataType: 'json',
 		success: function(response) {
-		  displayPlaylistTracks(response);
+			goToPlayList(response);
+
 		},
 		error: function(response) {
 			console.log("Error couldn't find playlist");
@@ -35,11 +41,11 @@ function searchPlaylistTracks(playlist) {
 	
 }
 
-
-function displayPlaylistTracks(json) {
+function goToPlayList(json) {
 	arrayArtist = [];
   arrayArtistURI = [];
   tracks = [];
+  localStorage.playlistURI = json.uri;
   // This is for the playlist
   for (var i = 0; i < json.tracks.items.length; ++i) {
     //Reads through every artists in the specific track and stores them into arrayArtist
@@ -60,7 +66,15 @@ function displayPlaylistTracks(json) {
     arrayArtistURI = [];
 
   }
-  console.log(window.location.href);
-  window.location.assign("file:///Users/MANDEE/ventorigins/spotify/playlist.html");
+  //Store the tracks into cookies and then go to new html page
+	localStorage.tracks = JSON.stringify(tracks);
+	window.location.assign("file:///Users/MANDEE/ventorigins/spotify/playlist.html");
 
 }
+
+
+
+
+
+
+
