@@ -12,7 +12,6 @@ var hashTagDB = "";
 var TrackParse = "";
 var HashTagParse = "";
 
-
 //Test
 $(document).ready(function() {
 	// Our key for parse
@@ -48,9 +47,12 @@ function checkTrackHT(trackName,htValue) {
 	var newTrack = new TrackParse();	
 	var newHT = new HashTagParse();
 	trackName = trackName.replace(/[\W_]+/g, "");
-	htValue = htValue.replace(/[\W_]+/g, "");
+	htValue = htValue.replace(/[\W_]+/g, "").toLowerCase();
 	trackDB.equalTo("tracks", trackName);
 	hashTagDB.equalTo("hashtags", htValue);
+	
+	trackDB.equalTo("user",localStorage.userID);
+	hashTagDB.equalTo("user",localStorage.userID);
 
 	hashTagDB.find({
 	  success: function(results) {
@@ -64,6 +66,7 @@ function checkTrackHT(trackName,htValue) {
 	  	else if(results.length == 0) {
 	  		newHT.set("hashtags", htValue);
 	  		newHT.set("tracks",[trackName]);
+	  		newHT.set("user",localStorage.userID);
 	  		newHT.save();
 	  	}
 	    //Add add track to the ht
@@ -94,6 +97,7 @@ function checkTrackHT(trackName,htValue) {
 	  		
 				newTrack.set("tracks", trackName);
 				newTrack.set("hashtags", [htValue]);
+				newTrack.set("user",localStorage.userID);
 				newTrack.save();
 				return 0;
 	  	}
@@ -123,6 +127,7 @@ function findHashTagsInTracks(trackName, num) {
 	trackName = trackName.replace(/[\W_]+/g, "");
 	//Finds the query given the constraints
 	trackDB.equalTo("tracks", trackName);
+	trackDB.equalTo("user",localStorage.userID);
 	console.log(trackDB);
 	console.log("findHashTagsInTracks " + num + ": " + trackName);
 
@@ -177,6 +182,7 @@ function findChangePageTrackHT(trackName, num) {
 	trackName = trackName.replace(/[\W_]+/g, "");
 	//Finds the query given the constraints
 	trackDB.equalTo("tracks", trackName);
+	trackDB.equalTo("user",localStorage.userID);
 	console.log("findTrackHT " + num + ": " + trackName);
 
 	trackDB.find({

@@ -8,12 +8,13 @@
 function showTracks(hashTag) {
 	//Get value and remove hashtag to look up in db
 	var num = hashTag.id.substring(9,hashTag.id.length);
-	var hashTagValue = $("#ht-button"+num).text();
-	hashTagDB.equalTo("hashtags", htValue);
+	var hashTagValue = $("#ht-button"+num).text().substring(1,$("#ht-button"+num).text().length).toLowerCase();
+	console.log(hashTagValue);
 
+	hashTagDB.equalTo("hashtags", hashTagValue);
+	hashTagDB.equalTo("user", localStorage.userID);
 	hashTagDB.find({
 	  success: function(results) {
-	  	//Found existing track
 	    alert("Successfully retrieved " + results.length + " scores.");
 	    //Check if there is only one of that track
 	    if(results.length > 1) {
@@ -21,8 +22,8 @@ function showTracks(hashTag) {
 	    }
 	    //Add add track to the ht
 	    else {
-	    	hashTagValue = hashTagValue.substring(1, hashTagValue.length)
-				var tracksOfHT = results[0].get(hashTagValue);
+	    	console.log(results);
+				var tracksOfHT = results[0].get("tracks");
 				console.log(tracksOfHT);	    	
 	    }
 	  },
