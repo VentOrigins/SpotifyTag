@@ -52,3 +52,7 @@ body button {
 body input {
   outline: none;
 }
+
+ul {
+  list-style-type: none;
+}

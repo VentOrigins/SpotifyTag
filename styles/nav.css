@@ -1,12 +1,24 @@
 #nav {
-  width: 150px;
-  height: 500px;
+  height: 100vh;
   margin: 0px;
   padding: 0px;
-  border:1px solid white;
+
+  background-color: #222226;
+
+  /*Font of the entire playlist bar*/
+  color: white;
+  font-size: 12px;
+
+  /*Keeps the playlist bar to the left of the Splash Screen*/
   float: left;
+
+  border: none;
 }
 
+#nav h1{
+
+}
+/*
 #nav-list {
   width: 150px;
   height: 500px;
@@ -14,9 +26,12 @@
   padding: 0px;
   border: 1px solid blue;
 }
+*/
 
-#nav-button {
-  width: 100px;
+/*Used for the playlist's list bar*/
+/*Currently not used*/
+/*#nav-button {
+  width: 50px;
   height: 40px;
   margin: 0px;
   padding: 0px;
@@ -24,38 +39,68 @@
   background: white 10px 10px / 20px 20px no-repeat;
   background-image: -webkit-repeating-linear-gradient(#ccc, #ccc 2px, #fff 2px, #fff 4px);
   background-image: repeating-linear-gradient(#ccc, #ccc 2px, #fff 2px, #fff 4px);
-}
-
-#nav-playlist {
-  width: 100px;
-  height: 200px;
-  margin: 0px;
-  padding: 0px;
-  display: none;
-  opacity: 0.9;
-
-
-}
-#nav-playlist-head {
-  width: 140px;
-  height: 50px;
-  padding: 0px;
-  margin: 0px;
-  font-size: 10px;
-  color:blue;
-  border: 1px solid green;
-  border-top-right-radius: 50px 50px;
-  border-top-left-radius: 50px 50px;
-  border-bottom-right-radius: 50px 50px;
-  border-bottom-left-radius: 50px 50px;
-}
-
-/*#nav-playlist button {
-  width: 50px;
-  height: 20px;
-  margin: 0px;
-  padding: 0px;
-  color:white;
-  display: none;
-  opacity: 0.9;
 }*/
+
+/*The category title in the playlist bar*/
+#nav-playlist-head h1 {
+  /*Added spacing to the title's top*/
+  margin-top: 20px;
+
+  /*Added spacing to titles left and right*/
+  padding-left: 20px;
+  padding-right: 20px;
+
+  /*Font*/
+  font-size: 13px;
+  color: #A2A7B1; 
+  border: none;
+}
+
+/*For each individual playlist names, these are actual buttons*/
+#nav-playlist {
+  width: 220px;
+  height: 100vh;
+  
+  /*margins and padding*/
+  margin: 0px;
+  padding: 0px;
+
+  border: none;
+}
+
+/*For each individual playlist names, these are actual buttons*/
+#nav-playlist button {
+  /*Size of the entire list*/
+  width: 220px;
+  height: 18px;
+
+  /*Added spacing between the playlist's names*/
+  margin-top: 10px;
+  margin-right: 0px;
+
+  padding-left: 20px;
+  padding-right: 20px;
+
+  /*Font*/
+  text-align: left;
+  font-size: 13px;
+  color: #A2A7B1;
+  background-color: #222226;
+  border: none;
+}
+
+#nav-playlist li:hover button{
+  color: white;
+}
+
+#nav-playlist button h1 {
+  margin: 0px;
+  font-size: 13px;
+  color: #A2A7B1;
+}
+
+/*When a playlist is hovered over, the text goes white*/
+/*#nav-playlist button:hover {
+  color: white;
+*/}
+
