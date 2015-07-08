@@ -1,8 +1,22 @@
+/*  =============================================================================
+    When loading index.html page gettng user's playlist
+
+    Copyright © Vent Origins 
+    By Adrian Mandee and Randy Truong
+    ========================================================================== */
+
+
 var playlistMap = {};
 
-//Appends all the playlist's on the playlist bar
+/*  =============================================================================
+    From: spotify.js (findUserID)
+    To: none
+    Appends all the user's playlist on the playlist bar
+
+    @param      JSON    JSON format of the user's playlist
+    @return     none
+    ========================================================================== */
 function displayPlaylist(json) {
-	//Displays users playlist on the playlist bar
   //Currently not used
 	//$('#nav-button').append("<li> <button type='button' id='nav-button' onclick='togglePlaylist()'> </button> </li>");
 	$('#nav-playlist').append("<li id='nav-playlist-head'> <h1>PLAYLISTS</h1></li>")
@@ -17,11 +31,19 @@ function displayPlaylist(json) {
 	}
 }
 
+
+/*  =============================================================================
+    From: Onclick of a playlist button
+    To: playlist.js (goToPlaylist)
+    Gets all the tracks of the playlist that was clicked on
+
+    @param      playlist    button of the playlist that was clicked on
+    @return     none
+    ========================================================================== */
 function searchPlaylistTracks(playlist) {
 
 	//Get id num
 	var num = playlist.id.substring(8,playlist.length);
-	console.log();
 	//Get the playlist name
 	var playlistName = $('#playlist' + num).html();
 	//Get the playlist track id
@@ -45,6 +67,14 @@ function searchPlaylistTracks(playlist) {
 	});
 	
 }
+/*  =============================================================================
+    From: playlist.js (searchPlaylistTracks)
+    To: displayPlaylist.js
+    Gets the tracks with the artists and URI and stores it then changes to playlist.html
+
+    @param      JSON    JSON format of playlist's tracks
+    @return     none
+    ========================================================================== */
 
 function goToPlayList(json) {
 	arrayArtist = [];
@@ -66,7 +96,7 @@ function goToPlayList(json) {
     var newTrack = new Track(json.tracks.items[i].track.name, arrayArtist, json.tracks.items[i].track.uri,arrayArtistURI);
     tracks.push(newTrack);
 
-    //Empties out the arrays for later use if another search query or page change
+    //Empties out the arrays
     arrayArtist = [];
     arrayArtistURI = [];
 

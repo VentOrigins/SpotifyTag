@@ -1,10 +1,25 @@
+/*  =============================================================================
+    When loading playlist.html
 
+    Copyright © Vent Origins 
+    By Adrian Mandee and Randy Truong
+    ========================================================================== */
 
+//When page is ready display the playlist's tracks
 $(document).ready(function() {
 	console.log("Document ready");
   displayPlaylistTracks();
 });
 
+
+/*  =============================================================================
+    From: playlist.js (goToPlaylist)
+    To: search.js (sort)
+    Parses the tracks from local storage and sorts them, appends playlist name
+
+    @param      none
+    @return     none
+    ========================================================================== */
 
 function displayPlaylistTracks() {
 	//new tracks
