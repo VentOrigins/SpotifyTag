@@ -12,6 +12,7 @@ var hashTagDB = "";
 var TrackParse = "";
 var HashTagParse = "";
 
+
 //Test
 $(document).ready(function() {
 	// Our key for parse
@@ -38,7 +39,7 @@ function addHTtoTrack(htValue, trackObject) {
 	return hashTagArray.length;
 }
 // Checks track's hashtags
-function checkTrackHT(trackName,htValue) {
+function checkTrackHT(trackName,htValue, trackURI) {
 
 
 
@@ -46,14 +47,15 @@ function checkTrackHT(trackName,htValue) {
 	//Keep only alphanumeriacl in trackname and value
 	var newTrack = new TrackParse();	
 	var newHT = new HashTagParse();
-	trackName = trackName.replace(/[\W_]+/g, "");
+	trackName = trackName.replace(/[\W_]+/g, "").toLowerCase();
 	htValue = htValue.replace(/[\W_]+/g, "").toLowerCase();
+	trackURI = trackURI.replace(/[\W_]+/g, "");
+	
 	trackDB.equalTo("tracks", trackName);
 	hashTagDB.equalTo("hashtags", htValue);
-	
+
 	trackDB.equalTo("user",localStorage.userID);
 	hashTagDB.equalTo("user",localStorage.userID);
-
 	hashTagDB.find({
 	  success: function(results) {
 
@@ -67,11 +69,13 @@ function checkTrackHT(trackName,htValue) {
 	  		newHT.set("hashtags", htValue);
 	  		newHT.set("tracks",[trackName]);
 	  		newHT.set("user",localStorage.userID);
+	  		newHT.set("trackURI",[trackURI]);
+	  		newHT.set("playlist", "empty");
 	  		newHT.save();
 	  	}
 	    //Add add track to the ht
 	    else {
-	    	addHTtoDB(trackName,results[0]);
+	    	addHTtoDB(trackName,results[0], trackURI);
 	    }
 	  },
   	error: function(error) {
@@ -85,7 +89,6 @@ function checkTrackHT(trackName,htValue) {
 	trackDB.find({
 	  success: function(results) {
 
-	  	console.log("Test1");
 	    //Check if there is only one of that track
 	  	if(results.length > 1) {
 	    	console.log("Error more than one track object of that track");
@@ -98,12 +101,12 @@ function checkTrackHT(trackName,htValue) {
 				newTrack.set("tracks", trackName);
 				newTrack.set("hashtags", [htValue]);
 				newTrack.set("user",localStorage.userID);
+				newTrack.set("trackURI", [trackURI]);
 				newTrack.save();
 				return 0;
 	  	}
 	    //Add ht to that track
 	    else {
-	    	console.log("Test2");
 	    	return addHTtoTrack(htValue,results[0]);
 	    }
 	  },
@@ -111,7 +114,6 @@ function checkTrackHT(trackName,htValue) {
   		console.log("Error in trackDB in checkTrackHT");
   	}
 	});
-	console.log("Test3");
 
 }
 
@@ -124,7 +126,7 @@ function checkTrackHT(trackName,htValue) {
 		========================================================================== */
 function findHashTagsInTracks(trackName, num) {
   //Removes nonalphanumerical from ht
-	trackName = trackName.replace(/[\W_]+/g, "");
+	trackName = trackName.replace(/[\W_]+/g, "").toLowerCase();
 	//Finds the query given the constraints
 	trackDB.equalTo("tracks", trackName);
 	trackDB.equalTo("user",localStorage.userID);
@@ -150,7 +152,6 @@ function findHashTagsInTracks(trackName, num) {
 	    //And if all is well so far, this else statement will execute
 	    else {
 	    	var hashtags = results[0].get("hashtags");
-
 	    	//Creates the column of hashtags
 				rowTrackHashTag = "<td class='hash-tag-table' id='hash-tag-id" + num + "'>";
 
@@ -179,7 +180,7 @@ function findHashTagsInTracks(trackName, num) {
 		========================================================================== */
 function findChangePageTrackHT(trackName, num) {
   //Removes nonalphanumerical from ht
-	trackName = trackName.replace(/[\W_]+/g, "");
+	trackName = trackName.replace(/[\W_]+/g, "").toLowerCase();
 	//Finds the query given the constraints
 	trackDB.equalTo("tracks", trackName);
 	trackDB.equalTo("user",localStorage.userID);
@@ -227,12 +228,105 @@ function findChangePageTrackHT(trackName, num) {
 }
 
 //Add trackname to hashtag db
-function addHTtoDB(trackName,htObject) {
-	// htObject.add("tracks",trackName);
-	// htObject.save();
+function addHTtoDB(trackName,htObject,trackURI) {
+	htObject.add("tracks",trackName);
+	htObject.add("trackURI",trackURI);
+	htObject.save();
+}
+
+function getTracksFromHT(hashtag) {
+	hashTagDB.equalTo("hashtags", hashtag);
+	var tracksURI = [];
+	var singleURI = "";
+	hashTagDB.find({
+	  success: function(results) {
+	  	if(results.length < 1) {
+	  		alert("No such hashtag in database please search again");
+	  	}
+	  	else if(results.length > 1) {
+	  		console.log("Error in database more than two hashtags of same name")
+	  	}
+	  	else {
+	  		for (var i = 0; i < results[0].get('trackURI').length; i++) {
+		      var object = results[0].get('trackURI')[i];
+		      var singleURI = "spotify:track:" + object.substring(12,object.length);
+		      tracksURI.push(singleURI);
+			  }
+			  createPlaylist("VO" + hashtag, tracksURI);
+	  	}
+	  	
+	  },
+		error: function(error) {
+			//Error
+			console.log("Error in hashTagDB in getsTrackfromHT method");
+		}
+	});
+
+}
+
+function addPlaylistToDB(data,name) {
+	//Get rid of the VO
+	var hashtag = name.substring(2,name.length);
+	hashTagDB.equalTo("hashtags", hashtag);
+	hashTagDB.find({
+	  success: function(results) {
+	  	if(results.length < 1) {
+	  		alert("No such hashtag in database please search again");
+	  	}
+	  	else if(results.length > 1) {
+	  		console.log("Error in database more than two hashtags of same name")
+	  	}
+	  	else {
+	  		results[0].set("playlist", data.id);
+	  		results[0].save();
+	  	}
+	  	
+	  },
+		error: function(error) {
+			//Error
+			console.log("Error in hashTagDB in addPlaylistToDB method");
+		}
+	});
+}
+
+function findPlaylistID(trackURI, htValue) {
+	hashTagDB.equalTo("hashtags", htValue);
+	hashTagDB.find({
+	  success: function(results) {
+				alert("please");
+	  		getPlaylist(results[0].get('playlist'), trackURI, htValue);
+	  },
+		error: function(error) {
+			//Error
+			console.log("Error in hashTagDB in addPlaylistToDB method");
+		}
+	});	
 }
 
 
+function erasePlaylist(id, htValue) {
+	hashTagDB.equalTo("hashtags", htValue);
+	hashTagDB.find({
+	  success: function(results) {
+	  	if(results.length < 1) {
+	  		console.log("No such hashtag in database please search again");
+	  	}
+	  	else if(results.length > 1) {
+	  		console.log("Error in database more than two hashtags of same name")
+	  	}
+	  	else {
+	  		results[0].set("playlist","empty");
+	  		results[0].save();
+	  		console.log("Erased db playlst");
+	  	}
+	  	
+	  },
+		error: function(error) {
+			//Error
+			console.log("Error in hashTagDB in addPlaylistToDB method");
+		}
+	});
+}
 
 
 

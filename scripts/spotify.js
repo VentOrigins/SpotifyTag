@@ -28,6 +28,7 @@ $(document).ready(function() {
 
   // FOR DESIGN
 });
+
 var vars = window.location.href.split("&");
 console.log(vars);
 for (var i=0;i<vars.length;i++) {
@@ -52,80 +53,24 @@ for (var i=0;i<vars.length;i++) {
 }
 
 
-
-
 $.ajax({
 	url: 'https://api.spotify.com/v1/me',
 	headers: {
 	   'Authorization': 'Bearer ' + accessToken
 	},
 	success: function(response) {
-		testPlaylist(response);
 	   findUserID(response);
 }
 });
 
-function testPlaylist(json){
-	userID = json.id;
-$.ajax({
-
-  // The 'type' property sets the HTTP method.
-  // A value of 'PUT' or 'DELETE' will trigger a preflight request.
-  type: 'POST',
-
-  // The URL to make the request to.
-  url: 'https://api.spotify.com/v1/users/' + userID + '/playlists',
-
-  // The 'contentType' property sets the 'Content-Type' header.
-  // The JQuery default for this property is
-  // 'application/x-www-form-urlencoded; charset=UTF-8', which does not trigger
-  // a preflight. If you set this value to anything other than
-  // application/x-www-form-urlencoded, multipart/form-data, or text/plain,
-  // you will trigger a preflight request.
-  contentType: 'text/plain',
-
-  xhrFields: {
-    // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
-    // This can be used to set the 'withCredentials' property.
-    // Set the value to 'true' if you'd like to pass cookies to the server.
-    // If this is enabled, your server must respond with the header
-    // 'Access-Control-Allow-Credentials: true'.
-    withCredentials: false
-  },
-
-  data: {
-    "name": "New Playlist",
-    "public": false
-  },
-
-  headers: {
-    // Set any custom headers here.
-    // If you set any non-simple headers, your server must include these
-    // headers in the 'Access-Control-Allow-Headers' response header.
-    'Access-Control-Allow-Origin': '*'
-  },
-
-  success: function() {
-    // Here's where you handle a successful response.
-  },
-
-  error: function() {
-    // Here's where you handle an error response.
-    // Note that if the error was due to a CORS issue,
-    // this function will still fire, but there won't be any additional
-    // information about the error.
-  }
-});
-}
-
 function findUserID(json){
 
 	userID = json.id;
-
 	localStorage.userID = userID;
 	console.log(userID + " user ID");
   $.ajax({
 		url: 'https://api.spotify.com/v1/users/' + userID + '/playlists',
+		type:"GET",
 		headers: {
 		   'Authorization': 'Bearer ' + accessToken
 		},
@@ -138,4 +83,123 @@ function findUserID(json){
 	});
 
 }
+
+
+
+
+
+function createPlaylist(name, tracks, playlistMade) {
+
+	userID = localStorage.userID;
+	$.ajax({
+	url: 'https://api.spotify.com/v1/users/'+ userID + '/playlists',
+	xhr: function() {
+        // Get new xhr object using default factory
+        var xhr = jQuery.ajaxSettings.xhr();
+        // Copy the browser's native setRequestHeader method
+        var setRequestHeader = xhr.setRequestHeader;
+        // Replace with a wrapper
+        xhr.setRequestHeader = function(name, value) {
+            // Ignore the X-Requested-With header
+            if (name == 'X-Requested-With') return;
+            // Otherwise call the native setRequestHeader method
+            // Note: setRequestHeader requires its 'this' to be the xhr object,
+            // which is what 'this' is here when executed.
+            setRequestHeader.call(this, name, value);
+        }
+        // pass it on to jQuery
+        return xhr;
+  },
+	type: "POST",
+	headers: {
+		'Accept': 'application/json',
+	  'Content-Type': 'application/json',
+	  'Authorization': 'Bearer ' + accessToken
+	},
+	data: "{\"name\":\"" + name + "\",\"public\":true}",
+    success: function (data) {
+    	addTracksToPlaylist(data.id,tracks)
+    	addPlaylistToDB(data,name);
+    },
+    error: function(error){
+    	console.log(" Error in create playlist: " + error);
+    }
+	});
+}
+
+function addTracksToPlaylist(id, tracksURI) {
+	var playlistID = id;
+	var userID = localStorage.userID;
+	var encodedTracksURI ="";
+	for(var i=0; i<tracksURI.length; i++) {
+		encodedTracksURI += encodeURIComponent(tracksURI[i]);
+		if(i< tracksURI.length -1) {
+			encodedTracksURI += ",";
+		}
+	}
+	$.ajax({
+	url: 'https://api.spotify.com/v1/users/' + userID + '/playlists/' + playlistID + '/tracks?uris=' + encodedTracksURI,
+	xhr: function() {
+        // Get new xhr object using default factory
+        var xhr = jQuery.ajaxSettings.xhr();
+        // Copy the browser's native setRequestHeader method
+        var setRequestHeader = xhr.setRequestHeader;
+        // Replace with a wrapper
+        xhr.setRequestHeader = function(name, value) {
+            // Ignore the X-Requested-With header
+            if (name == 'X-Requested-With') return;
+            // Otherwise call the native setRequestHeader method
+            // Note: setRequestHeader requires its 'this' to be the xhr object,
+            // which is what 'this' is here when executed.
+            setRequestHeader.call(this, name, value);
+        }
+        // pass it on to jQuery
+        return xhr;
+  },
+	type: "POST",
+	headers: {
+		'Accept': 'application/json',
+	  'Content-Type': 'application/json',
+	  'Authorization': 'Bearer ' + accessToken
+	},
+    success: function (data) {
+      alert("Playlist made.");
+    },
+    error: function(data){
+    	console.log(data);
+    }
+	});
+}
+//Checks if the playlist still exists and if it does add it to to the playlist
+
+function checkPlaylist(response, idToCheck, trackURI, htValue) {
+	for(var i=0; i<response.items.length; i++) {
+		if(idToCheck == response.items[i].id) {
+			addTracksToPlaylist(idToCheck, [trackURI]);
+			return;
+		}
+	}
+	erasePlaylist(idToCheck, htValue);
+}
+
+//Get all the playlist of user
+function getPlaylist(idToCheck, trackURI, htValue) {
+
+
+  $.ajax({
+		url: 'https://api.spotify.com/v1/users/' + localStorage.userID + '/playlists',
+		type:"GET",
+		headers: {
+		   'Authorization': 'Bearer ' + accessToken
+		},
+		success: function(response) {
+		  checkPlaylist(response, idToCheck, trackURI, htValue);
+		},
+		error: function(response) {
+			console.log("Error couldn't find user");
+		}
+	});
+	
+}
+
 
