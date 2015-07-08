@@ -6,18 +6,15 @@ function displayPlaylist(json) {
   //Currently not used
 	//$('#nav-button').append("<li> <button type='button' id='nav-button' onclick='togglePlaylist()'> </button> </li>");
 	$('#nav-playlist').append("<li id='nav-playlist-head'> <h1>PLAYLISTS</h1></li>")
+  
   //Appends all of the user's playlists
 	for(var i = 0; i < json.items.length; i++) {
 		console.log(json.items[i].name);
-		$('#nav-playlist').append("<li > <button id='playlist" + i + "' type='button' onclick='searchPlaylistTracks(this)'>" + json.items[i].name + "</button></li>");
-		playlistMap[json.items[i].name] = json.items[i].id;
+    //Appends a music icon with the playlist name
+		$('#nav-playlist').append("<li > <button id='playlist" + i + "' type='button' onclick='searchPlaylistTracks(this)'>" + "<i class='fa fa-music'></i>" + json.items[i].name + "</button></li>");
+		//Sets the map for the playlists
+    playlistMap[json.items[i].name] = json.items[i].id;
 	}
-
-  // for(var i = 0; i < 10; i++) {
-  //   console.log(json.items[i].name);
-  //   $('#nav-playlist').append("<li > <button id='playlist" + i + "' type='button' onclick='searchPlaylistTracks(this)'>" + "Playlist " + i + "</button></li>")
-  //   // playlistMap[json.items[i].name] = json.items[i].id;
-  // }
 }
 
 function searchPlaylistTracks(playlist) {

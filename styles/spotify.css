@@ -56,3 +56,9 @@ body input {
 ul {
   list-style-type: none;
 }
+
+.input-group-addon i {
+
+  font-size: 25px;
+  color: white;
+}
