@@ -46,8 +46,8 @@ function submitHT(submitID) {
     HTvalue = checkArray[i].replace(/[\W_]+/g,"");
 
     //Checks the hashTag
-    lengthOfMapHT = checkTrackHT(tracks[num].getTrackName(), HTvalue);
-    
+    lengthOfMapHT = checkTrackHT(tracks[num].getTrackName(), HTvalue, tracks[num].getTrackNameURI());
+    findPlaylistID(tracks[num].getTrackNameURI(), HTvalue);
     //If it already exist, do not append it
     if(lengthOfMapHT == -1) {
       console.log("Hashtag " +  HTvalue + " already exists for this track.");

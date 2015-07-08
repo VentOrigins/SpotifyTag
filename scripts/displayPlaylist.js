@@ -19,5 +19,5 @@ function displayPlaylistTracks() {
 	}
 	//Sort function from search.js to display tracks
 	sort(tracks);
-	$("#playlist-name").append("<h1> <a href= '" + localStorage.playlistURI + "''> " + localStorage.playlistName + "</a> </h1");
+	$("#playlist-name").append("<h1> <a href= '" + localStorage.playlistURI + "''> " + localStorage.playlistName + "</a> </h1>");
 }
