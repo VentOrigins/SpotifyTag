@@ -25,6 +25,8 @@ $(document).ready(function() {
 	console.log("Document ready");
   // This function is anonymous, is executed immediately and 
   // the return value is assigned to QueryString!
+
+  // FOR DESIGN
 });
 
 var vars = window.location.href.split("&");

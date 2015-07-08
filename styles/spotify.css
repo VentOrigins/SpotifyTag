@@ -52,3 +52,13 @@ body button {
 body input {
   outline: none;
 }
+
+ul {
+  list-style-type: none;
+}
+
+.input-group-addon i {
+
+  font-size: 25px;
+  color: white;
+}
