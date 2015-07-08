@@ -18,7 +18,7 @@
   
   <!-- Login to Spotify -->
   <script type="text/javascript" src="scripts/spotify.js"></script>
-  
+
   <!-- References -->
   <link rel="stylesheet" type="text/css" href="styles/spotify.css">
   <link rel="stylesheet" type="text/css" href="styles/splashScreen.css">}
@@ -31,45 +31,50 @@
 
   <!-- FONTS -->
   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+
+  <!-- For icons -->
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
 </head>
 
 <body>
-
-  <!-- 
-    Nav Bar
-    -->
-  <div id="nav">
-      <div id="nav-list">
-        <ul id="nav-button">
-        </ul>
-        <ul id="nav-playlist">
-        </ul>
-      </div>
-
-  </div>
-
-
   <!-- 
     SplashScreen
     --> 
   <div id="splash-screen">
-    
+    <!-- 
+    Nav Bar
+    -->
+    <div id="nav">
+        <div id="nav-list">
+          <!-- <ul id="nav-button"> -->
+          </ul>
+          <ul id="nav-playlist">
+          </ul>
+        </div>
+
+    </div>
+  
     <!-- 
       SearchBox
       -->
     <div id="search-box">
       <form id="query-box" action="javascript:search();">
-        <h1>
-          Spotify <span class="hash-tag">#</span>
-        </h1> 
-        
-        <input type="text" id="input-query-box">
+        <div id='title-splash-screen'>
+          <h1>Spotify </h1><h1 id="hash-tag">#</h1> 
+        </div>
+        <div class="input-group">
+          <!-- The hex value is the Search -->
+          <input type="text" id="input-query-box" placeholder="&#xF002; Search">
+        </div>
+
         <br>
         <input type="submit" id="button-query-box" value="Submit">  
       </form>
     </div>  
 
   </div>
+  
 	<!-- 
 	Track Splash Screen
 	 -->

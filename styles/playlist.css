@@ -14,14 +14,12 @@
   text-align: center;
 	background-color: black;
 	position: relative;
-	z-index: 1;
 }
 
 #playlist-name {
   height: 15vh;
   width: 100vw;
-  background-color: white;
-  z-index: 2;
+  background-color: black;
   display: inline-block;
 }
 
@@ -34,7 +32,6 @@
   padding-top: 10px;
   background-color: black;
   text-align: center;
-  z-index: 3;
 }
 #playlist-name a {
   font-size: 30px;

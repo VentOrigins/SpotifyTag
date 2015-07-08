@@ -1,15 +1,20 @@
 var playlistMap = {};
 
+//Appends all the playlist's on the playlist bar
 function displayPlaylist(json) {
-	//Displays users playlist on the navigation bar
-	$('#nav-button').append("<li> <button type='button' id='nav-button' onclick='togglePlaylist()'> </button> </li>");
-	$('#nav-playlist').append("<li id='nav-playlist-head'> <h1>Your Playlist</h1></li>")
-	for(var i=0; i<json.items.length; i++) {
+	//Displays users playlist on the playlist bar
+  //Currently not used
+	//$('#nav-button').append("<li> <button type='button' id='nav-button' onclick='togglePlaylist()'> </button> </li>");
+	$('#nav-playlist').append("<li id='nav-playlist-head'> <h1>PLAYLISTS</h1></li>")
+  
+  //Appends all of the user's playlists
+	for(var i = 0; i < json.items.length; i++) {
 		console.log(json.items[i].name);
-		$('#nav-playlist').append("<li > <button id='playlist" + i + "' type='button' onclick='searchPlaylistTracks(this)'>" + json.items[i].name + "</button></li>")
-		playlistMap[json.items[i].name] = json.items[i].id;
+    //Appends a music icon with the playlist name
+		$('#nav-playlist').append("<li > <button id='playlist" + i + "' type='button' onclick='searchPlaylistTracks(this)'>" + "<i class='fa fa-music'></i>" + json.items[i].name + "</button></li>");
+		//Sets the map for the playlists
+    playlistMap[json.items[i].name] = json.items[i].id;
 	}
-
 }
 
 function searchPlaylistTracks(playlist) {
@@ -68,7 +73,11 @@ function goToPlayList(json) {
   }
   //Store the tracks into cookies and then go to new html page
 	localStorage.tracks = JSON.stringify(tracks);
-	window.location.assign("file:///Users/MANDEE/ventorigins/spotify/playlist.html");
+
+  //Mandee
+	//window.location.assign("file:///Users/MANDEE/ventorigins/spotify/playlist.html");
+  //Randy
+  window.location.assign("file:///Users/Randy/VentOrigins/spotify/playlist.html");
 
 }
 
