@@ -13,7 +13,7 @@ var TrackParse = "";
 var HashTagParse = "";
 
 
-//Test
+//Initialize parse database
 $(document).ready(function() {
 	// Our key for parse
 	Parse.initialize("jAKFs2F7wTrMKzSXja7eotc6d2JMC069Nb6z7Qum", "uXJFd72E1JnM88TqJlsLG5Hcx55gdcKQQE7MPRqy");
@@ -23,25 +23,18 @@ $(document).ready(function() {
 	hashTagDB = new Parse.Query(HashTagParse);
 });
 
-//Adds hashtag to track
-function addHTtoTrack(htValue, trackObject) {
-	// return the length of current tracks
-	hashTagArray = trackObject.get("hashtags");
-	//Check if # exists in array
-	if(hashTagArray.indexOf(htValue) != -1) {
-		return -1;
-	}
-	//Add ht to array
-	trackObject.add("hashtags", htValue);
-	//Save
-	trackObject.save();
-	//Length of array ht so it can be used as id
-	return hashTagArray.length;
-}
-// Checks track's hashtags
+/*  =============================================================================
+		From: addHT.js
+		To: parse.js
+    Checks track's hashtag and if it doesn't exist add it
+
+    @param      string     trackName
+    @param			int				 hashtag value
+    @param			string     trackURI
+    @return     none
+    ========================================================================== */
+
 function checkTrackHT(trackName,htValue, trackURI) {
-
-
 
 
 	//Keep only alphanumeriacl in trackname and value
@@ -51,11 +44,14 @@ function checkTrackHT(trackName,htValue, trackURI) {
 	htValue = htValue.replace(/[\W_]+/g, "").toLowerCase();
 	trackURI = trackURI.replace(/[\W_]+/g, "");
 	
+	//Query track and hashtag db equal to trackName and htvalue
 	trackDB.equalTo("tracks", trackName);
 	hashTagDB.equalTo("hashtags", htValue);
 
+	//Query track and hashtag db equal to the user's name
 	trackDB.equalTo("user",localStorage.userID);
 	hashTagDB.equalTo("user",localStorage.userID);
+
 	hashTagDB.find({
 	  success: function(results) {
 
@@ -64,7 +60,7 @@ function checkTrackHT(trackName,htValue, trackURI) {
 	    	console.log("Error more than one hashtag object of that hashtag");
 	    	return -1;
 	    }
-	  	//No exisiting track
+	  	//No exisiting track so make new hashtag object and save
 	  	else if(results.length == 0) {
 	  		newHT.set("hashtags", htValue);
 	  		newHT.set("tracks",[trackName]);
@@ -73,7 +69,7 @@ function checkTrackHT(trackName,htValue, trackURI) {
 	  		newHT.set("playlist", "empty");
 	  		newHT.save();
 	  	}
-	    //Add add track to the ht
+	    //Add track to the ht
 	    else {
 	    	addHTtoDB(trackName,results[0], trackURI);
 	    }
@@ -96,8 +92,8 @@ function checkTrackHT(trackName,htValue, trackURI) {
 	    }
 	    //Check if track exists
 	  	else if(results.length == 0) {
+
 	  		//No existing track is found so add new track
-	  		
 				newTrack.set("tracks", trackName);
 				newTrack.set("hashtags", [htValue]);
 				newTrack.set("user",localStorage.userID);
@@ -121,7 +117,9 @@ function checkTrackHT(trackName,htValue, trackURI) {
 /*  =============================================================================
 	  Finds the hashtags in the tracks and appends them to the variable rowTrackHashTag.
 
-		@param  		none
+		@param  		string		track's name
+		@param  		int				num for the div
+
 		@return			none
 		========================================================================== */
 function findHashTagsInTracks(trackName, num) {
@@ -130,7 +128,6 @@ function findHashTagsInTracks(trackName, num) {
 	//Finds the query given the constraints
 	trackDB.equalTo("tracks", trackName);
 	trackDB.equalTo("user",localStorage.userID);
-	console.log(trackDB);
 	console.log("findHashTagsInTracks " + num + ": " + trackName);
 
 	trackDB.find({
@@ -147,7 +144,7 @@ function findHashTagsInTracks(trackName, num) {
 
 	    //Should never get to this if statement
 	    if(results.length > 1) {
-	    	alert("Error more than one track object of that track");
+	    	alert("Error more than one track object of that track findHashTagsInTracks");
 	    }
 	    //And if all is well so far, this else statement will execute
 	    else {
@@ -166,8 +163,7 @@ function findHashTagsInTracks(trackName, num) {
 	    }
 	  },
 		error: function(error) {
-			console.log(error);
-			console.log(error + " Error in return trackHT find hashHT");
+			console.log("Error in return trackHT find hashHT: " + error);
 		}
 	});
 }
@@ -175,7 +171,9 @@ function findHashTagsInTracks(trackName, num) {
 /*  =============================================================================
 	  Finds the hashtags in the tracks when the pages are changed
 
-		@param  		none
+		@param			String  	trackName	
+		@param			int 			num of the id
+
 		@return			none
 		========================================================================== */
 function findChangePageTrackHT(trackName, num) {
@@ -199,7 +197,7 @@ function findChangePageTrackHT(trackName, num) {
 	    }
 	    //Should never get to this if statement
 	    if(results.length > 1) {
-	    	alert("Error more than one track object of that track");
+	    	alert("Error more than one track object of that track findChangePageTrackHT");
 	    }
 	    //And if all is well so far, this else statement will execute
 	    else {
@@ -222,19 +220,67 @@ function findChangePageTrackHT(trackName, num) {
 	  },
 		error: function(error) {
 
-			console.log(error + "  Error in return trackHT find changePage");
+			console.log("Error in return trackHT find changePage: " + error);
 		}
 	});
 }
 
-//Add trackname to hashtag db
+/*  =============================================================================
+	  Finds the hashtags in the tracks when the pages are changed
+
+		@param			String  	trackName	
+		@param			int 			num of the id
+
+		@return			none
+		========================================================================== */
+
+//Adds hashtag to track
+function addHTtoTrack(htValue, trackObject) {
+	// return the length of current tracks
+	hashTagArray = trackObject.get("hashtags");
+	//Check if # exists in array
+	if(hashTagArray.indexOf(htValue) != -1) {
+		return -1;
+	}
+	//Add ht to array
+	trackObject.add("hashtags", htValue);
+	//Save
+	trackObject.save();
+	//Length of array ht so it can be used as id
+	return hashTagArray.length;
+}
+
+/*  =============================================================================
+	  Add trackname and trackURI to hashtag db
+
+		@param			String  	trackName	
+		@param			int 			num of the id
+
+		@return			none
+		========================================================================== */
+
+
 function addHTtoDB(trackName,htObject,trackURI) {
 	htObject.add("tracks",trackName);
 	htObject.add("trackURI",trackURI);
 	htObject.save();
 }
 
-function getTracksFromHT(hashtag) {
+
+/*  =============================================================================
+	  From: spotify.js (search)
+	  To: spotify.js (createPlaylist)
+	  When a # query happens find the tracks from the hashtag
+
+		@param			String  	trackName	
+		@param			int 			num of the id
+
+		@return			none
+		========================================================================== */
+
+function getTracksFromHT(hashtag, userIDs) {
+	userIDs = ["pawngypsy", "mesorandeee"]
+	hashTagDB2 = new Parse.Query(HashTagParse);
 	hashTagDB.equalTo("hashtags", hashtag);
 	var tracksURI = [];
 	var singleURI = "";
@@ -244,7 +290,15 @@ function getTracksFromHT(hashtag) {
 	  		alert("No such hashtag in database please search again");
 	  	}
 	  	else if(results.length > 1) {
-	  		console.log("Error in database more than two hashtags of same name")
+	  		for(var j = 0; j< userIDs.length; j++) {
+	  			for (var i = 0; i < results[j].get('trackURI').length; i++) {
+			      var object = results[j].get('trackURI')[i];
+			      var singleURI = "spotify:track:" + object.substring(12,object.length);
+			      tracksURI.push(singleURI);
+			  	}
+	  		}	
+	  		createPlaylist("VO" + hashtag, tracksURI);
+	  		console.log("Multiple users");
 	  	}
 	  	else {
 	  		for (var i = 0; i < results[0].get('trackURI').length; i++) {
@@ -264,10 +318,21 @@ function getTracksFromHT(hashtag) {
 
 }
 
+
+/*  =============================================================================
+	  Finds the hashtags in the tracks when the pages are changed
+
+		@param			String  	trackName	
+		@param			int 			num of the id
+
+		@return			none
+		========================================================================== */
+
 function addPlaylistToDB(data,name) {
 	//Get rid of the VO
 	var hashtag = name.substring(2,name.length);
 	hashTagDB.equalTo("hashtags", hashtag);
+	hashTagDB.equalTo("user", local.userID);
 	hashTagDB.find({
 	  success: function(results) {
 	  	if(results.length < 1) {
@@ -289,11 +354,22 @@ function addPlaylistToDB(data,name) {
 	});
 }
 
+/*  =============================================================================
+	  Finds the hashtags in the tracks when the pages are changed
+
+		@param			String  	trackName	
+		@param			int 			num of the id
+
+		@return			none
+		========================================================================== */
+
 function findPlaylistID(trackURI, htValue) {
 	hashTagDB.equalTo("hashtags", htValue);
 	hashTagDB.find({
 	  success: function(results) {
-				alert("please");
+	  		if(results.length < 1) {
+	  			return;
+	  		}
 	  		getPlaylist(results[0].get('playlist'), trackURI, htValue);
 	  },
 		error: function(error) {
@@ -302,6 +378,16 @@ function findPlaylistID(trackURI, htValue) {
 		}
 	});	
 }
+
+/*  =============================================================================
+	  Finds the hashtags in the tracks when the pages are changed
+
+		@param			String  	trackName	
+		@param			int 			num of the id
+
+		@return			none
+		========================================================================== */
+
 
 
 function erasePlaylist(id, htValue) {

@@ -1,5 +1,6 @@
 /*  =============================================================================
-    
+    Spotify API calls
+
     Copyright © Vent Origins 
     By Adrian Mandee and Randy Truong
     ========================================================================== */
@@ -62,7 +63,14 @@ $.ajax({
 	   findUserID(response);
 }
 });
+/*  =============================================================================
+		From: Spotify.js when index.html starts up
+		To: playlist.js (displayPlaylist)
+    Search through Spotify API for the users ID after it is found go to playlist
 
+    @param      json which contains details of the Spotify user
+    @return     none
+    ========================================================================== */
 function findUserID(json){
 
 	userID = json.id;
@@ -170,19 +178,17 @@ function addTracksToPlaylist(id, tracksURI) {
     }
 	});
 }
-//Checks if the playlist still exists and if it does add it to to the playlist
 
-function checkPlaylist(response, idToCheck, trackURI, htValue) {
-	for(var i=0; i<response.items.length; i++) {
-		if(idToCheck == response.items[i].id) {
-			addTracksToPlaylist(idToCheck, [trackURI]);
-			return;
-		}
-	}
-	erasePlaylist(idToCheck, htValue);
-}
 
-//Get all the playlist of user
+
+/*  =============================================================================
+		From: Spotify.js when index.html starts up
+		To: playlist.js (displayPlaylist)
+    Search through Spotify API for the users ID after it is found go to playlist
+
+    @param      json which contains details of the Spotify user
+    @return     none
+    ========================================================================== */
 function getPlaylist(idToCheck, trackURI, htValue) {
 
 
@@ -201,5 +207,19 @@ function getPlaylist(idToCheck, trackURI, htValue) {
 	});
 	
 }
+
+
+//Checks if the playlist still exists and if it does add it to to the playlist
+
+function checkPlaylist(response, idToCheck, trackURI, htValue) {
+	for(var i=0; i<response.items.length; i++) {
+		if(idToCheck == response.items[i].id) {
+			addTracksToPlaylist(idToCheck, [trackURI]);
+			return;
+		}
+	}
+	erasePlaylist(idToCheck, htValue);
+}
+
 
 
