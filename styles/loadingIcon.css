@@ -1,0 +1,44 @@
+/*  =============================================================================
+    Style for the loading Icon
+
+    Copyright © Vent Origins 
+    By Adrian Mandee and Randy Truong
+    ========================================================================== */
+
+.loadingScreen .fa {
+  font-size: 55px;
+  color: #B9B9B9;
+}
+
+
+#track-list .loadingScreen .fa {
+  /*Needed*/
+  position: absolute;
+
+  /*Sets the position of the loading icon to the center*/
+  top: 270px;
+  left: 47%;
+
+  z-index: 1000;
+}
+
+/*Used to make the entire background transparent when loading*/
+.overlay {
+  /*Needed to be over another div*/
+  position: absolute;
+  
+  /*Used to get the entire div*/
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+
+  /*Color of overlay*/
+  background: black;
+
+  /*How transparent the overlay would be when loading*/
+  opacity: .58;
+
+  /*Over everything else*/
+  z-index: 1000;
+}

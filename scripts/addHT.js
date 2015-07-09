@@ -1,11 +1,11 @@
-var g_buttonID ="";
-
 /*  =============================================================================
     When opening up the HashTags and submitting them
 
     Copyright © Vent Origins 
     By Adrian Mandee and Randy Truong
     ========================================================================== */
+
+var g_buttonID ="";
 
 /*  =============================================================================
     When the add hash tag button is clicked, do this function

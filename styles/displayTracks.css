@@ -9,7 +9,6 @@
 /*Splash Screen for track*/
 #splash-track-list{
 	width: 100vw;
-	height: 100vh;
   color: white;
   text-align: center;
 	background-color: black;
@@ -20,6 +19,7 @@
 
 /*Track list div*/
 #track-list {
+  width: 100vw;
   height: 100vh;
   display: none;
   background-color: black;
