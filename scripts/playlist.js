@@ -121,7 +121,7 @@ function goToPlayList(json) {
 function checkDuplicates(array) {
   var result = [], checkingMap = {};
   for (var i = 0; i < array.length; i++) {
-    var isIn = checkingMap[arr[i]];
+    var isIn = checkingMap[array[i]];
     if (!isIn) {
         result.push(array[i]);
         checkingMap[array[i]] = true;

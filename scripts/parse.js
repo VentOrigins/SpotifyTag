@@ -274,7 +274,12 @@ function addHTtoDB(trackName,htObject,trackURI) {
 		@return			none
 		========================================================================== */
 function getTracksFromHT(hashtag, userIDs) {
-	userIDs = ["pawngypsy", "mesorandeee"]
+	if(localStorage.userID != "pawngypsy" || localStorage.userID != "mesorandeee")  {
+		userIDs = ["pawngypsy", "mesorandeee"];
+	}
+	else {
+		userIDs = [localStorage.userID];
+	}
 	hashTagDB2 = new Parse.Query(HashTagParse);
 	hashTagDB.equalTo("hashtags", hashtag);
 	var tracksURI = [];
