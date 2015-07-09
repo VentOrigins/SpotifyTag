@@ -68,7 +68,7 @@ $.ajax({
 		To: playlist.js (displayPlaylist)
     Search through Spotify API for the users ID after it is found go to playlist
 
-    @param      json which contains details of the Spotify user
+    @param      JSON		json format which contains details of the Spotify user
     @return     none
     ========================================================================== */
 function findUserID(json){
@@ -89,14 +89,20 @@ function findUserID(json){
 			console.log("Error couldn't find user");
 		}
 	});
-
 }
 
+/*  =============================================================================
+		From: parse.js (getTracksFromHT)
+		To: spotify.js (addTracksToPlaylist) parse.js (addPlaylistToDB) 
+    Search through Spotify API for the users ID after it is found go to playlist
 
+    @param      string
+    @param      string
+    @param      string
 
-
-
-function createPlaylist(name, tracks, playlistMade) {
+    @return     none
+    ========================================================================== */
+function createPlaylist(name, tracks) {
 
 	userID = localStorage.userID;
 	$.ajax({
@@ -126,6 +132,7 @@ function createPlaylist(name, tracks, playlistMade) {
 	},
 	data: "{\"name\":\"" + name + "\",\"public\":true}",
     success: function (data) {
+    	console.log("Playlist made");
     	addTracksToPlaylist(data.id,tracks)
     	addPlaylistToDB(data,name);
     },
@@ -135,6 +142,15 @@ function createPlaylist(name, tracks, playlistMade) {
 	});
 }
 
+/*  =============================================================================
+		From: Spotify.js (createPlaylist)
+		To: none
+    Adds tracks to the given playlist id
+
+    @param      string		id of playlist
+    @param			string 		tracksURI 
+    @return     none
+    ========================================================================== */
 function addTracksToPlaylist(id, tracksURI) {
 	var playlistID = id;
 	var userID = localStorage.userID;
@@ -171,7 +187,7 @@ function addTracksToPlaylist(id, tracksURI) {
 	  'Authorization': 'Bearer ' + accessToken
 	},
     success: function (data) {
-      alert("Playlist made.");
+      alert("Tracks added");
     },
     error: function(data){
     	console.log(data);
@@ -182,15 +198,17 @@ function addTracksToPlaylist(id, tracksURI) {
 
 
 /*  =============================================================================
-		From: Spotify.js when index.html starts up
-		To: playlist.js (displayPlaylist)
-    Search through Spotify API for the users ID after it is found go to playlist
+		From: parse.js (findPlaylistID)
+		To: spotify.js (checkPlaylist)
+    Get the playlists of a user
 
-    @param      json which contains details of the Spotify user
+    @param      string		id of the playlist to check
+    @param      string		trackURI to add
+    @param      string		hashtag value
+
     @return     none
     ========================================================================== */
 function getPlaylist(idToCheck, trackURI, htValue) {
-
 
   $.ajax({
 		url: 'https://api.spotify.com/v1/users/' + localStorage.userID + '/playlists',
@@ -208,9 +226,18 @@ function getPlaylist(idToCheck, trackURI, htValue) {
 	
 }
 
+/*  =============================================================================
+		From: Spotify.js (getPlaylist)
+		To: parse.js (erasePlaylist, addTracksToPlaylist)
+    Checks if the playlist still exists and if it does add it to to the playlist
 
-//Checks if the playlist still exists and if it does add it to to the playlist
+    @param      json 		json format of all the playlists
+    @param			int			id of playlist to check
+    @param			string	track URI to add
+    @param			string	hashtag value
 
+    @return     none
+    ========================================================================== */
 function checkPlaylist(response, idToCheck, trackURI, htValue) {
 	for(var i=0; i<response.items.length; i++) {
 		if(idToCheck == response.items[i].id) {
@@ -218,7 +245,7 @@ function checkPlaylist(response, idToCheck, trackURI, htValue) {
 			return;
 		}
 	}
-	erasePlaylist(idToCheck, htValue);
+	erasePlaylist(htValue);
 }
 
 
