@@ -33,7 +33,6 @@ $(document).ready(function() {
     @param			string     trackURI
     @return     none
     ========================================================================== */
-
 function checkTrackHT(trackName,htValue, trackURI) {
 
 
@@ -182,7 +181,6 @@ function findChangePageTrackHT(trackName, num) {
 	//Finds the query given the constraints
 	trackDB.equalTo("tracks", trackName);
 	trackDB.equalTo("user",localStorage.userID);
-	console.log("findTrackHT " + num + ": " + trackName);
 
 	trackDB.find({
 	  success: function(results) {
@@ -226,15 +224,13 @@ function findChangePageTrackHT(trackName, num) {
 }
 
 /*  =============================================================================
-	  Finds the hashtags in the tracks when the pages are changed
+	  Adds hashtag to track and saves
 
-		@param			String  	trackName	
-		@param			int 			num of the id
+		@param			string  					hashtag value	
+		@param			parseObject 			trackObject to add hastag
 
 		@return			none
 		========================================================================== */
-
-//Adds hashtag to track
 function addHTtoTrack(htValue, trackObject) {
 	// return the length of current tracks
 	hashTagArray = trackObject.get("hashtags");
@@ -250,16 +246,16 @@ function addHTtoTrack(htValue, trackObject) {
 	return hashTagArray.length;
 }
 
-/*  =============================================================================
-	  Add trackname and trackURI to hashtag db
 
-		@param			String  	trackName	
-		@param			int 			num of the id
+/*  =============================================================================
+	  Add trackname and trackURI to hashtag db and saves
+
+		@param			string  	trackName	
+		@param			parseObject 	hashtag database
+		@param			string		trackURI
 
 		@return			none
 		========================================================================== */
-
-
 function addHTtoDB(trackName,htObject,trackURI) {
 	htObject.add("tracks",trackName);
 	htObject.add("trackURI",trackURI);
@@ -272,14 +268,18 @@ function addHTtoDB(trackName,htObject,trackURI) {
 	  To: spotify.js (createPlaylist)
 	  When a # query happens find the tracks from the hashtag
 
-		@param			String  	trackName	
-		@param			int 			num of the id
+		@param			string  	hashtag value	
+		@param			array 		array of userID
 
 		@return			none
 		========================================================================== */
-
 function getTracksFromHT(hashtag, userIDs) {
-	userIDs = ["pawngypsy", "mesorandeee"]
+	if(localStorage.userID != "pawngypsy" || localStorage.userID != "mesorandeee")  {
+		userIDs = ["pawngypsy", "mesorandeee"];
+	}
+	else {
+		userIDs = [localStorage.userID];
+	}
 	hashTagDB2 = new Parse.Query(HashTagParse);
 	hashTagDB.equalTo("hashtags", hashtag);
 	var tracksURI = [];
@@ -297,6 +297,7 @@ function getTracksFromHT(hashtag, userIDs) {
 			      tracksURI.push(singleURI);
 			  	}
 	  		}	
+	  		tracksURI = checkDuplicates(tracksURI);
 	  		createPlaylist("VO" + hashtag, tracksURI);
 	  		console.log("Multiple users");
 	  	}
@@ -306,6 +307,7 @@ function getTracksFromHT(hashtag, userIDs) {
 		      var singleURI = "spotify:track:" + object.substring(12,object.length);
 		      tracksURI.push(singleURI);
 			  }
+			  tracksURI = checkDuplicates(tracksURI);
 			  createPlaylist("VO" + hashtag, tracksURI);
 	  	}
 	  	
@@ -319,15 +321,46 @@ function getTracksFromHT(hashtag, userIDs) {
 }
 
 
-/*  =============================================================================
-	  Finds the hashtags in the tracks when the pages are changed
 
-		@param			String  	trackName	
-		@param			int 			num of the id
+
+/*  =============================================================================
+		From:		addHT.js (submitHT)
+		To:			spotify.js (getPlaylist)
+	  Finds the playlist id of the playlist containing that hashtag
+
+		@param			string  	 trackURI to be added to playlist	
+		@param			string 		 hash tag value
 
 		@return			none
 		========================================================================== */
 
+function findPlaylistID(trackURI, htValue) {
+	hashTagDB.equalTo("hashtags", htValue);
+	hashTagDB.equalTo("user", localStorage.userID)
+	hashTagDB.find({
+	  success: function(results) {
+	  		if(results.length < 1) {
+	  			return;
+	  		}
+	  		getPlaylist(results[0].get('playlist'), trackURI, htValue);
+	  },
+		error: function(error) {
+			//Error
+			console.log("Error in parse in findPlaylistID method");
+		}
+	});	
+}
+
+/*  =============================================================================
+		From: 	spotify.js (checkPlaylist)
+		To:			none
+	  Adds the playlist id into the hashtag database for future use
+
+		@param			JSON  		json format of the playlist	
+		@param			string 			name of the track
+
+		@return			none
+		========================================================================== */
 function addPlaylistToDB(data,name) {
 	//Get rid of the VO
 	var hashtag = name.substring(2,name.length);
@@ -355,43 +388,17 @@ function addPlaylistToDB(data,name) {
 }
 
 /*  =============================================================================
-	  Finds the hashtags in the tracks when the pages are changed
+		From: spotify.js (checkPlaylist)
+		To:   none
+		When playlist doesn't exist, erase from parse database
 
-		@param			String  	trackName	
-		@param			int 			num of the id
-
-		@return			none
-		========================================================================== */
-
-function findPlaylistID(trackURI, htValue) {
-	hashTagDB.equalTo("hashtags", htValue);
-	hashTagDB.equalTo("user", localStorage.userID);
-	hashTagDB.find({
-	  success: function(results) {
-	  		if(results.length < 1) {
-	  			return;
-	  		}
-	  		getPlaylist(results[0].get('playlist'), trackURI, htValue);
-	  },
-		error: function(error) {
-			//Error
-			console.log("Error in hashTagDB in addPlaylistToDB method");
-		}
-	});	
-}
-
-/*  =============================================================================
-	  Finds the hashtags in the tracks when the pages are changed
-
-		@param			String  	trackName	
-		@param			int 			num of the id
+		@param			string		hashtag value
 
 		@return			none
 		========================================================================== */
 
 
-
-function erasePlaylist(id, htValue) {
+function erasePlaylist(htValue) {
 	hashTagDB.equalTo("hashtags", htValue);
 	hashTagDB.equalTo("user", localStorage.userID);
 	hashTagDB.find({
