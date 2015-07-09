@@ -46,8 +46,13 @@ var rowCount;
 		@return			none
 		========================================================================== */
 function displayTracks() {
+	//Scroll to beginning of tracks
+	scrollToTracks();
+
 	//Check if track list is made, if made, just update the values of trackName and artists and HT instead of replacing everything
 	if(!$.trim($('#list-of-tracks').html()).length == 0 ) {
+		//Sets up the loading screen when waiting to display the tracks
+		loadingScreen("#track-list");
 		//Update track list
 		changeTrackList();
 		//Scroll up to beginning of track
@@ -70,6 +75,9 @@ function displayTracks() {
 
 	//Append the header of table
 	$("#list-of-tracks").append("<tr> <th>ADD</th> <th>TRACK</th> <th>ARTIST</th> <th>#</th> </tr>");
+
+	//Sets up the loading screen when waiting to display the tracks
+	loadingScreen("#track-list");
 
 	//Append each tracks and their artists while accounting for the hash tags
 	for (var i = 0; i < tracks.length; ++i) {
@@ -132,8 +140,7 @@ function displayTable() {
 	$("#pages").append("<input type='button' class='page-number-button' value='" + currentPage + "'disabled>");
 	$("#pages").append("<input type='button' class='next-page-button' onclick='nextPage()' value='>' >");
 
-	//Scroll to beginning of tracks
-	scrollToTracks();
+	finishedLoading("#track-list");
 }
 
 /*  =============================================================================
@@ -198,6 +205,10 @@ function changeDisplayTable() {
 			//appends the hashtag column
 			$("#hash-tag-id"+i).append(tracksHashTagArray[i]);
 		}
+		
+		console.log("REMOVED TRACKS AND ADDED NEW ONES, REMOVE LOAD SCREEN");
+		//Finishes the loading overlay
+		finishedLoading("#track-list");
 	}
 	++rowCount;
 }

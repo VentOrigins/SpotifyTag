@@ -332,7 +332,7 @@ function addPlaylistToDB(data,name) {
 	//Get rid of the VO
 	var hashtag = name.substring(2,name.length);
 	hashTagDB.equalTo("hashtags", hashtag);
-	hashTagDB.equalTo("user", local.userID);
+	hashTagDB.equalTo("user", localStorage.userID);
 	hashTagDB.find({
 	  success: function(results) {
 	  	if(results.length < 1) {
@@ -365,6 +365,7 @@ function addPlaylistToDB(data,name) {
 
 function findPlaylistID(trackURI, htValue) {
 	hashTagDB.equalTo("hashtags", htValue);
+	hashTagDB.equalTo("user", localStorage.userID);
 	hashTagDB.find({
 	  success: function(results) {
 	  		if(results.length < 1) {
@@ -392,6 +393,7 @@ function findPlaylistID(trackURI, htValue) {
 
 function erasePlaylist(id, htValue) {
 	hashTagDB.equalTo("hashtags", htValue);
+	hashTagDB.equalTo("user", localStorage.userID);
 	hashTagDB.find({
 	  success: function(results) {
 	  	if(results.length < 1) {
