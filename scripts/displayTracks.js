@@ -103,7 +103,14 @@ function storeRow(i) {
 
 	//Appends the links of every Artist's URI for each row
 	for(z = 0; z<tracks[i].getTrackArtist().length; ++z){
-		rowTrackArtists += "<a href='" + tracks[i].getTrackArtistURI()[z] + "'>" + tracks[i].getTrackArtist()[z] + "</a>" + ", ";
+		if (z == (tracks[i].getTrackArtist().length) - 1) {
+			//If traversed to the last track artist, do not append a comma
+			rowTrackArtists += "<a href='" + tracks[i].getTrackArtistURI()[z] + "'>" + tracks[i].getTrackArtist()[z] + "</a>";
+		}
+		else {
+			//If not the last track artist, then do append a comma
+			rowTrackArtists += "<a href='" + tracks[i].getTrackArtistURI()[z] + "'>" + tracks[i].getTrackArtist()[z] + "</a>" + ", ";
+		}
 	}
 	rowTrackArtists += "</td>";
 
@@ -196,10 +203,19 @@ function changeDisplayTable() {
 			$('#trackName'+i).empty();
 			$('#trackArtist'+i).empty();
 
-			//Add TrackName and Artist
+			//Add TrackName
 			$('#trackName'+i).append("<a href='" + tracks[i].getTrackNameURI() + "''>" + tracks[i].getTrackName() + "</a>");
+
+			// Adds all the track Artists for that track
 			for(z = 0; z < tracks[i].getTrackArtist().length; ++z) {
-				$('#trackArtist'+i).append("<a href='" + tracks[i].getTrackArtistURI()[z] + "'>" + tracks[i].getTrackArtist()[z] + "</a>");
+				//If traversed to the last track artist, do not append a comma
+				if (z == (tracks[i].getTrackArtist().length) - 1) {
+					$('#trackArtist'+i).append("<a href='" + tracks[i].getTrackArtistURI()[z] + "'>" + tracks[i].getTrackArtist()[z] + "</a>");
+				}
+				//If not the last track artist, then do append a comma
+				else {
+					$('#trackArtist'+i).append("<a href='" + tracks[i].getTrackArtistURI()[z] + "'>" + tracks[i].getTrackArtist()[z] + "</a>" + ", ");
+				}
 			}
 
 			//appends the hashtag column
