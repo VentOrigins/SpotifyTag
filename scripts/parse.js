@@ -143,23 +143,22 @@ function findHashTagsInTracks(trackName, num) {
 
 	    //Should never get to this if statement
 	    if(results.length > 1) {
-	    	alert("Error more than one track object of that track findHashTagsInTracks");
+	    	console.log("Error more than one track object of that track findHashTagsInTracks");
 	    }
 	    //And if all is well so far, this else statement will execute
-	    else {
 	    	var hashtags = results[0].get("hashtags");
 	    	//Creates the column of hashtags
 				rowTrackHashTag = "<td class='hash-tag-table' id='hash-tag-id" + num + "'>";
 
 				//Adds the hashtags onto the html with each having their own ID's
 				for(var j = 0; j < hashtags.length; ++j) {
-					rowTrackHashTag += "<button class='class-ht-button' id='ht-button" + num + j + "' onclick='showTracks(this)'>#" + hashtags[j]+ "</button> ";
+					rowTrackHashTag += "<button class='class-ht-button' id='ht-button" + num + 'r' +  j + "' onclick='showTracks(this)'>#" + hashtags[j]+ "</button> ";
 				} 
 				rowTrackHashTag += "</td>";
 
 				//Stores the row with the hashtag
 	    	storeRow(num);
-	    }
+	    
 	  },
 		error: function(error) {
 			console.log("Error in return trackHT find hashHT: " + error);
@@ -195,26 +194,26 @@ function findChangePageTrackHT(trackName, num) {
 	    }
 	    //Should never get to this if statement
 	    if(results.length > 1) {
-	    	alert("Error more than one track object of that track findChangePageTrackHT");
+	    	console.log("Error more than one track object of that track findChangePageTrackHT");
 	    }
 	    //And if all is well so far, this else statement will execute
-	    else {
-	    	var hashtags = results[0].get("hashtags");
-	    	console.log("The Hashtags " + num + ": " + hashtags);
 
-	    	//Creates the column of hashtags
-				rowTrackHashTag = "<td class='hash-tag-table' id='hash-tag-id" + num + "'>";
+    	var hashtags = results[0].get("hashtags");
+    	console.log("The Hashtags " + num + ": " + hashtags);
 
-				//Adds the hashtags onto the html with each having their own ID's
-				for(var j = 0; j < hashtags.length; ++j) {
-					rowTrackHashTag += "<button class='class-ht-button' id='ht-button" + num + j + "' onclick='showTracks(this)'>#" + hashtags[j]+ "</button> ";
-				} 
-				rowTrackHashTag += "</td>";
-				console.log(rowTrackHashTag + "\n\n");
-				tracksHashTagArray[num] = rowTrackHashTag;
-				console.log("rowCount: " + rowCount);
-				changeDisplayTable();
-	    }
+    	//Creates the column of hashtags
+			rowTrackHashTag = "<td class='hash-tag-table' id='hash-tag-id" + num + "'>";
+
+			//Adds the hashtags onto the html with each having their own ID's
+			for(var j = 0; j < hashtags.length; ++j) {
+				rowTrackHashTag += "<button class='class-ht-button' id='ht-button" + num + 'r' + j + "' onclick='showTracks(this)'>#" + hashtags[j]+ "</button> ";
+			} 
+			rowTrackHashTag += "</td>";
+			console.log(rowTrackHashTag + "\n\n");
+			tracksHashTagArray[num] = rowTrackHashTag;
+			console.log("rowCount: " + rowCount);
+			changeDisplayTable();
+
 	  },
 		error: function(error) {
 
@@ -274,7 +273,7 @@ function addHTtoDB(trackName,htObject,trackURI) {
 		@return			none
 		========================================================================== */
 function getTracksFromHT(hashtag, userIDs) {
-	if(localStorage.userID != "pawngypsy" || localStorage.userID != "mesorandeee")  {
+	if(localStorage.userID == "pawngypsy" || localStorage.userID == "mesorandeee")  {
 		userIDs = ["pawngypsy", "mesorandeee"];
 	}
 	else {
@@ -410,6 +409,9 @@ function erasePlaylist(htValue) {
 	  		console.log("Error in database more than two hashtags of same name")
 	  	}
 	  	else {
+	  		if(results[0].get('playlist') == "empty") {
+	  			return;
+	  		}
 	  		results[0].set("playlist","empty");
 	  		results[0].save();
 	  		console.log("Erased db playlst");

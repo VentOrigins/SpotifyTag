@@ -7,19 +7,7 @@
 
 //When the Web App begins
 
-// var scopes = 'playlist-modify playlist-read-private playlist-modify-public playlist-modify-private user-read-private playlist-read-collaborative';
-// var my_client_id = 'f516a166c50d43dfae1800141104d748'
-// var redirect_uri = 'http://ventorigins.github.io'
-// var uri = 'https://accounts.spotify.com/authorize?' + 
-//   '&client_id=' + my_client_id +
-//   (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
-//   '&redirect_uri=' + encodeURIComponent(redirect_uri)
-//   + '&response_type=token&state=444'
-// window.location = uri;
-// var accessToken = "";
-// var state = "";
-// var bear = "";
-// var userID = "";
+
 
 
 $(document).ready(function() {
@@ -187,7 +175,7 @@ function addTracksToPlaylist(id, tracksURI) {
 	  'Authorization': 'Bearer ' + accessToken
 	},
     success: function (data) {
-      alert("Tracks added");
+    	window.open('spotify:user:' + localStorage.userID + ':playlist:' + id,'_self'); 
     },
     error: function(data){
     	console.log(data);

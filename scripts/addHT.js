@@ -55,7 +55,7 @@ function submitHT(submitID) {
     //If hashTag is a new hashTag, appends the hashTag
     else {
       console.log("Hashtag " +  HTvalue + " is added to the database");
-      $("#hash-tag-id"+num).append("<button class='class-ht-button' id='ht-button" + num + lengthOfMapHT + "' onclick='showTracks(this)'>" + "#" + HTvalue + "</button>");      
+      $("#hash-tag-id"+num).append("<button class='class-ht-button' id='ht-button" + num + 'r' + lengthOfMapHT + "' onclick='showTracks(this)'>" + "#" + HTvalue + "</button>");      
     }  
   }    
 

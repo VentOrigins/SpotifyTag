@@ -73,3 +73,7 @@
 #track-list .not-header-row:hover .class-ht-button:hover {
   background-color: #71B500;
 }
+
+.selected {
+    background: lightBlue
+}
