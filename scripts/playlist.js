@@ -1,10 +1,10 @@
 /*  =============================================================================
-    When loading index.html page gettng user's playlist
+    To handle the playlists in the playlists bar. Also accounts for migrating
+    to the playlist.html page when a playlist is clicked.
 
     Copyright © Vent Origins 
     By Adrian Mandee and Randy Truong
     ========================================================================== */
-
 
 var playlistMap = {};
 
@@ -29,7 +29,6 @@ function displayPlaylist(json) {
     playlistMap[json.items[i].name + i] = json.items[i].id;
 	}
 }
-
 
 /*  =============================================================================
     From: Onclick of a playlist button
@@ -64,9 +63,9 @@ function searchPlaylistTracks(playlist) {
 		error: function(response) {
 			console.log("Error couldn't find playlist");
 		}
-	});
-	
+	});	
 }
+
 /*  =============================================================================
     From: playlist.js (searchPlaylistTracks)
     To: displayPlaylist.js
@@ -104,10 +103,9 @@ function goToPlayList(json) {
 	localStorage.tracks = JSON.stringify(tracks);
 
   //Mandee
-	window.location.assign("file:///Users/MANDEE/ventorigins/spotify/playlist.html");
+	// window.location.assign("file:///Users/MANDEE/ventorigins/spotify/playlist.html");
   //Randy
-  // window.location.assign("file:///Users/Randy/VentOrigins/spotify/playlist.html");
-
+  window.location.assign("file:///Users/Randy/VentOrigins/spotify/playlist.html");
 }
 
 /*  =============================================================================

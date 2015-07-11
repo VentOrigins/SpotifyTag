@@ -5,12 +5,11 @@
     By Adrian Mandee and Randy Truong
     ========================================================================== */
 
-//When page is ready display the playlist's tracks
+//When playlist page is ready, displays the playlist's tracks
 $(document).ready(function() {
 	console.log("Document ready");
   displayPlaylistTracks();
 });
-
 
 /*  =============================================================================
     From: playlist.js (goToPlaylist)
@@ -20,8 +19,8 @@ $(document).ready(function() {
     @param      none
     @return     none
     ========================================================================== */
-
 function displayPlaylistTracks() {
+  // loadingScreen("#playlist-name");
 	//new tracks
   tracks = [];
   //Get the track from the previous localstorage
