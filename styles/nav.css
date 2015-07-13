@@ -11,6 +11,7 @@
   /*Keeps the playlist bar to the left of the Splash Screen*/
   float: left;
 
+  /*Keeps the nav bar in place throughout entire page*/
   position: fixed;
 
   /*Adds a scrollbar to the playlist bar*/

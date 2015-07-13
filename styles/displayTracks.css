@@ -8,18 +8,17 @@
 
 /*Splash Screen for track*/
 #splash-track-list{
-	width: 100vw;
   color: white;
   text-align: center;
 	background-color: black;
 	position: relative;
 	z-index: 1;
   display: none;
+  float: right;
 }
 
 /*Track list div*/
 #track-list {
-  width: 100vw;
   height: 100vh;
   display: none;
   background-color: black;
@@ -29,7 +28,6 @@
 
 /*Table for tracks*/
 #track-list table {
-	width: 100vw;
 	text-align: left;
   background-color: #0F1010;
   border-bottom: solid 2px #222226;

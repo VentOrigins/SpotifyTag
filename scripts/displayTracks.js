@@ -46,6 +46,10 @@ var rowCount;
 		@return			none
 		========================================================================== */
 function displayTracks() {
+	// Document ready for the css
+  var splashScreenSize = screen.width - document.getElementById('nav').offsetWidth;
+  $('#track-list table').width(splashScreenSize);
+
 	//Scroll to beginning of tracks
 	scrollToTracks();
 
