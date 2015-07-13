@@ -202,13 +202,12 @@ function findChangePageTrackHT(trackName, num) {
     	console.log("The Hashtags " + num + ": " + hashtags);
 
     	//Creates the column of hashtags
-			rowTrackHashTag = "<td class='hash-tag-table' id='hash-tag-id" + num + "'>";
+			rowTrackHashTag = ""
 
 			//Adds the hashtags onto the html with each having their own ID's
 			for(var j = 0; j < hashtags.length; ++j) {
 				rowTrackHashTag += "<button class='class-ht-button' id='ht-button" + num + 'r' + j + "' onclick='showTracks(this)'>#" + hashtags[j]+ "</button> ";
 			} 
-			rowTrackHashTag += "</td>";
 			console.log(rowTrackHashTag + "\n\n");
 			tracksHashTagArray[num] = rowTrackHashTag;
 			console.log("rowCount: " + rowCount);

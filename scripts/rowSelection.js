@@ -9,11 +9,12 @@ function getTRS() {
       return false;
   }
 
+
 }
 
 
 function rowClick(currenttr, lock) {
-  console.log("WTFFFF");
+  console.log(currenttr);
   if (window.event.ctrlKey) {
       toggleRow(currenttr);
   }
@@ -39,14 +40,13 @@ function selectRowsBetweenIndexes(indexes) {
   indexes.sort(function(a, b) {
       return a - b;
   });
-
   for (var i = indexes[0]; i <= indexes[1]; i++) {
-      trs[i-1].className = 'selected';
+        trs[i].className = 'selected';
   }
 }
 
 function clearAll() {
   for (var i = 0; i < trs.length; i++) {
-      trs[i].className = '';
+      trs[i].className = 'not-header-row';
   }
 }
