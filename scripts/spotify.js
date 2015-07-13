@@ -36,10 +36,11 @@ for (var i=0;i<vars.length;i++) {
 	if(i == 0) {
 		if(pair[1].indexOf("access_denied") < 0) {	
   		accessToken = pair[1];
+      localStorage.accessToken = accessToken;
   		console.log("Access Token = " + accessToken);	
 		}
 		else {
-			console.log("ACCESS DENIDED");
+			console.log("ACCESS DENIED");
 		}
 	}
 	else if(i == 1) {

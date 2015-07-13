@@ -9,34 +9,51 @@
 /*Splash Screen for track*/
 #splash-track-list{
 	width: 100vw;
-	height: 100vh;
   color: white;
-  text-align: center;
 	background-color: black;
-	position: relative;
+	position: relative; 
 }
 
+/*The playlist name div*/
 #playlist-name {
-  height: 15vh;
-  width: 100vw;
+  height: 100vh;
+
+  position: absolute;
+  left: 250px;
+
+  /*Background*/
   background-color: black;
+
+  /*Position of div is on the right*/
   display: inline-block;
+
+  /*Center of the div*/
+  /*text-align: center;*/
 }
 
+/*Handles the font of the title*/
 #playlist-name h1 {
-  width: 50vw;
-  height: 10vh;
-  margin-top: 10px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-top: 10px;
-  background-color: black;
-  text-align: center;
+  font-size: 40px;
+  font-weight: 100px;
+  display: inline-block;
+  /*position: absolute;*/
+  margin-top: 15px;
+  float: left;
+
 }
+
+/*Color of the title of playlist*/
 #playlist-name a {
-  font-size: 30px;
-  font-weight: 900;
-  color: #71B500;
+  /*color: #71B500;*/
+  color: white;
+}
+
+/*For images in the splash screen*/
+#playlist-name .image-cover {
+  width: 300px;
+  height: 300px;
+  margin: 15px;
+  float: left;
 }
 
 /*Track list div*/

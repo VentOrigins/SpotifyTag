@@ -11,10 +11,13 @@
   /*Keeps the playlist bar to the left of the Splash Screen*/
   float: left;
 
+  position: fixed;
+
   /*Adds a scrollbar to the playlist bar*/
   overflow-y: auto; 
 
   border: none;
+  z-index: 1000;
 }
 
 /*Used for the playlist's list button*/
