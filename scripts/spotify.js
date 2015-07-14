@@ -1,6 +1,5 @@
 /*  =============================================================================
-    Spotify API calls
-
+    
     Copyright © Vent Origins 
     By Adrian Mandee and Randy Truong
     ========================================================================== */
@@ -25,10 +24,11 @@ for (var i=0;i<vars.length;i++) {
 	if(i == 0) {
 		if(pair[1].indexOf("access_denied") < 0) {	
   		accessToken = pair[1];
+      localStorage.accessToken = accessToken;
   		console.log("Access Token = " + accessToken);	
 		}
 		else {
-			console.log("ACCESS DENIDED");
+			console.log("ACCESS DENIED");
 		}
 	}
 	else if(i == 1) {
@@ -49,11 +49,12 @@ $.ajax({
 	},
 	success: function(response) {
 	   findUserID(response);
-}
+  }
 });
-/*  =============================================================================
-		From: Spotify.js when index.html starts up
-		To: playlist.js (displayPlaylist)
+
+/*  ==========================================================================
+    From: Spotify.js when index.html starts up
+    To: playlist.js (dislayPlaylist)
     Search through Spotify API for the users ID after it is found go to playlist
 
     @param      JSON		json format which contains details of the Spotify user
@@ -182,8 +183,17 @@ function addTracksToPlaylist(id, tracksURI) {
     }
 	});
 }
+//Checks if the playlist still exists and if it does add it to to the playlist
 
-
+function checkPlaylist(response, idToCheck, trackURI, htValue) {
+	for(var i=0; i<response.items.length; i++) {
+		if(idToCheck == response.items[i].id) {
+			addTracksToPlaylist(idToCheck, [trackURI]);
+			return;
+		}
+	}
+	erasePlaylist(idToCheck, htValue);
+}
 
 /*  =============================================================================
 		From: parse.js (findPlaylistID)
@@ -311,10 +321,5 @@ function deleteTrackFromPlaylist(playlistID, position, trackURI) {
 		});
 
 }
-
-
-
-
-
 
 

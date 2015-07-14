@@ -133,7 +133,7 @@ function findHashTagsInTracks(trackName, num) {
 	  success: function(results) {
 	    if(results[0] == undefined) {
 				//If it is empty, have an empty HashTag list
-				rowTrackHashTag = "<td class='hash-tag-table' id='hash-tag-id" + num + "'>";	
+				rowTrackHashTag = "<td class='class-hashtag-column' id='hash-tag-id" + num + "'>";	
 				rowTrackHashTag += "</td>";
 
 				//Store the row with the hashtag
@@ -148,7 +148,7 @@ function findHashTagsInTracks(trackName, num) {
 	    //And if all is well so far, this else statement will execute
 	    	var hashtags = results[0].get("hashtags");
 	    	//Creates the column of hashtags
-				rowTrackHashTag = "<td class='hash-tag-table' id='hash-tag-id" + num + "'>";
+				rowTrackHashTag = "<td class='class-hashtag-column' id='hash-tag-id" + num + "'>";
 
 				//Adds the hashtags onto the html with each having their own ID's
 				for(var j = 0; j < hashtags.length; ++j) {
@@ -185,8 +185,7 @@ function findChangePageTrackHT(trackName, num) {
 	  success: function(results) {
 	    if(results[0] == undefined) {
 	    	//If it is empty, have an empty HashTag list
-				rowTrackHashTag = "<td class='hash-tag-table' id='hash-tag-id" + num + "'>";	
-				rowTrackHashTag += "</td>";
+				rowTrackHashTag = "";
 
 				tracksHashTagArray[num] = rowTrackHashTag;
 				changeDisplayTable();
@@ -197,12 +196,11 @@ function findChangePageTrackHT(trackName, num) {
 	    	console.log("Error more than one track object of that track findChangePageTrackHT");
 	    }
 	    //And if all is well so far, this else statement will execute
-
     	var hashtags = results[0].get("hashtags");
     	console.log("The Hashtags " + num + ": " + hashtags);
 
     	//Creates the column of hashtags
-			rowTrackHashTag = ""
+			rowTrackHashTag = "";
 
 			//Adds the hashtags onto the html with each having their own ID's
 			for(var j = 0; j < hashtags.length; ++j) {
@@ -212,7 +210,6 @@ function findChangePageTrackHT(trackName, num) {
 			tracksHashTagArray[num] = rowTrackHashTag;
 			console.log("rowCount: " + rowCount);
 			changeDisplayTable();
-
 	  },
 		error: function(error) {
 
@@ -395,9 +392,9 @@ function addPlaylistToDB(data,name) {
 }
 
 /*  =============================================================================
-	  From:		spotify.js (checkPlaylist)
-	  To:			none
-	  When playlist doesn't exist erase from parse database
+		From: spotify.js (checkPlaylist)
+		To:   none
+		When playlist doesn't exist, erase from parse database
 
 		@param			string		hashtag value
 
