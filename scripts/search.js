@@ -44,7 +44,7 @@ function search() {
   console.log("The query input is: " + query);
   if(query.charAt(0) == "#") {
     console.log("Going #");
-    getTracksFromHT(query.substring(1,query.length).toLowerCase());
+    getTracksFromHT(query.toLowerCase());
     return;
   }
   //Resets the current page to 1 when querying

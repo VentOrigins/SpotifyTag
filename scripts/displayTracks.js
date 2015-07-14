@@ -96,7 +96,7 @@ function displayTracks() {
 
 		@param  		i 			The row #
 		@return			none
-		========================================================================== */
+		========================================================================= */
 function storeRow(i) {
 	console.log("INCREMENT: displayRow: " + i);
 
@@ -120,11 +120,12 @@ function storeRow(i) {
 	rowTrackArtists += "</td>";
 
 	//Stores the HTML of the entire row accordingly to the index of that row's number
-	tracksHTML[i] = "<tr class='not-header-row'>" + buttonID + slideID + rowTrackName + rowTrackArtists + rowTrackHashTag + "</tr>";
+	tracksHTML[i] = "<tr class='not-header-row' onmousedown='rowClick(this,false);'>" + buttonID + slideID + rowTrackName + rowTrackArtists + rowTrackHashTag + "</tr>";
 
 	//Once all tracks HTML are stored into the array, display the table
 	if (rowCount == tracks.length) {
 		displayTable();
+		getTRS();
 	}
 
 	//Increments rowCount
@@ -233,3 +234,6 @@ function changeDisplayTable() {
 	}
 	++rowCount;
 }
+
+
+

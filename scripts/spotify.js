@@ -6,19 +6,7 @@
 
 //When the Web App begins
 
-// var scopes = 'playlist-modify playlist-read-private playlist-modify-public playlist-modify-private user-read-private playlist-read-collaborative';
-// var my_client_id = 'f516a166c50d43dfae1800141104d748'
-// var redirect_uri = 'http://ventorigins.github.io'
-// var uri = 'https://accounts.spotify.com/authorize?' + 
-//   '&client_id=' + my_client_id +
-//   (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
-//   '&redirect_uri=' + encodeURIComponent(redirect_uri)
-//   + '&response_type=token&state=444'
-// window.location = uri;
-// var accessToken = "";
-// var state = "";
-// var bear = "";
-// var userID = "";
+
 
 
 $(document).ready(function() {
@@ -188,7 +176,7 @@ function addTracksToPlaylist(id, tracksURI) {
 	  'Authorization': 'Bearer ' + accessToken
 	},
     success: function (data) {
-      alert("Tracks added");
+    	window.open('spotify:user:' + localStorage.userID + ':playlist:' + id,'_self'); 
     },
     error: function(data){
     	console.log(data);
@@ -249,12 +237,75 @@ function getPlaylist(idToCheck, trackURI, htValue) {
     @return     none
     ========================================================================== */
 function checkPlaylist(response, idToCheck, trackURI, htValue) {
+	var x = true;
 	for(var i=0; i<response.items.length; i++) {
-		if(idToCheck == response.items[i].id) {
-			addTracksToPlaylist(idToCheck, [trackURI]);
-			return;
+		for(var j = 0; j < idToCheck.length; j++) {
+			if(idToCheck[j] == response.items[i].id) {
+				addTracksToPlaylist(idToCheck[j], [trackURI]);
+				x = false;
+			}
 		}
+		
 	}
-	erasePlaylist(htValue);
+	//Went through everything and couldn't find any playlists
+	if(x == true) {
+		erasePlaylist(htValue);
+	}
+	
 }
+
+
+function findPlaylistsWithTrack(playlistsOfHT, trackName) {
+	//Get the playlist name
+	var playlistID = "";
+	for(var i = 0; i < playlistsOfHT.length; ++i) {
+
+		playlistID = playlistsOfHT[i];
+		//Ajax call to get json and then change htmlpage
+		$.ajax({
+			url: 'https://api.spotify.com/v1/users/' + userID + '/playlists/' + playlistID,
+			headers: {
+			  'Authorization': 'Bearer ' + accessToken
+			},
+			dataType: 'json',
+			success: function(response) {
+				for(var j = 0; j < response.tracks.items.length; j++) {
+					if(response.tracks.items[j].track.name.replace(/[\W_]+/g, "").toLowerCase() == trackName) {
+						deleteTrackFromSpotify(playlistID, j);
+					}
+				}
+
+			},
+			error: function(response) {
+				console.log("Error couldn't find playlist");
+			}
+		});
+
+	}
+
+}
+
+function deleteTracksFrom(playlistID, position) {
+	$.ajax({
+			url: 'https://api.spotify.com/v1/users/' + userID + '/playlists/' + playlistID + '/tracks',
+			headers: {
+			  'Authorization': 'Bearer ' + accessToken
+			},
+			type: "DELETE",
+			data: "{\"tracks\":[{\"positions\":[" + position + "],\"uri\":\"spotify:track:2DB2zVP1LVu6jjyrvqD44z\"},{\"positions\":[1],\"uri\":\"spotify:track:5ejwTEOCsaDEjvhZTcU6lg\"}]}",
+			success: function(response) {
+				for(var j = 0; j < response.tracks.items.length; j++) {
+					if(response.tracks.items[j].track.name.replace(/[\W_]+/g, "").toLowerCase() == trackName) {
+						deleteTrackFromSpotify(playlistID, j);
+					}
+				}
+
+			},
+			error: function(response) {
+				console.log("Error couldn't find playlist");
+			}
+		});
+
+}
+
 
