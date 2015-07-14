@@ -133,7 +133,7 @@ function findHashTagsInTracks(trackName, num) {
 	  success: function(results) {
 	    if(results[0] == undefined) {
 				//If it is empty, have an empty HashTag list
-				rowTrackHashTag = "<td class='hash-tag-table' id='hash-tag-id" + num + "'>";	
+				rowTrackHashTag = "<td class='class-hashtag-column' id='hash-tag-id" + num + "'>";	
 				rowTrackHashTag += "</td>";
 
 				//Store the row with the hashtag
@@ -149,7 +149,7 @@ function findHashTagsInTracks(trackName, num) {
 	    else {
 	    	var hashtags = results[0].get("hashtags");
 	    	//Creates the column of hashtags
-				rowTrackHashTag = "<td class='hash-tag-table' id='hash-tag-id" + num + "'>";
+				rowTrackHashTag = "<td class='class-hashtag-column' id='hash-tag-id" + num + "'>";
 
 				//Adds the hashtags onto the html with each having their own ID's
 				for(var j = 0; j < hashtags.length; ++j) {
@@ -186,7 +186,7 @@ function findChangePageTrackHT(trackName, num) {
 	  success: function(results) {
 	    if(results[0] == undefined) {
 	    	//If it is empty, have an empty HashTag list
-				rowTrackHashTag = "<td class='hash-tag-table' id='hash-tag-id" + num + "'>";	
+				rowTrackHashTag = "<td class='class-hashtag-column' id='hash-tag-id" + num + "'>";	
 				rowTrackHashTag += "</td>";
 
 				tracksHashTagArray[num] = rowTrackHashTag;
@@ -203,7 +203,7 @@ function findChangePageTrackHT(trackName, num) {
 	    	console.log("The Hashtags " + num + ": " + hashtags);
 
 	    	//Creates the column of hashtags
-				rowTrackHashTag = "<td class='hash-tag-table' id='hash-tag-id" + num + "'>";
+				rowTrackHashTag = "";
 
 				//Adds the hashtags onto the html with each having their own ID's
 				for(var j = 0; j < hashtags.length; ++j) {

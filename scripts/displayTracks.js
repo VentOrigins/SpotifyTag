@@ -47,6 +47,7 @@ var rowCount;
 		========================================================================== */
 function displayTracks() {
 	// Document ready for the css
+	// Sets the width for the track's table to the screen minus the width of the nav bar
   var splashScreenSize = screen.width - document.getElementById('nav').offsetWidth;
   $('#track-list table').width(splashScreenSize);
 
@@ -78,7 +79,7 @@ function displayTracks() {
 	rowCount = 1;
 
 	//Append the header of table
-	$("#list-of-tracks").append("<tr> <th>ADD</th> <th>TRACK</th> <th>ARTIST</th> <th>#</th> </tr>");
+	$("#list-of-tracks").append("<tr> <th class='class-addHT-column'>ADD #</th> <th class='class-tracks-column'>TRACK</th> <th class='class-artists-column'>ARTIST</th> <th class='class-hashtag-column'>#</th> </tr>");
 
 	//Sets up the loading screen when waiting to display the tracks
 	loadingScreen("#track-list");
@@ -100,10 +101,10 @@ function storeRow(i) {
 	console.log("INCREMENT: displayRow: " + i);
 
 	//Forms the html of the inner table to append
-	buttonID = "<div> <td id='add-col' class-buttons ='active'>  <form id='ht-form'><button class='class-button' onclick='addHT(this)' id='add-button" + i + "'> <h1>+</h1> </button>";
+	buttonID = "<div> <td class='class-addHT-column' id='add-col' class-buttons='active'>  <form id='ht-form'><button class='class-button' onclick='addHT(this)' id='add-button" + i + "'> <h1>+</h1> </button>";
 	slideID = "<div id='slide-input" + i + "' class='class-input'> </form> <form id='ht-form2' > <input class='input-add-HT' id='input-ht" + i + "' type='text'/> <input class='button-add-HT' id='submit-ht" + i + "' type='submit' onclick='submitHT(this)' value='#'/> </div> </form> </td> </div>";
-	rowTrackName = "<td id='trackName" + i + "''> <a href='" + tracks[i].getTrackNameURI() + "' " + "id='link" + i + "' onclick='playButton(this)'>" + tracks[i].getTrackName() + "</a></td>";
-	rowTrackArtists = "<td id=trackArtist" + i + ">";
+	rowTrackName = "<td class='class-track-column' id='trackName" + i + "''> <a href='" + tracks[i].getTrackNameURI() + "' " + "id='link" + i + "' onclick='playButton(this)'>" + tracks[i].getTrackName() + "</a></td>";
+	rowTrackArtists = "<td class='class-artists-column' id=trackArtist" + i + ">";
 
 	//Appends the links of every Artist's URI for each row
 	for(z = 0; z<tracks[i].getTrackArtist().length; ++z){

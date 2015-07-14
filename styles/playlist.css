@@ -16,24 +16,20 @@
   /*Background*/
   background-color: black;
 
-  /*Position of div is on the right*/
-  display: inline-block;
+  border-bottom: 2px solid #222226;
 }
 
 /*Handles the font of the title*/
 #playlist-name h1 {
   font-size: 40px;
-  font-weight: 100px;
+  font-weight: 100;
   display: inline-block;
-  /*position: absolute;*/
   margin-top: 15px;
   float: left;
-
 }
 
 /*Color of the title of playlist*/
 #playlist-name a {
-  /*color: #71B500;*/
   color: white;
 }
 

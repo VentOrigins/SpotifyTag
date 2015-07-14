@@ -37,7 +37,7 @@
 /*The category title in the playlist bar*/
 #nav-playlist-head h1 {
   /*Added spacing to the title's top*/
-  margin-top: 30px;
+  margin-top: 10px;
   margin-bottom: 10px;
 
   /*Added spacing to titles left and right*/
@@ -67,7 +67,7 @@
 #nav-playlist button {
   /*Size of the entire list*/
   width: 250px;
-  height: 16px;
+  height: 18px;
 
   /*Added spacing between the playlist's names*/
   margin-top: 10px;
