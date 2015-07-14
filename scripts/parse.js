@@ -50,7 +50,7 @@ function checkTrackHT(trackName,htValue, trackURI) {
 	//Query track and hashtag db equal to the user's name
 	trackDB.equalTo("user",localStorage.userID);
 	hashTagDB.equalTo("user",localStorage.userID);
-
+	
 	hashTagDB.find({
 	  success: function(results) {
 
@@ -65,7 +65,7 @@ function checkTrackHT(trackName,htValue, trackURI) {
 	  		newHT.set("tracks",[trackName]);
 	  		newHT.set("user",localStorage.userID);
 	  		newHT.set("trackURI",[trackURI]);
-	  		newHT.set("playlist", "empty");
+	  		newHT.set("playlist", []);
 	  		newHT.save();
 	  	}
 	    //Add track to the ht
@@ -278,36 +278,40 @@ function getTracksFromHT(hashtag, userIDs) {
 	else {
 		userIDs = [localStorage.userID];
 	}
-	hashTagDB2 = new Parse.Query(HashTagParse);
-	hashTagDB.equalTo("hashtags", hashtag);
+	var allHash = hashtag.split("#");
+	var name = "";
+	hashTagDBArray = [];
+	for(var i = 1; i< allHash.length; i++) {
+		name += '#' + allHash[i];
+		for(var j = 0; j< userIDs.length; j++) {
+			hashTagDB2 = new Parse.Query(HashTagParse);
+			hashTagDB2.equalTo("hashtags", allHash[i]);
+			hashTagDB2.equalTo("user", userIDs[j]);
+			hashTagDBArray.push(hashTagDB2);	
+		}
+	}
+	var mainQuery = Parse.Query.or.apply(this, hashTagDBArray);
 	var tracksURI = [];
 	var singleURI = "";
-	hashTagDB.find({
+	mainQuery.find({
 	  success: function(results) {
+
 	  	if(results.length < 1) {
 	  		alert("No such hashtag in database please search again");
+	  		return;
 	  	}
-	  	else if(results.length > 1) {
-	  		for(var j = 0; j< userIDs.length; j++) {
-	  			for (var i = 0; i < results[j].get('trackURI').length; i++) {
-			      var object = results[j].get('trackURI')[i];
-			      var singleURI = "spotify:track:" + object.substring(12,object.length);
-			      tracksURI.push(singleURI);
-			  	}
-	  		}	
-	  		tracksURI = checkDuplicates(tracksURI);
-	  		createPlaylist("VO" + hashtag, tracksURI);
-	  		console.log("Multiple users");
-	  	}
-	  	else {
-	  		for (var i = 0; i < results[0].get('trackURI').length; i++) {
-		      var object = results[0].get('trackURI')[i];
+	  	//Go through every result
+	  	for(var j = 0; j< results.length; j++) {
+	  		//For each result get the trackURI length and add each one
+  			for (var i = 0; i < results[j].get('trackURI').length; i++) {
+		      var object = results[j].get('trackURI')[i];
 		      var singleURI = "spotify:track:" + object.substring(12,object.length);
 		      tracksURI.push(singleURI);
-			  }
-			  tracksURI = checkDuplicates(tracksURI);
-			  createPlaylist("VO" + hashtag, tracksURI);
-	  	}
+		  	}
+  		}	
+	  	tracksURI = checkDuplicates(tracksURI);
+	  	createPlaylist("VO" + name, tracksURI);
+	  	
 	  	
 	  },
 		error: function(error) {
@@ -362,19 +366,24 @@ function findPlaylistID(trackURI, htValue) {
 function addPlaylistToDB(data,name) {
 	//Get rid of the VO
 	var hashtag = name.substring(2,name.length);
-	hashTagDB.equalTo("hashtags", hashtag);
-	hashTagDB.equalTo("user", localStorage.userID);
-	hashTagDB.find({
+	var allHash = hashtag.split("#");
+	hashTagDBArray = [];
+	for(var i = 1; i< allHash.length; i++) {
+			hashTagDB2 = new Parse.Query(HashTagParse);
+			hashTagDB2.equalTo("hashtags", allHash[i]);
+			hashTagDB2.equalTo("user", localStorage.userID);
+			hashTagDBArray.push(hashTagDB2);	
+	}
+	var mainQuery = Parse.Query.or.apply(this, hashTagDBArray);
+	mainQuery.find({
 	  success: function(results) {
 	  	if(results.length < 1) {
-	  		alert("No such hashtag in database please search again");
+	  		console.log("No such hashtag in database please search again in addPlaylistToDB");
+	  		return;
 	  	}
-	  	else if(results.length > 1) {
-	  		console.log("Error in database more than two hashtags of same name")
-	  	}
-	  	else {
-	  		results[0].set("playlist", data.id);
-	  		results[0].save();
+	  	for(var i = 0; i< results.length; i++) {
+	  		results[i].add("playlist", data.id);
+	  		results[i].save();
 	  	}
 	  	
 	  },
@@ -408,10 +417,10 @@ function erasePlaylist(htValue) {
 	  		console.log("Error in database more than two hashtags of same name")
 	  	}
 	  	else {
-	  		if(results[0].get('playlist') == "empty") {
+	  		if(results[0].get('playlist').length == 0) {
 	  			return;
 	  		}
-	  		results[0].set("playlist","empty");
+	  		results[0].set("playlist",[]);
 	  		results[0].save();
 	  		console.log("Erased db playlst");
 	  	}

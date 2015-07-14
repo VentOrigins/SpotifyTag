@@ -44,29 +44,23 @@ function submitHT(submitID) {
   var lengthOfMapHT = 0;
   event.preventDefault();
   
-  //If there are multiple HashTag inputs arranged like this: Hash1,Hash2,Hash3
-  //Parses the inputs into three separate hashtags and adds them to the database.
-  //If not, then no problem!
-  var checkArray = $("#input-ht"+num).val().split(",");   
-  for(var i = 0; i < checkArray.length; ++i) {
-    //Removes nonalphanumerical from ht
-    HTvalue = checkArray[i].replace(/[\W_]+/g,"");
+  //Removes nonalphanumerical from ht
+  HTvalue = $("#input-ht"+num).val().replace(/[\W_]+/g,"");
 
-    //Checks the hashTag
+  //Checks the hashTag
 
-    lengthOfMapHT = $("#hash-tag-id"+num).find(':button').length+1;
-    checkTrackHT(tracks[num].getTrackName(), HTvalue, tracks[num].getTrackNameURI());
-    findPlaylistID(tracks[num].getTrackNameURI(), HTvalue);
-    //If it already exist, do not append it
-    if(lengthOfMapHT == -1) {
-      console.log("Hashtag " +  HTvalue + " already exists for this track.");
-    }
-    //If hashTag is a new hashTag, appends the hashTag
-    else {
-      console.log("Hashtag " +  HTvalue + " is added to the database");
-      $("#hash-tag-id"+num).append("<button class='class-ht-button' id='ht-button" + num + 'r' + lengthOfMapHT + "' onclick='showTracks(this)'>" + "#" + HTvalue + "</button>");      
-    }  
-  }    
+  lengthOfMapHT = $("#hash-tag-id"+num).find(':button').length+1;
+  checkTrackHT(tracks[num].getTrackName(), HTvalue, tracks[num].getTrackNameURI());
+  findPlaylistID(tracks[num].getTrackNameURI(), HTvalue);
+  //If it already exist, do not append it
+  if(lengthOfMapHT == -1) {
+    console.log("Hashtag " +  HTvalue + " already exists for this track.");
+  }
+  //If hashTag is a new hashTag, appends the hashTag
+  else {
+    console.log("Hashtag " +  HTvalue + " is added to the database");
+    $("#hash-tag-id"+num).append("<button class='class-ht-button' id='ht-button" + num + 'r' + lengthOfMapHT + "' onclick='showTracks(this)'>" + "#" + HTvalue + "</button>");      
+  }     
 
   //animates the input-bar to close
   $("#slide-input" + num + " .input-add-HT").val("");

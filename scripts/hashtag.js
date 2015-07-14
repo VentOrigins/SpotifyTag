@@ -24,8 +24,7 @@ function deleteHT(hashTag) {
 	var firstNum = num.substring(0, num.indexOf("r"));
 	console.log(firstNum);
 	var hashTagValue = $("#ht-button"+num).text().substring(1,$("#ht-button"+num).text().indexOf(" ")).toLowerCase();
-	var trackName = $("#link" + firstNum).text().replace(/[\W_]+/g, "").toLowerCase();
-
+	var trackName = $("#trackName" + firstNum).text().replace(/[\W_]+/g, "").toLowerCase();
 	console.log(trackName);
 	console.log(hashTagValue);
 	hashTagDB.equalTo("hashtags", hashTagValue);
@@ -35,17 +34,35 @@ function deleteHT(hashTag) {
 	    //Check if there is only one of that track
 	    if(results.length > 1) {
 	    	console.log("Error more than one hashtag object of that #");
+	    	return;
 	    }
 	    //Add add track to the ht
 			var tracksOfHT = results[0].get("tracks");
+			var tracksURIOfHT = results[0].get("trackURI");
+			var playlistsOfHT = results[0].get("playlist");
+
+			// findPlaylistsWithTrack(playlistsOfHT, trackName);
+			
 			var index = tracksOfHT.indexOf(trackName);
 			console.log(tracksOfHT);
-			if(index != -1) {
+			console.log(tracksURIOfHT);
+			while(index != -1) {
 				tracksOfHT.splice(index, 1);
+				tracksURIOfHT.splice(index, 1);
 				console.log(tracksOfHT);
+				console.log(tracksURIOfHT);
+				index = tracksOfHT.indexOf(trackName);
+			}
+			if(tracksOfHT.length == 0) {
+					results[0].destroy();
+			}
+			else {
 				results[0].set("tracks", tracksOfHT);
+				results[0].set("trackURI", tracksURIOfHT);
 				results[0].save();
-			}    	
+			}
+			
+			   	
 
 	  },
   	error: function(error) {
@@ -62,14 +79,20 @@ function deleteHT(hashTag) {
 	    //Check if there is only one of that track
 	    if(results.length > 1) {
 	    	console.log("Error more than one track");
+	    	return;
 	    }
 	    //Add add track to the ht
 			var htOfTracks = results[0].get("hashtags");
 			var index = htOfTracks.indexOf(hashTagValue);
 			if(index != -1) {
 				htOfTracks.splice(index, 1);
-				results[0].set("hashtags", htOfTracks);
-				results[0].save();
+				if(htOfTracks.length == 0) {
+					results[0].destroy();
+				}
+				else{
+					results[0].set("hashtags", htOfTracks);
+					results[0].save();
+				}
 			}
 			
 
