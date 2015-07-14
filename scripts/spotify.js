@@ -248,9 +248,9 @@ function checkPlaylist(response, idToCheck, trackURI, htValue) {
 function findPlaylistsWithTrack(playlistsOfHT, trackName) {
 	//Get the playlist name
 	var playlistID = "";
-	for(var i = 0; i < playlistsOfHT.length) {
-
+	for(var i = 0; i < playlistsOfHT.length; i++) {
 		playlistID = playlistsOfHT[i];
+		console.log(playlistID + " ID");
 		//Ajax call to get json and then change htmlpage
 		$.ajax({
 			url: 'https://api.spotify.com/v1/users/' + userID + '/playlists/' + playlistID,
@@ -260,8 +260,9 @@ function findPlaylistsWithTrack(playlistsOfHT, trackName) {
 			dataType: 'json',
 			success: function(response) {
 				for(var j = 0; j < response.tracks.items.length; j++) {
+					console.log(response.tracks.items[j].track.name.replace(/[\W_]+/g, "").toLowerCase() + "trackname");
 					if(response.tracks.items[j].track.name.replace(/[\W_]+/g, "").toLowerCase() == trackName) {
-						deleteTrackFromSpotify(playlistID, j);
+						deleteTrackFromPlaylist(response.id, j,response.tracks.items[j].track.uri);
 					}
 				}
 
@@ -275,24 +276,37 @@ function findPlaylistsWithTrack(playlistsOfHT, trackName) {
 
 }
 
-function deleteTracksFrom(playlistID, position) {
+function deleteTrackFromPlaylist(playlistID, position, trackURI) {
+
 	$.ajax({
 			url: 'https://api.spotify.com/v1/users/' + userID + '/playlists/' + playlistID + '/tracks',
 			headers: {
 			  'Authorization': 'Bearer ' + accessToken
 			},
+			xhr: function() {
+        // Get new xhr object using default factory
+        var xhr = jQuery.ajaxSettings.xhr();
+        // Copy the browser's native setRequestHeader method
+        var setRequestHeader = xhr.setRequestHeader;
+        // Replace with a wrapper
+        xhr.setRequestHeader = function(name, value) {
+            // Ignore the X-Requested-With header
+            if (name == 'X-Requested-With') return;
+            // Otherwise call the native setRequestHeader method
+            // Note: setRequestHeader requires its 'this' to be the xhr object,
+            // which is what 'this' is here when executed.
+            setRequestHeader.call(this, name, value);
+        }
+        // pass it on to jQuery
+        return xhr;
+  		},
 			type: "DELETE",
-			data "{\"tracks\":[{\"positions\":[" + position + "],\"uri\":\"spotify:track:2DB2zVP1LVu6jjyrvqD44z\"},{\"positions\":[1],\"uri\":\"spotify:track:5ejwTEOCsaDEjvhZTcU6lg\"}]}"
+			data: "{\"tracks\":[{\"positions\":[" + position + "],\"uri\":\""+ trackURI + "\"}]}",
 			success: function(response) {
-				for(var j = 0; j < response.tracks.items.length; j++) {
-					if(response.tracks.items[j].track.name.replace(/[\W_]+/g, "").toLowerCase() == trackName) {
-						deleteTrackFromSpotify(playlistID, j);
-					}
-				}
-
+				console.log("Success");
 			},
 			error: function(response) {
-				console.log("Error couldn't find playlist");
+				console.log(response);
 			}
 		});
 
