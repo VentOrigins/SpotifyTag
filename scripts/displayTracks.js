@@ -51,19 +51,21 @@ function displayTracks() {
   var splashScreenSize = screen.width - document.getElementById('nav').offsetWidth;
   $('#track-list table').width(splashScreenSize);
 
-	//Scroll to beginning of tracks
-	scrollToTracks();
-
 	//Check if track list is made, if made, just update the values of trackName and artists and HT instead of replacing everything
 	if(!$.trim($('#list-of-tracks').html()).length == 0 ) {
+		//Changes height of splash-track-list to track-list to correctly overlay the loading screen
+	  document.getElementById("splash-track-list").style.height = $("#track-list").outerHeight() + 'px';
 		//Sets up the loading screen when waiting to display the tracks
 		loadingScreen("#track-list");
 		//Update track list
 		changeTrackList();
 		//Scroll up to beginning of track
-		scrollToTracks();
+		scrollToTracks('#splash-screen');
 		return;
 	}
+
+	//Scroll to beginning of tracks only if in index.html
+	scrollToTracks('#splash-screen');
 
 	//Fills the tracksHTML array to have same length as the tracks array, but emptied
 	for (var i = 0; i < tracks.length; ++i) {
@@ -157,16 +159,24 @@ function displayTable() {
 }
 
 /*  =============================================================================
-    Scroll the screen down from splash screen to the Track list
+    Scroll the screen down from splash screen to the Track list only if the div exists
 
-		@param  		none
+		@param  		div 		The div where the screen will scroll down only if this div exists
 		@return			none
 		========================================================================== */
-function scrollToTracks() {
+function scrollToTracks(div) {
 	//Sets the div splash-track-list to show up after submitting
   document.getElementById("splash-track-list").style.display = "inline-block";
-  //Scrolls page to the track list
-	$('html, body').animate({scrollTop:$('#splash-track-list').position().top}, 'slow');
+
+  //Scrolls page to the track list only if the div exists (Would be splash-track-list)
+  //This means it is currently in the main index.html page
+  if ($(div).length > 0) {
+		$('html, body').animate({scrollTop:$('#splash-track-list').position().top}, 'slow');
+	}
+	//If it is a playlist loading the tracks, then set this height to be value 250px
+	else {
+	  document.getElementById("splash-track-list").style.height = '250px';
+	}
 }
 
 /*  =============================================================================

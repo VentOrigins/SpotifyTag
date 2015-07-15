@@ -7,7 +7,10 @@
     ========================================================================== */
 
 /*Splash Screen for track*/
-#splash-track-list{
+#splash-track-list {
+  /*Given height in the*/
+  height: 100vh;
+
   /*For the page number on the bottom to be at the center*/
   text-align: center;
 
@@ -22,7 +25,7 @@
 /*Track list div*/
 #track-list {
   /*Needed for the scrolling to first part of tracks to work*/
-  height: 100vh;
+  /*height: 100vh;*/
 }
 
 /*Table for tracks*/
@@ -110,8 +113,14 @@ There are a total of 4 columns
   background-color: #71B500;
 }
 
+/*Rows that are selected are in this background color*/
 .selected {
-    background: lightBlue
+  background-color: #303034;
+}
+
+/*Rows's add hashtag button are in this background color when row is selected*/
+.selected .class-button {
+  background-color: #303034;
 }
 
 
