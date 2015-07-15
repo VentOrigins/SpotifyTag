@@ -50,8 +50,12 @@ function submitHT(submitID) {
   //Checks the hashTag
 
   lengthOfMapHT = $("#hash-tag-id"+num).find(':button').length+1;
-  checkTrackHT(tracks[num].getTrackName(), HTvalue, tracks[num].getTrackNameURI());
-  findPlaylistID(tracks[num].getTrackNameURI(), HTvalue);
+  var trackName = $("#trackName" + num).text();
+  var href = $("#link"+ num).attr('href');
+  console.log("trackName:" + trackName);
+  console.log("HREF:" + href);
+  checkTrackHT(trackName, HTvalue, href);
+  findPlaylistID(href, HTvalue);
   //If it already exist, do not append it
   if(lengthOfMapHT == -1) {
     console.log("Hashtag " +  HTvalue + " already exists for this track.");
