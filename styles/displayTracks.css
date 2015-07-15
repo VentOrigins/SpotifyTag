@@ -22,12 +22,6 @@
   left: 250px;
 }
 
-/*Track list div*/
-#track-list {
-  /*Needed for the scrolling to first part of tracks to work*/
-  /*height: 100vh;*/
-}
-
 /*Table for tracks*/
 #track-list table {
   /*Keeps text at left side in the table*/

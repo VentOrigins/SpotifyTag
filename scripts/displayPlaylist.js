@@ -8,6 +8,7 @@
 var userID = "";
 var accessToken = "";
 var arrayPlaylists = [];
+var playlistMap = {};
 
 //When playlist page is ready, displays the playlist's tracks
 $(document).ready(function() {
@@ -43,6 +44,7 @@ function displayPlaylistsInPlaylistBar() {
   for(var i = 0; i < arrayPlaylists.items.length; ++i) {
     //Appends a music icon with the playlist name
     $('#nav-playlist').append("<li > <button id='playlist" + i + "' type='button' onclick='searchPlaylistTracks(this)'>" + "<i class='fa fa-music'></i>" + arrayPlaylists.items[i].name + "</button></li>");
+    playlistMap[arrayPlaylists.items[i].name + i] = arrayPlaylists.items[i].id;
   }
 }
 
@@ -82,7 +84,6 @@ function displayPlaylistSplashScreen() {
   //Appends the title of the playlist onto the main screen
   $("#playlist-name").append("<img class='image-cover' src='" + arrayPlaylists.items[num].images[0].url + "' alt='playlist-image'>");
   $("#playlist-name").append("<h1> <a href= '" + arrayPlaylists.items[num].uri + "''> " + arrayPlaylists.items[num].name + "</a> </h1>");
-  // $("#playlist-name").append("<h1> <a href= '" + localStorage.playlistURI + "''> " + localStorage.playlistName + "</a> </h1>");
 }
 
 

@@ -53,25 +53,29 @@ function searchPlaylistTracks(playlist) {
   playlistName = playlistName.substring(27, playlistName.length);
 	
   //Get the playlist track id
-	trackID = playlistMap[playlistName + num];
+	playlistID = playlistMap[playlistName + num];
 	
   //Store playlist num
 	localStorage.playlistNum = num;
 	
   //Ajax call to get json and then change htmlpage
 	$.ajax({
-		url: 'https://api.spotify.com/v1/users/' + userID + '/playlists/' + trackID,
+		url: 'https://api.spotify.com/v1/users/' + userID + '/playlists/' + playlistID,
 		headers: {
 		  'Authorization': 'Bearer ' + accessToken
 		},
 		dataType: 'json',
 		success: function(response) {
 			goToPlayList(response);
-
 		},
 		error: function(response) {
 			console.log("Error couldn't find playlist");
-		}
+		},
+    statusCode: {
+      401: function() {
+        window.location.assign("http://ventorigins.github.io");
+      }
+    }
 	});	
 }
 
