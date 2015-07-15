@@ -279,6 +279,7 @@ function findPlaylistsWithTrack(playlistsOfHT, trackName) {
 			},
 			error: function(response) {
 				console.log("Error couldn't find playlist");
+				console.log(response);
 			}
 		});
 

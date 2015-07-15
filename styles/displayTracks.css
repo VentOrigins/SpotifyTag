@@ -110,6 +110,10 @@ There are a total of 4 columns
   background-color: #71B500;
 }
 
+#test {
+  height:100px;
+}
+
 .selected {
     background: lightBlue
 }
