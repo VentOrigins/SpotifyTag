@@ -137,7 +137,7 @@ function findHashTagsInTracks(trackName, num) {
 				rowTrackHashTag += "</td>";
 
 				//Store the row with the hashtag
-	    	storeRow(num);
+	    	storeRow(num, rowTrackHashTag);
 	    	return;
 	    }
 
@@ -157,7 +157,7 @@ function findHashTagsInTracks(trackName, num) {
 				rowTrackHashTag += "</td>";
 
 				//Stores the row with the hashtag
-	    	storeRow(num);
+	    	storeRow(num, rowTrackHashTag);
 	    
 	  },
 		error: function(error) {
@@ -185,8 +185,9 @@ function findChangePageTrackHT(trackName, num) {
 	  success: function(results) {
 	    if(results[0] == undefined) {
 	    	//If it is empty, have an empty HashTag list
-				rowTrackHashTag = "";
-
+				rowTrackHashTag = "<td class='class-hashtag-column' id='hash-tag-id" + num + "'>";	
+				rowTrackHashTag += "</td>";
+				console.log("num in findChangePageTrackHT" + num);
 				tracksHashTagArray[num] = rowTrackHashTag;
 				changeDisplayTable();
 				return;
@@ -200,13 +201,13 @@ function findChangePageTrackHT(trackName, num) {
     	console.log("The Hashtags " + num + ": " + hashtags);
 
     	//Creates the column of hashtags
-			rowTrackHashTag = "";
+			rowTrackHashTag = "<td class='class-hashtag-column' id='hash-tag-id" + num + "'>";
 
 			//Adds the hashtags onto the html with each having their own ID's
 			for(var j = 0; j < hashtags.length; ++j) {
 				rowTrackHashTag += "<button class='class-ht-button' id='ht-button" + num + 'r' + j + "' onclick='showTracks(this)'>#" + hashtags[j]+ "</button> ";
 			} 
-			console.log(rowTrackHashTag + "\n\n");
+			rowTrackHashTag += "</td>";
 			tracksHashTagArray[num] = rowTrackHashTag;
 			console.log("rowCount: " + rowCount);
 			changeDisplayTable();

@@ -41,16 +41,12 @@ function deleteHT(hashTag) {
 			var tracksURIOfHT = results[0].get("trackURI");
 			var playlistsOfHT = results[0].get("playlist");
 
-			// findPlaylistsWithTrack(playlistsOfHT, trackName);
+			findPlaylistsWithTrack(playlistsOfHT, trackName);
 			
 			var index = tracksOfHT.indexOf(trackName);
-			console.log(tracksOfHT);
-			console.log(tracksURIOfHT);
 			while(index != -1) {
 				tracksOfHT.splice(index, 1);
 				tracksURIOfHT.splice(index, 1);
-				console.log(tracksOfHT);
-				console.log(tracksURIOfHT);
 				index = tracksOfHT.indexOf(trackName);
 			}
 			if(tracksOfHT.length == 0) {

@@ -1,12 +1,16 @@
 /*  =============================================================================
-    To handle the playlists in the playlists bar. Also accounts for migrating
-    to the playlist.html page when a playlist is clicked.
+    When loading index.html page gettng user's playlist
 
     Copyright © Vent Origins 
     By Adrian Mandee and Randy Truong
     ========================================================================== */
 
+
 var playlistMap = {};
+
+
+
+
 
 /*  =============================================================================
     From: spotify.js (findUserID)
@@ -19,9 +23,7 @@ var playlistMap = {};
 function displayPlaylist(json) {
   //Currently not used
 	//$('#nav-button').append("<li> <button type='button' id='nav-button' onclick='togglePlaylist()'> </button> </li>");
-	
-  // Appends the head of the playlist
-  $('#nav-playlist').append("<li id='nav-playlist-head'> <h1>PLAYLISTS</h1></li>")
+	$('#nav-playlist').append("<li id='nav-playlist-head'> <h1>PLAYLISTS</h1></li>")
   
   //Appends all of the user's playlists
 	for(var i = 0; i < json.items.length; i++) {
@@ -30,10 +32,10 @@ function displayPlaylist(json) {
 		//Sets the map for the playlists
     playlistMap[json.items[i].name + i] = json.items[i].id;
 	}
-
-  //Stores the playlists into local storage
+  //Stores playlist into localstorage
   localStorage.currPlaylists = JSON.stringify(json);
 }
+
 
 /*  =============================================================================
     From: Onclick of a playlist button
@@ -47,31 +49,39 @@ function searchPlaylistTracks(playlist) {
 	//Get id num
 	var num = playlist.id.substring(8,playlist.length);
   console.log(num);
-	
-  //Get the playlist name
+	//Get the playlist name
 	var playlistName = $('#playlist' + num).html();
   playlistName = playlistName.substring(27, playlistName.length);
 	
   //Get the playlist track id
-	trackID = playlistMap[playlistName + num];
-	
+	playlistID = playlistMap[playlistName + num];
+	tracks = [];
   //Store playlist num
 	localStorage.playlistNum = num;
 	
   //Ajax call to get json and then change htmlpage
 	$.ajax({
-		url: 'https://api.spotify.com/v1/users/' + userID + '/playlists/' + trackID,
+		url: 'https://api.spotify.com/v1/users/' + userID + '/playlists/' + playlistID + '/tracks',
 		headers: {
 		  'Authorization': 'Bearer ' + accessToken
 		},
 		dataType: 'json',
 		success: function(response) {
 			goToPlayList(response);
-
 		},
 		error: function(response) {
 			console.log("Error couldn't find playlist");
-		}
+		},
+    statusCode: {
+      401: function() {// CHANGE to scopes and redirect to playlist
+
+
+
+
+
+        window.location.assign("http://ventorigins.github.io");
+      }
+    }
 	});	
 }
 
@@ -86,20 +96,20 @@ function searchPlaylistTracks(playlist) {
 function goToPlayList(json) {
 	arrayArtist = [];
   arrayArtistURI = [];
-  tracks = [];
-
-  for (var i = 0; i < json.tracks.items.length; ++i) {
+  localStorage.playlistURI = json.uri;
+  // This is for the playlist
+  for (var i = 0; i < json.items.length; ++i) {
     //Reads through every artists in the specific track and stores them into arrayArtist
-    for (var j = 0; j < json.tracks.items[i].track.artists.length; ++j) {
+    for (var j = 0; j < json.items[i].track.artists.length; ++j) {
       //Artist's name
-      arrayArtist.push(json.tracks.items[i].track.artists[j].name);
+      arrayArtist.push(json.items[i].track.artists[j].name);
       //Artist's URI
-      arrayArtistURI.push(json.tracks.items[i].track.artists[j].uri);
+      arrayArtistURI.push(json.items[i].track.artists[j].uri);
 
     }
     //Creates an object track with the given track name, artists, and uri
     //Pushes it into the tracks array
-    var newTrack = new Track(json.tracks.items[i].track.name, arrayArtist, json.tracks.items[i].track.uri,arrayArtistURI);
+    var newTrack = new Track(json.items[i].track.name, arrayArtist, json.items[i].track.uri,arrayArtistURI);
     tracks.push(newTrack);
 
     //Empties out the arrays
@@ -107,13 +117,38 @@ function goToPlayList(json) {
     arrayArtistURI = [];
 
   }
-  //Store the tracks into cookies and then go to new html page
-	localStorage.tracks = JSON.stringify(tracks);
+  if(json.next != null) {
+    $.ajax({
+      url: json.next,
+      headers: {
+        'Authorization': 'Bearer ' + accessToken
+      },
+      dataType: 'json',
+      success: function(response) {
+        goToPlayList(response);
+      },
+      error: function(response) {
+        console.log("Error couldn't find playlist");
+      },
+      statusCode: {
+        401: function() {// CHANGE to scopes and redirect to playlis
+          window.location.assign("http://ventorigins.github.io");
+        }
+      }
+    }); 
 
-  //Mandee
-	// window.location.assign("file:///Users/MANDEE/ventorigins/spotify/playlist.html");
-  //Randy
-  window.location.assign("file:///Users/Randy/VentOrigins/spotify/playlist.html");
+  }
+  else {
+    //Store the tracks into cookies and then go to new html page
+    localStorage.tracks = JSON.stringify(tracks);
+
+    //Mandee
+    window.location.assign("file:///Users/MANDEE/ventorigins/spotify/playlist.html");
+    //Randy
+    // window.location.assign("file:///Users/Randy/VentOrigins/spotify/playlist.html"); 
+  }
+
+
 }
 
 /*  =============================================================================

@@ -19,6 +19,17 @@ $(document).ready(function() {
 
 var vars = window.location.href.split("&");
 console.log(vars);
+if(vars.length < 2) {
+  var scopes = 'playlist-modify playlist-read-private playlist-modify-public playlist-modify-private user-read-private';
+  var my_client_id = 'f516a166c50d43dfae1800141104d748'
+  var redirect_uri = 'http://ventorigins.github.io'
+  var uri = 'https://accounts.spotify.com/authorize?' + 
+    '&client_id=' + my_client_id +
+    (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
+    '&redirect_uri=' + encodeURIComponent(redirect_uri)
+    + '&response_type=token&state=444'
+  window.location = uri;
+}
 for (var i=0;i<vars.length;i++) {
   var pair = vars[i].split("=");
 	if(i == 0) {
@@ -29,6 +40,15 @@ for (var i=0;i<vars.length;i++) {
 		}
 		else {
 			console.log("ACCESS DENIED");
+			var scopes = 'playlist-modify playlist-read-private playlist-modify-public playlist-modify-private user-read-private';
+		  var my_client_id = 'f516a166c50d43dfae1800141104d748'
+		  var redirect_uri = 'http://ventorigins.github.io'
+		  var uri = 'https://accounts.spotify.com/authorize?' + 
+		    '&client_id=' + my_client_id +
+		    (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
+		    '&redirect_uri=' + encodeURIComponent(redirect_uri)
+		    + '&response_type=token&state=444'
+		  window.location = uri;
 		}
 	}
 	else if(i == 1) {
@@ -54,7 +74,7 @@ $.ajax({
 
 /*  ==========================================================================
     From: Spotify.js when index.html starts up
-    To: playlist.js (dislayPlaylist)
+    To: playlist.js (displayPlaylist)
     Search through Spotify API for the users ID after it is found go to playlist
 
     @param      JSON		json format which contains details of the Spotify user
@@ -258,9 +278,9 @@ function checkPlaylist(response, idToCheck, trackURI, htValue) {
 function findPlaylistsWithTrack(playlistsOfHT, trackName) {
 	//Get the playlist name
 	var playlistID = "";
-	for(var i = 0; i < playlistsOfHT.length; ++i) {
-
+	for(var i = 0; i < playlistsOfHT.length; i++) {
 		playlistID = playlistsOfHT[i];
+		console.log(playlistID + " ID");
 		//Ajax call to get json and then change htmlpage
 		$.ajax({
 			url: 'https://api.spotify.com/v1/users/' + userID + '/playlists/' + playlistID,
@@ -270,14 +290,16 @@ function findPlaylistsWithTrack(playlistsOfHT, trackName) {
 			dataType: 'json',
 			success: function(response) {
 				for(var j = 0; j < response.tracks.items.length; j++) {
+					console.log(response.tracks.items[j].track.name.replace(/[\W_]+/g, "").toLowerCase() + "trackname");
 					if(response.tracks.items[j].track.name.replace(/[\W_]+/g, "").toLowerCase() == trackName) {
-						deleteTrackFromSpotify(playlistID, j);
+						deleteTrackFromPlaylist(response.id, j,response.tracks.items[j].track.uri);
 					}
 				}
 
 			},
 			error: function(response) {
 				console.log("Error couldn't find playlist");
+				console.log(response);
 			}
 		});
 
@@ -285,24 +307,37 @@ function findPlaylistsWithTrack(playlistsOfHT, trackName) {
 
 }
 
-function deleteTracksFrom(playlistID, position) {
+function deleteTrackFromPlaylist(playlistID, position, trackURI) {
+
 	$.ajax({
 			url: 'https://api.spotify.com/v1/users/' + userID + '/playlists/' + playlistID + '/tracks',
 			headers: {
 			  'Authorization': 'Bearer ' + accessToken
 			},
+			xhr: function() {
+        // Get new xhr object using default factory
+        var xhr = jQuery.ajaxSettings.xhr();
+        // Copy the browser's native setRequestHeader method
+        var setRequestHeader = xhr.setRequestHeader;
+        // Replace with a wrapper
+        xhr.setRequestHeader = function(name, value) {
+            // Ignore the X-Requested-With header
+            if (name == 'X-Requested-With') return;
+            // Otherwise call the native setRequestHeader method
+            // Note: setRequestHeader requires its 'this' to be the xhr object,
+            // which is what 'this' is here when executed.
+            setRequestHeader.call(this, name, value);
+        }
+        // pass it on to jQuery
+        return xhr;
+  		},
 			type: "DELETE",
-			data: "{\"tracks\":[{\"positions\":[" + position + "],\"uri\":\"spotify:track:2DB2zVP1LVu6jjyrvqD44z\"},{\"positions\":[1],\"uri\":\"spotify:track:5ejwTEOCsaDEjvhZTcU6lg\"}]}",
+			data: "{\"tracks\":[{\"positions\":[" + position + "],\"uri\":\""+ trackURI + "\"}]}",
 			success: function(response) {
-				for(var j = 0; j < response.tracks.items.length; j++) {
-					if(response.tracks.items[j].track.name.replace(/[\W_]+/g, "").toLowerCase() == trackName) {
-						deleteTrackFromSpotify(playlistID, j);
-					}
-				}
-
+				console.log("Success");
 			},
 			error: function(response) {
-				console.log("Error couldn't find playlist");
+				console.log(response);
 			}
 		});
 
