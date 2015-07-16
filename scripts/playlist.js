@@ -75,10 +75,6 @@ function searchPlaylistTracks(playlist) {
     statusCode: {
       401: function() {// CHANGE to scopes and redirect to playlist
 
-
-
-
-
         window.location.assign("http://ventorigins.github.io");
       }
     }
