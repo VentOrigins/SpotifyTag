@@ -154,7 +154,10 @@ function displayTable() {
 	// $("#pages").append("<input type='button' class='page-number-button' value='" + currentPage + "'disabled>");
 	// $("#pages").append("<input type='button' class='next-page-button' onclick='nextPage()' value='>' >");
 	finishedLoading("#track-list");
-	bottomOfPage = $('#list-of-tracks').position().top+($('#list-of-tracks').outerHeight(true)/2);
+	if(tracksHTML > 5) {
+		bottomOfPage = $('#trackName'+ num).position().top;
+	}
+	
 }
 
 /*  =============================================================================
@@ -210,7 +213,6 @@ function changeDisplayTable() {
 	console.log("rowCount in changeTrackList: " + rowCount);
 	var currentLength = $('#list-of-tracks tr').length - 1;
 	if (rowCount >= tracks.length) {
-		alert(tracks.length  + "tracks length");
 		console.log("REACHED THE ENDING, should append EVERYTHING \n\n");
 		//Clear ht table
 		//For every track object
@@ -259,8 +261,9 @@ function changeDisplayTable() {
 			// $("#hash-tag-id"+tableID).append(tracksHashTagArray[tableID]);
 		console.log("REMOVED TRACKS AND ADDED NEW ONES, REMOVE LOAD SCREEN");
 		//Finishes the loading overlay
-		finishedLoading("#track-list");	
-		bottomOfPage = $('#list-of-tracks').position().top+($('#list-of-tracks').outerHeight(true) * (3/4));
+		finishedLoading("#track-list");
+		var num = tableID - 5;	
+		bottomOfPage = $('#trackName' + num).position().top;
 	}
 	++rowCount;
 }

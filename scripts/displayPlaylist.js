@@ -8,7 +8,6 @@
 var userID = "";
 var accessToken = "";
 var arrayPlaylists = [];
-var playlistMap = {};
 
 //When playlist page is ready, displays the playlist's tracks
 $(document).ready(function() {
