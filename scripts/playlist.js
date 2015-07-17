@@ -23,7 +23,7 @@ var playlistMap = {};
 function displayPlaylist(json) {
   //Currently not used
 	//$('#nav-button').append("<li> <button type='button' id='nav-button' onclick='togglePlaylist()'> </button> </li>");
-	$('#nav-playlist').append("<li id='nav-playlist-head'> <h1>PLAYLISTS</h1></li>")
+	$('#nav-playlist').append("<li id='nav-playlist-head'> <a href='playlist.html'>PLAYLISTS</a></li>")
   
   //Appends all of the user's playlists
 	for(var i = 0; i < json.items.length; i++) {
@@ -74,10 +74,6 @@ function searchPlaylistTracks(playlist) {
 		},
     statusCode: {
       401: function() {// CHANGE to scopes and redirect to playlist
-
-
-
-
 
         window.location.assign("http://ventorigins.github.io");
       }
@@ -143,9 +139,9 @@ function goToPlayList(json) {
     localStorage.tracks = JSON.stringify(tracks);
 
     //Mandee
-    window.location.assign("file:///Users/MANDEE/ventorigins/spotify/playlist.html");
+    // window.location.assign("file:///Users/MANDEE/ventorigins/spotify/playlist.html");
     //Randy
-    // window.location.assign("file:///Users/Randy/VentOrigins/spotify/playlist.html"); 
+    window.location.assign("file:///Users/Randy/VentOrigins/spotify/playlist.html"); 
   }
 
 

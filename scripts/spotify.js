@@ -11,66 +11,61 @@
 
 $(document).ready(function() {
 	console.log("Document ready");
-  // This function is anonymous, is executed immediately and 
-  // the return value is assigned to QueryString!
 
-  // FOR DESIGN
-});
+  //Makes the width of the id's below to be the size of the screen minus the nav bar
+  var nonNavScreenSize = screen.width - document.getElementById('nav').offsetWidth;
+  $('#search-box').width(nonNavScreenSize);
+  $('#track-list table').width(nonNavScreenSize);
+  document.getElementById("search-box").style.left = document.getElementById('nav').offsetWidth + 'px';
+  document.getElementById("splash-track-list").style.left = document.getElementById('nav').offsetWidth + 'px';
 
-var vars = window.location.href.split("&");
-console.log(vars);
-if(vars.length < 2) {
-  var scopes = 'playlist-modify playlist-read-private playlist-modify-public playlist-modify-private user-read-private';
-  var my_client_id = 'f516a166c50d43dfae1800141104d748'
-  var redirect_uri = 'http://ventorigins.github.io'
-  var uri = 'https://accounts.spotify.com/authorize?' + 
-    '&client_id=' + my_client_id +
-    (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
-    '&redirect_uri=' + encodeURIComponent(redirect_uri)
-    + '&response_type=token&state=444'
-  window.location = uri;
-}
-for (var i=0;i<vars.length;i++) {
-  var pair = vars[i].split("=");
-	if(i == 0) {
-		if(pair[1].indexOf("access_denied") < 0) {	
-  		accessToken = pair[1];
-      localStorage.accessToken = accessToken;
-  		console.log("Access Token = " + accessToken);	
+  // CHECK USER IS AUTHENTICATED
+	var vars = window.location.href.split("&");
+	console.log(vars);
+	if(vars.length < 2) {
+	  goToAuthorize();
+	}
+	for (var i=0;i<vars.length;i++) {
+	  var pair = vars[i].split("=");
+		if(i == 0) {
+			if(pair[1].indexOf("access_denied") < 0) {	
+	  		accessToken = pair[1];
+	      localStorage.accessToken = accessToken;
+	  		console.log("Access Token = " + accessToken);	
+			}
+			else {
+				console.log("ACCESS DENIED");
+				goToAuthorize();
+			}
 		}
-		else {
-			console.log("ACCESS DENIED");
-			var scopes = 'playlist-modify playlist-read-private playlist-modify-public playlist-modify-private user-read-private';
-		  var my_client_id = 'f516a166c50d43dfae1800141104d748'
-		  var redirect_uri = 'http://ventorigins.github.io'
-		  var uri = 'https://accounts.spotify.com/authorize?' + 
-		    '&client_id=' + my_client_id +
-		    (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
-		    '&redirect_uri=' + encodeURIComponent(redirect_uri)
-		    + '&response_type=token&state=444'
-		  window.location = uri;
+		else if(i == 1) {
+			bear = pair[1];
+			console.log("Bear = " + bear);
+		}
+		else if(i == 3) {
+			state = pair[1];
+			console.log("State = " + state);
 		}
 	}
-	else if(i == 1) {
-		bear = pair[1];
-		console.log("Bear = " + bear);
-	}
-	else if(i == 3) {
-		state = pair[1];
-		console.log("State = " + state);
-	}
-}
 
-
-$.ajax({
-	url: 'https://api.spotify.com/v1/me',
-	headers: {
-	   'Authorization': 'Bearer ' + accessToken
-	},
-	success: function(response) {
-	   findUserID(response);
-  }
+  // CALL TO AUTHENTICATE
+	$.ajax({
+		url: 'https://api.spotify.com/v1/me',
+		headers: {
+		   'Authorization': 'Bearer ' + accessToken
+		},
+		success: function(response) {
+		   findUserID(response);
+	  },
+	  statusCode: {
+	      401: function() {// CHANGE to scopes and redirect to playlist
+					goToAuthorize();
+	      }
+	   }
+	});
 });
+
+
 
 /*  ==========================================================================
     From: Spotify.js when index.html starts up
@@ -343,4 +338,15 @@ function deleteTrackFromPlaylist(playlistID, position, trackURI) {
 
 }
 
+function goToAuthorize() {
+	var scopes = 'playlist-modify playlist-read-private playlist-modify-public playlist-modify-private user-read-private';
+  var my_client_id = '32434c80aa5744618b51f9a3eed3f807'
+  var redirect_uri = 'http://ventorigins.github.io'
+  var uri = 'https://accounts.spotify.com/authorize?' + 
+  '&client_id=' + my_client_id +
+  (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
+  '&redirect_uri=' + encodeURIComponent(redirect_uri)
+  + '&response_type=token&state=444'
+  window.location = uri;
+}
 
