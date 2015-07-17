@@ -11,10 +11,13 @@
 
 $(document).ready(function() {
 	console.log("Document ready");
-  // This function is anonymous, is executed immediately and 
-  // the return value is assigned to QueryString!
 
-  // FOR DESIGN
+  //Makes the width of the id's below to be the size of the screen minus the nav bar
+  var nonNavScreenSize = screen.width - document.getElementById('nav').offsetWidth;
+  $('#search-box').width(nonNavScreenSize);
+  $('#track-list table').width(nonNavScreenSize);
+  document.getElementById("search-box").style.left = document.getElementById('nav').offsetWidth + 'px';
+  document.getElementById("splash-track-list").style.left = document.getElementById('nav').offsetWidth + 'px';
 });
 
 var vars = window.location.href.split("&");

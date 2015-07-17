@@ -139,9 +139,9 @@ function goToPlayList(json) {
     localStorage.tracks = JSON.stringify(tracks);
 
     //Mandee
-    window.location.assign("file:///Users/MANDEE/ventorigins/spotify/playlist.html");
+    // window.location.assign("file:///Users/MANDEE/ventorigins/spotify/playlist.html");
     //Randy
-    // window.location.assign("file:///Users/Randy/VentOrigins/spotify/playlist.html"); 
+    window.location.assign("file:///Users/Randy/VentOrigins/spotify/playlist.html"); 
   }
 
 
