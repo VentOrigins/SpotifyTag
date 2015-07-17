@@ -23,7 +23,7 @@ var playlistMap = {};
 function displayPlaylist(json) {
   //Currently not used
 	//$('#nav-button').append("<li> <button type='button' id='nav-button' onclick='togglePlaylist()'> </button> </li>");
-	$('#nav-playlist').append("<li id='nav-playlist-head'> <h1>PLAYLISTS</h1></li>")
+	$('#nav-playlist').append("<li id='nav-playlist-head'> <a href='playlist.html'>PLAYLISTS</a></li>")
   
   //Appends all of the user's playlists
 	for(var i = 0; i < json.items.length; i++) {
