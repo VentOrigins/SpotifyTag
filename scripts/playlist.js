@@ -48,7 +48,6 @@ function displayPlaylist(json) {
 function searchPlaylistTracks(playlist) {
 	//Get id num
 	var num = playlist.id.substring(8,playlist.length);
-  console.log(num);
 	//Get the playlist name
 	var playlistName = $('#playlist' + num).html();
   playlistName = playlistName.substring(27, playlistName.length);
@@ -141,7 +140,9 @@ function goToPlayList(json) {
     //Mandee
     // window.location.assign("file:///Users/MANDEE/ventorigins/spotify/playlist.html");
     //Randy
-    window.location.assign("file:///Users/Randy/VentOrigins/spotify/playlist.html"); 
+    // window.location.assign("file:///Users/Randy/VentOrigins/spotify/playlist.html");
+    //For ventorigins.github.io
+    window.location.assign("playlist.html"); 
   }
 
 

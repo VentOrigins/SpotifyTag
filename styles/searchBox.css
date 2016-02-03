@@ -13,7 +13,6 @@
 }
 
 #title-splash-screen {
-  width: 800px;
   height: 200px;
   text-align: center;
 }
@@ -48,7 +47,6 @@
 
 /* FORMS */
 #query-box {
-  width: 800px;
   height: 300px;
   margin: auto;
   top: 0;
