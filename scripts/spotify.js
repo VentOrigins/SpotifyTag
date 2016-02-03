@@ -5,23 +5,21 @@
     ========================================================================== */
 
 //When the Web App begins
-
-
-
-
 $(document).ready(function() {
 	console.log("Document ready");
 
+  // NOTE: If I had a chance to redo this, I would adjust the sizes depending on the screen changes
   //Makes the width of the id's below to be the size of the screen minus the nav bar
-  var nonNavScreenSize = screen.width - document.getElementById('nav').offsetWidth;
-  $('#search-box').width(nonNavScreenSize);
-  $('#track-list table').width(nonNavScreenSize);
-  document.getElementById("search-box").style.left = document.getElementById('nav').offsetWidth + 'px';
-  document.getElementById("splash-track-list").style.left = document.getElementById('nav').offsetWidth + 'px';
+  // var nonNavScreenSize = $(window).width() - document.getElementById('nav').offsetWidth;
+  // $('#search-box').width(nonNavScreenSize);
+  // $('#search-box').height($(window).height());
+  // $('#track-list table').width(nonNavScreenSize);
+  // document.getElementById("search-box").style.left = document.getElementById('nav').offsetWidth + 'px';
+  // document.getElementById("splash-track-list").style.left = document.getElementById('nav').offsetWidth + 'px';
+  checkScreenSize();
 
   // CHECK USER IS AUTHENTICATED
 	var vars = window.location.href.split("&");
-	console.log(vars);
 	if(vars.length < 2) {
 	  goToAuthorize();
 	}
@@ -31,7 +29,6 @@ $(document).ready(function() {
 			if(pair[1].indexOf("access_denied") < 0) {	
 	  		accessToken = pair[1];
 	      localStorage.accessToken = accessToken;
-	  		console.log("Access Token = " + accessToken);	
 			}
 			else {
 				console.log("ACCESS DENIED");
@@ -40,11 +37,9 @@ $(document).ready(function() {
 		}
 		else if(i == 1) {
 			bear = pair[1];
-			console.log("Bear = " + bear);
 		}
 		else if(i == 3) {
 			state = pair[1];
-			console.log("State = " + state);
 		}
 	}
 
@@ -65,6 +60,18 @@ $(document).ready(function() {
 	});
 });
 
+// Used for when the screen is resized
+$(window).resize(checkScreenSize);
+
+function checkScreenSize() {
+  var nonNavScreenSize = $(window).width() - document.getElementById('nav').offsetWidth;
+  $('#search-box').width(nonNavScreenSize);
+  $('#search-box').height($(window).height());
+  $('#track-list table').width(nonNavScreenSize);
+  document.getElementById("search-box").style.left = document.getElementById('nav').offsetWidth + 'px';
+  document.getElementById("splash-track-list").style.left = document.getElementById('nav').offsetWidth + 'px';
+}
+
 
 
 /*  ==========================================================================
@@ -79,7 +86,6 @@ function findUserID(json){
 
 	userID = json.id;
 	localStorage.userID = userID;
-	console.log(userID + " user ID");
   $.ajax({
 		url: 'https://api.spotify.com/v1/users/' + userID + '/playlists',
 		type:"GET",
@@ -136,7 +142,6 @@ function createPlaylist(name, tracks) {
 	},
 	data: "{\"name\":\"" + name + "\",\"public\":true}",
     success: function (data) {
-    	console.log("Playlist made");
     	addTracksToPlaylist(data.id,tracks)
     	addPlaylistToDB(data,name);
     },
@@ -275,7 +280,6 @@ function findPlaylistsWithTrack(playlistsOfHT, trackName) {
 	var playlistID = "";
 	for(var i = 0; i < playlistsOfHT.length; i++) {
 		playlistID = playlistsOfHT[i];
-		console.log(playlistID + " ID");
 		//Ajax call to get json and then change htmlpage
 		$.ajax({
 			url: 'https://api.spotify.com/v1/users/' + userID + '/playlists/' + playlistID,
@@ -285,7 +289,6 @@ function findPlaylistsWithTrack(playlistsOfHT, trackName) {
 			dataType: 'json',
 			success: function(response) {
 				for(var j = 0; j < response.tracks.items.length; j++) {
-					console.log(response.tracks.items[j].track.name.replace(/[\W_]+/g, "").toLowerCase() + "trackname");
 					if(response.tracks.items[j].track.name.replace(/[\W_]+/g, "").toLowerCase() == trackName) {
 						deleteTrackFromPlaylist(response.id, j,response.tracks.items[j].track.uri);
 					}
